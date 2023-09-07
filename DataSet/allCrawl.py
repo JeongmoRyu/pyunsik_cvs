@@ -9,7 +9,7 @@ import csv
 LOADING_WAIT_TIME = 3
 
 # 크롤링할 상품 코드
-pcodes = ['depth3=1','depth3=2','depth3=3','depth3=4','depth3=5','depth3=6','depth3=7']
+pcodes = ['depth3=1', 'depth3=2','depth3=3','depth3=4','depth3=5','depth3=6','depth3=7',]
 
 # 결과 딕셔너리
 product_data = dict()
@@ -53,15 +53,18 @@ def find_review(pcode, driver):
 
 if __name__ == "__main__":
     driver = init_driver()
-    for pcode in pcodes:
-        find_review(pcode, driver)
 
-    # 결과 딕셔너리를 CSV 파일로 저장
-    with open('저장.csv', 'w', newline='') as csvfile:
+    # Open the CSV file for writing outside the loop
+    with open('편식.csv', 'w', newline='') as csvfile:
         fieldnames = ['상품명', '가격', '이미지 주소']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
+
+        for pcode in pcodes:
+            find_review(pcode, driver)
+
+        # Write the data to the CSV file within the loop
         for name, data in product_data.items():
             writer.writerow({'상품명': name, '가격': data['가격'], '이미지 주소': data['이미지 주소']})
 
