@@ -11,7 +11,7 @@ LOADING_WAIT_TIME = 3
 
 # 크롤링할 상품 코드
 pcodes = ['depth3=1', 'depth3=2','depth3=3','depth3=4','depth3=5','depth3=6','depth3=7']
-# pcodes = ['depth3=7']
+# pcodes = ['depth3=2']
 # 결과 딕셔너리
 product_data = dict()
 
@@ -38,19 +38,24 @@ def find_review(pcode, driver):
             # 겹치는 요소가 사라질 때까지 대기
             try:
                 WebDriverWait(driver, LOADING_WAIT_TIME).until(
-                    EC.invisibility_of_element_located((By.XPATH, '//*[@id="overlay"]'))  # 이 부분을 수정해야 합니다.
+                    EC.invisibility_of_element_located((By.XPATH, '//*[@id="overlay"]'))
                 )
             except TimeoutException:
                 # 대기 시간이 초과될 경우 예외 처리 (예: 오버레이가 사라지지 않을 때)
-                # 필요에 따라 다른 조치를 취할 수 있습니다.
-                print("오버레이가 사라지지 않음. 다른 조치를 취하세요.")
+                print("오버레이가 에러")
             continue
 
-    product_elements = driver.find_elements(By.CLASS_NAME, 'prod_wrap')
+    product_elements = driver.find_elements(By.CLASS_NAME, 'prod_item')
     for product_element in product_elements:
         name_element = product_element.find_element(By.CLASS_NAME, 'name')
         price_element = product_element.find_element(By.CLASS_NAME, 'price')
         img_element = product_element.find_element(By.TAG_NAME, 'img')
+        try:
+            badge_element = product_element.find_element(By.CLASS_NAME, 'badge')
+            span_element = badge_element.find_element(By.TAG_NAME, 'span')
+            span_class = span_element.get_attribute('class')
+        except:
+            span_class = ""
 
         # ) 이 들어가있지 않은 상품은 전체를 가져와야함
         if ')' in name_element.text:
@@ -66,20 +71,31 @@ def find_review(pcode, driver):
         product_price = price_element.text[:-1]
         product_img_src = img_element.get_attribute('src')
 
-        # 딕셔너리에 상품 이름, 가격, 이미지 주소 추가
+        # 행사 정보 초기값을 빈 문자열로 설정
+        badge_text = ""
+
+        # 행사 정보 확인
+        if span_class == "plus2":
+            badge_text = "2+1"
+        elif span_class == "plus1":
+            badge_text = "1+1"
+
+        # 딕셔너리에 상품 이름, 가격, 이미지 주소, 행사 정보 추가
         if product_name not in product_data:
-            product_data[product_name] = {'가격': product_price, '이미지 주소': product_img_src}
+            product_data[product_name] = {'가격': product_price, '이미지 주소': product_img_src, '행사 정보': badge_text}
         else:
             # 이미 상품이 딕셔너리에 있는 경우, 가격과 이미지 주소 업데이트
             product_data[product_name]['가격'] = product_price
             product_data[product_name]['이미지 주소'] = product_img_src
+            product_data[product_name]['행사 정보'] = badge_text
+
 
 if __name__ == "__main__":
     driver = init_driver()
 
     # Open the CSV file for writing outside the loop
     with open('편식.csv', 'w', newline='') as csvfile:
-        fieldnames = ['상품명', '가격', '이미지 주소']
+        fieldnames = ['상품명', '가격', '이미지 주소', '행사 정보']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
@@ -89,7 +105,7 @@ if __name__ == "__main__":
 
         # Write the data to the CSV file within the loop
         for name, data in product_data.items():
-            writer.writerow({'상품명': name, '가격': data['가격'], '이미지 주소': data['이미지 주소']})
+            writer.writerow({'상품명': name, '가격': data['가격'], '이미지 주소': data['이미지 주소'], '행사 정보': data['행사 정보']})
 
     # 웹 드라이버 종료
     driver.quit()
