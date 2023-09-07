@@ -1,4 +1,5 @@
-from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException, \
+    ElementClickInterceptedException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -9,8 +10,8 @@ import csv
 LOADING_WAIT_TIME = 3
 
 # 크롤링할 상품 코드
-pcodes = ['depth3=1', 'depth3=2','depth3=3','depth3=4','depth3=5','depth3=6','depth3=7',]
-
+pcodes = ['depth3=1', 'depth3=2','depth3=3','depth3=4','depth3=5','depth3=6','depth3=7']
+# pcodes = ['depth3=7']
 # 결과 딕셔너리
 product_data = dict()
 
@@ -32,6 +33,18 @@ def find_review(pcode, driver):
             continue
         except TimeoutException:
             break
+        except ElementClickInterceptedException:
+            # 클릭을 가로채는 요소가 있을 때 예외 처리
+            # 겹치는 요소가 사라질 때까지 대기
+            try:
+                WebDriverWait(driver, LOADING_WAIT_TIME).until(
+                    EC.invisibility_of_element_located((By.XPATH, '//*[@id="overlay"]'))  # 이 부분을 수정해야 합니다.
+                )
+            except TimeoutException:
+                # 대기 시간이 초과될 경우 예외 처리 (예: 오버레이가 사라지지 않을 때)
+                # 필요에 따라 다른 조치를 취할 수 있습니다.
+                print("오버레이가 사라지지 않음. 다른 조치를 취하세요.")
+            continue
 
     product_elements = driver.find_elements(By.CLASS_NAME, 'prod_wrap')
     for product_element in product_elements:
@@ -39,7 +52,17 @@ def find_review(pcode, driver):
         price_element = product_element.find_element(By.CLASS_NAME, 'price')
         img_element = product_element.find_element(By.TAG_NAME, 'img')
 
-        product_name = name_element.text[2:]
+        # ) 이 들어가있지 않은 상품은 전체를 가져와야함
+        if ')' in name_element.text:
+            # )가 들어가있기는 한테 마지막 글자가 )면 글자 전체를 가져와야 함 ex) 포켓몬 카드울트라(문)
+            if name_element.text[-1] == ')' and name_element.text.count(')') == 1:
+                product_name = name_element.text
+                # 그렇지 않으면 처음 )가 등장한 다음 index부터 가져오면 됨 ex) 삼앙)오레오라면 -> 오레오라면 , 도시락)혜자도시락 -> 혜자도시락
+            else:
+                product_name = name_element.text[name_element.text.index(')') + 1:]
+        else:
+            product_name = name_element.text
+
         product_price = price_element.text[:-1]
         product_img_src = img_element.get_attribute('src')
 
