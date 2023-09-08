@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class CuButton extends StatelessWidget {
+class SevenElevenButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const CuButton({Key? key, required this.onPressed}) : super(key: key);
+  const SevenElevenButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +27,13 @@ class CuButton extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/cu.png',
+            'assets/images/seveneleven.png',
             width: 45,
             height: 45,
           ),
           SizedBox(height: 4),
           Text(
-            'CU',
+            '7-ELEVEN',
             style: TextStyle(
               color: Colors.black,
               fontSize: 10,

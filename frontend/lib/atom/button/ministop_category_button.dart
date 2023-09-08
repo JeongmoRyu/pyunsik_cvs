@@ -36,7 +36,7 @@ class MinistopButton extends StatelessWidget {
             'MiniStop',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 12,
+              fontSize: 10,
             ),
           ),
         ],

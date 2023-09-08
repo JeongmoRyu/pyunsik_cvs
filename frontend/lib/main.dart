@@ -6,7 +6,7 @@ import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/pages/scrapbook_page.dart';
 import 'package:frontend/molecules/ranking.dart';
 import 'package:frontend/pages/login_page.dart';
-import 'package:frontend/pages/singin_page.dart';
+import 'package:frontend/pages/signin_page.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/pages/side_scroll_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
@@ -25,33 +25,33 @@ final GoRouter _router = GoRouter(
       },
       routes: <RouteBase>[
         GoRoute(
-          path: 'listpage',
+          path: 'product_filtered_page',
           builder: (BuildContext context, GoRouterState state) {
             return ListPage();
           },
         ),
         GoRoute(
-          path: 'scrapbook',
+          path: 'scrapbook_page',
           builder: (BuildContext context, GoRouterState state) {
             return ScrapBook();
           },
         ),
         GoRoute(
-          path: 'rank',
+          path: 'ranking',
           builder: (BuildContext context, GoRouterState state) {
             return Rank();
           },
         ),
         GoRoute(
-          path: 'login',
+          path: 'login_page',
           builder: (BuildContext context, GoRouterState state) {
             return Login();
           },
         ),
         GoRoute(
-          path: 'singin',
+          path: 'signin_page',
           builder: (BuildContext context, GoRouterState state) {
-            return Singin();
+            return Signin();
           },
         ),
         GoRoute(
@@ -61,7 +61,7 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'firstlist',
+          path: 'product_list_page',
           builder: (BuildContext context, GoRouterState state) {
             return FirstList();
           },

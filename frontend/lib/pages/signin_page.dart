@@ -4,14 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class Singin extends StatefulWidget {
-  const Singin({Key? key}) : super(key: key);
+class Signin extends StatefulWidget {
+  const Signin({Key? key}) : super(key: key);
 
   @override
-  _SinginState createState() => _SinginState();
+  _SigninState createState() => _SigninState();
 }
 
-class _SinginState extends State<Singin> {
+class _SigninState extends State<Signin> {
   String emailValue = '';
   String keyValue = '';
   String keyValueCheck = '';

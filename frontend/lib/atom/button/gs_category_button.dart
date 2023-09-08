@@ -36,7 +36,7 @@ class GsButton extends StatelessWidget {
             'GS',
             style: TextStyle(
               color: Colors.black,
-              fontSize: 12,
+              fontSize: 10,
             ),
           ),
         ],

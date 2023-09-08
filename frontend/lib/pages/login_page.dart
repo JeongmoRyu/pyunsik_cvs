@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
-import 'package:frontend/pages/singin_page.dart';
+import 'package:frontend/pages/signin_page.dart';
 
 
 class Login extends StatelessWidget {
@@ -92,7 +92,7 @@ class Login extends StatelessWidget {
                 SizedBox(height: 20,),
                 TextButton(
                   onPressed: () {
-                    context.go('/singin');
+                    context.go('/signin_page');
                   },
                   child: Text('회원가입'), // '회원가입' 텍스트 추가
                 ),
