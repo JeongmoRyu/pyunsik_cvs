@@ -19,7 +19,7 @@ def init_driver():
     driver = uc.Chrome(use_subprocess=True, auto_quit=False)
     return driver
 
-def find_review(pcode, driver):
+def find_product(pcode, driver):
     url = f'https://cu.bgfretail.com/product/product.do?category=product&depth2=4&{pcode}'
     driver.get(url)
 
@@ -57,7 +57,7 @@ def find_review(pcode, driver):
         except:
             span_class = ""
 
-        # ) 이 들어가있지 않은 상품은 전체를 가져와야함
+        # ) 이 들어가있지 않은 상품은 전체를 가져와야함   참치도시락   라)참깨라면
         if ')' in name_element.text:
             # )가 들어가있기는 한테 마지막 글자가 )면 글자 전체를 가져와야 함 ex) 포켓몬 카드울트라(문)
             if name_element.text[-1] == ')' and name_element.text.count(')') == 1:
@@ -82,12 +82,13 @@ def find_review(pcode, driver):
 
         # 딕셔너리에 상품 이름, 가격, 이미지 주소, 행사 정보 추가
         if product_name not in product_data:
-            product_data[product_name] = {'가격': product_price, '이미지 주소': product_img_src, '행사 정보': badge_text}
+            product_data[product_name] = {'가격': product_price, '행사 정보': badge_text, '이미지 주소': product_img_src}
         else:
             # 이미 상품이 딕셔너리에 있는 경우, 가격과 이미지 주소 업데이트
             product_data[product_name]['가격'] = product_price
-            product_data[product_name]['이미지 주소'] = product_img_src
             product_data[product_name]['행사 정보'] = badge_text
+            product_data[product_name]['이미지 주소'] = product_img_src
+
 
 
 if __name__ == "__main__":
@@ -95,17 +96,17 @@ if __name__ == "__main__":
 
     # Open the CSV file for writing outside the loop
     with open('편식.csv', 'w', newline='') as csvfile:
-        fieldnames = ['상품명', '가격', '이미지 주소', '행사 정보']
+        fieldnames = ['상품명', '가격','행사 정보', '이미지 주소']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
 
         for pcode in pcodes:
-            find_review(pcode, driver)
+            find_product(pcode, driver)
 
         # Write the data to the CSV file within the loop
         for name, data in product_data.items():
-            writer.writerow({'상품명': name, '가격': data['가격'], '이미지 주소': data['이미지 주소'], '행사 정보': data['행사 정보']})
+            writer.writerow({'상품명': name, '가격': data['가격'], '행사 정보': data['행사 정보'], '이미지 주소': data['이미지 주소'] })
 
     # 웹 드라이버 종료
     driver.quit()
