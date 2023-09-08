@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frontend/atom/button/gs_category_button.dart';
 import 'package:frontend/atom/button/cu_category_button.dart';
 import 'package:frontend/atom/button/ministop_category_button.dart';
+import 'package:frontend/atom/button/seveneleven_category_button.dart';
 
 
 class CategoryCarousel extends StatelessWidget {
@@ -35,237 +36,40 @@ class CategoryCarousel extends StatelessWidget {
         ),
         CuButton(
           onPressed: () {
-            context.go('/listpage');
+            context.go('/product_filtered_page');
           },
         ),
         MinistopButton(
           onPressed: () {
-            context.go('/scrapbook');
+            context.go('/scrapbook_page');
           },
         ),
-                ElevatedButton(
+        SevenElevenButton(
           onPressed: () {
-            context.go('/firstlist');
+            context.go('/product_list_page');
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 배경색을 흰색으로 설정
-            minimumSize: MaterialStateProperty.all<Size>(Size(90, 70)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                // 테두리 색상을 지정하고 테두리 두께를 조절합니다.
-                side: BorderSide(
-                  color: Colors.grey.shade200,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            elevation: MaterialStateProperty.all<double>(4.0), // 그림자 추가
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/seveneleven.png',
-                width: 45,
-                height: 45,
-              ),
-              SizedBox(height: 4),
-              Text(
-                '상품 첫',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
         ),
-        ElevatedButton(
-          onPressed: () {
-            context.go('/login');
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 배경색을 흰색으로 설정
-            minimumSize: MaterialStateProperty.all<Size>(Size(90, 70)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                // 테두리 색상을 지정하고 테두리 두께를 조절합니다.
-                side: BorderSide(
-                  color: Colors.grey.shade200,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            elevation: MaterialStateProperty.all<double>(4.0), // 그림자 추가
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/cu.png',
-                width: 45,
-                height: 45,
-              ),
-              SizedBox(height: 4),
-              Text(
-                '로그인',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-        ),
-        ElevatedButton(
+        GsButton(
           onPressed: () {
             context.go('/side_scroll_page');
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 배경색을 흰색으로 설정
-            minimumSize: MaterialStateProperty.all<Size>(Size(90, 70)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                // 테두리 색상을 지정하고 테두리 두께를 조절합니다.
-                side: BorderSide(
-                  color: Colors.grey.shade200,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            elevation: MaterialStateProperty.all<double>(4.0), // 그림자 추가
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/gs.jpg',
-                width: 45,
-                height: 45,
-              ),
-              SizedBox(height: 4),
-              Text(
-                '사이드',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
         ),
-        ElevatedButton(
+        CuButton(
           onPressed: () {
-            context.go('/');
+            context.go('/login_page');
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 배경색을 흰색으로 설정
-            minimumSize: MaterialStateProperty.all<Size>(Size(90, 70)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                // 테두리 색상을 지정하고 테두리 두께를 조절합니다.
-                side: BorderSide(
-                  color: Colors.grey.shade200,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            elevation: MaterialStateProperty.all<double>(4.0), // 그림자 추가
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/ministop.png',
-                width: 45,
-                height: 45,
-              ),
-              SizedBox(height: 4),
-              Text(
-                '홈',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
         ),
-        ElevatedButton(
+        MinistopButton(
           onPressed: () {
-            context.go('/listpage');
+            context.go('/scrapbook_page');
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 배경색을 흰색으로 설정
-            minimumSize: MaterialStateProperty.all<Size>(Size(90, 70)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                // 테두리 색상을 지정하고 테두리 두께를 조절합니다.
-                side: BorderSide(
-                  color: Colors.grey.shade200,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            elevation: MaterialStateProperty.all<double>(4.0), // 그림자 추가
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/seveneleven.png',
-                width: 45,
-                height: 45,
-              ),
-              SizedBox(height: 4),
-              Text(
-                '리스트',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
         ),
-        ElevatedButton(
+        SevenElevenButton(
           onPressed: () {
-            context.go('/scrapbook');
+            context.go('/product_list_page');
           },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // 배경색을 흰색으로 설정
-            minimumSize: MaterialStateProperty.all<Size>(Size(90, 70)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-                // 테두리 색상을 지정하고 테두리 두께를 조절합니다.
-                side: BorderSide(
-                  color: Colors.grey.shade200,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            elevation: MaterialStateProperty.all<double>(4.0), // 그림자 추가
-          ),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/images/cu.png',
-                width: 45,
-                height: 45,
-              ),
-              SizedBox(height: 4),
-              Text(
-                '스크랩북',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
+        ),
 
-            ],
-          ),
-        ),
       ],
     )
     );
