@@ -49,7 +49,7 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'signin',
+          path: 'signup',
           builder: (BuildContext context, GoRouterState state) {
             return Signup();
           },

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/molecules/ranking.dart';
-import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/category_list.dart';
 import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/atom/divider.dart';

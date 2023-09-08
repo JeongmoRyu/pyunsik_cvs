@@ -16,42 +16,42 @@ class CategoryList extends StatelessWidget {
           children: <Widget>[
             CategoryButton(
                 onPressed: () {
-                  context.go('/product_filtered_page');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/gs_logo.png',
                 name: 'GS'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/scrapbook_page');
+                  context.go('/scrapbook');
                 },
                 imageUrl: 'assets/images/cu_logo.png',
                 name: 'CU'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/product_list_page');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/711_logo2.jpeg',
                 name: '세븐일레븐'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/side_scroll_page');
+                  context.go('/side_scroll');
                 },
                 imageUrl: 'assets/images/ministop_logo.png',
                 name: '미니스톱'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/login_page');
+                  context.go('/login');
                 },
                 imageUrl: 'assets/images/gs_logo.png',
                 name: 'GS'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/signup');
                 },
                 imageUrl: 'assets/images/cu_logo.png',
                 name: 'CU'
