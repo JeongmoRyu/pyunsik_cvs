@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
-import 'package:frontend/pages/signin_page.dart';
+import 'package:frontend/pages/signup_page.dart';
 
 
 class Login extends StatelessWidget {

@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/molecules/ranking.dart';
 import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/category_list.dart';
-import 'package:frontend/pages/side_scroll_page.dart';
-import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/atom/divider.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key});
+import '../molecules/top_bar_main.dart';
+
+class HomePage extends StatelessWidget {
+  const HomePage({Key? key});
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: TopBarMain(appBar: AppBar(),),
       body: ListView(
         children: [
           SizedBox(height: 20), // 간격 추가

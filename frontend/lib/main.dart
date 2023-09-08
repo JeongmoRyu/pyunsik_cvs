@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/pages/product_filtered_page.dart';
 import 'package:frontend/pages/home_page.dart';
-import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/pages/scrapbook_page.dart';
 import 'package:frontend/molecules/ranking.dart';
 import 'package:frontend/pages/login_page.dart';
-import 'package:frontend/pages/signin_page.dart';
-import 'package:frontend/molecules/horizontal_list.dart';
+import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/pages/side_scroll_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
+
+import 'molecules/nav_bar.dart';
 
 
 void main() => runApp(const MyApp());
@@ -21,17 +21,17 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return HomeScreen();
+        return MainPage();
       },
       routes: <RouteBase>[
         GoRoute(
-          path: 'product_filtered_page',
+          path: 'product_filtered',
           builder: (BuildContext context, GoRouterState state) {
-            return ListPage();
+            return ProductFilteredPage();
           },
         ),
         GoRoute(
-          path: 'scrapbook_page',
+          path: 'scrapbook',
           builder: (BuildContext context, GoRouterState state) {
             return ScrapBook();
           },
@@ -43,27 +43,27 @@ final GoRouter _router = GoRouter(
           },
         ),
         GoRoute(
-          path: 'login_page',
+          path: 'login',
           builder: (BuildContext context, GoRouterState state) {
             return Login();
           },
         ),
         GoRoute(
-          path: 'signin_page',
+          path: 'signin',
           builder: (BuildContext context, GoRouterState state) {
-            return Signin();
+            return Signup();
           },
         ),
         GoRoute(
-          path: 'side_scroll_page',
+          path: 'side_scroll',
           builder: (BuildContext context, GoRouterState state) {
             return SideScrollPage();
           },
         ),
         GoRoute(
-          path: 'product_list_page',
+          path: 'product_list',
           builder: (BuildContext context, GoRouterState state) {
-            return FirstList();
+            return ProductListPage();
           },
         )
 
@@ -80,7 +80,61 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
       routerConfig: _router,
+
+    );
+  }
+}
+
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  int currentPageIndex = 0;
+
+  void updateIndex(int index) {
+    setState(() {currentPageIndex = index;});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    return Scaffold(
+      bottomNavigationBar: NavBar(
+        currentPageIndex: currentPageIndex,
+        callback: updateIndex,
+      ),
+      body: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          child: HomePage(),
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: ProductListPage(),
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Placeholder(),
+        ),
+        Container(
+          alignment: Alignment.center,
+          child: Placeholder(),
+        ),
+      ][currentPageIndex],
     );
   }
 }

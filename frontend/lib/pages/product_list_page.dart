@@ -6,8 +6,8 @@ import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/category_list.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 
-class FirstList extends StatelessWidget {
-  const FirstList({Key? key});
+class ProductListPage extends StatelessWidget {
+  const ProductListPage({Key? key});
 
 
   @override

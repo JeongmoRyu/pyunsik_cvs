@@ -10,8 +10,8 @@ class CommercialCarousel extends StatelessWidget {
   const CommercialCarousel({Key? key});
 
   static const List<String> imageList = [
-    'assets/images/cvs.jpg',
-    'assets/images/cvs.jpg',
+    'assets/images/event1.png',
+    'assets/images/event2.png',
   ];
 
 
@@ -22,10 +22,10 @@ class CommercialCarousel extends StatelessWidget {
           options: CarouselOptions(
             height: 200, // 슬라이더 높이 조절
             autoPlay: true, // 자동 슬라이드
+            autoPlayInterval: Duration(seconds: 7), // 자동 슬라이드 간격
             enlargeCenterPage: true, // 현재 페이지 확대
             viewportFraction: 1.0, // 현재 화면에 표시될 페이지의 비율을 1로 설정
-            aspectRatio: 16 / 9, // 이미지 비율
-            autoPlayInterval: Duration(seconds: 7), // 자동 슬라이드 간격
+
           ),
           items: imageList.map((item) {
             return Builder(
@@ -37,7 +37,7 @@ class CommercialCarousel extends StatelessWidget {
                     color: Colors.amber,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Image.asset(item, fit: BoxFit.fill),
+                  child: Image.asset(item, fit: BoxFit.fitWidth),
                 );
               },
             );

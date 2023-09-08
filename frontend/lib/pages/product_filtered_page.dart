@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/molecules/appbar.dart';
 
-class ListPage extends StatelessWidget {
+class ProductFilteredPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

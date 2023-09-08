@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/login_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-class Signin extends StatefulWidget {
-  const Signin({Key? key}) : super(key: key);
+class Signup extends StatefulWidget {
+  const Signup({Key? key}) : super(key: key);
 
   @override
-  _SigninState createState() => _SigninState();
+  _SignupState createState() => _SignupState();
 }
 
-class _SigninState extends State<Signin> {
+class _SignupState extends State<Signup> {
   String emailValue = '';
   String keyValue = '';
   String keyValueCheck = '';
