@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/product_card.dart';
 
-class ScrollEffect extends StatelessWidget {
-  const ScrollEffect({Key? key});
+class VerticalList extends StatelessWidget {
+  const VerticalList({Key? key});
 
   @override
   Widget build(BuildContext context) {

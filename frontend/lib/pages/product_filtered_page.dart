@@ -8,7 +8,7 @@ class ProductFilteredPage extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: CustomAppBar(),// AppBar에 표시할 제목
-        body: ScrollEffect(),
+        body: VerticalList(),
       ),
     );
   }

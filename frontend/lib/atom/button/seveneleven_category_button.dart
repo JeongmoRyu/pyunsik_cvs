@@ -27,7 +27,7 @@ class SevenElevenButton extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/seveneleven.png',
+            'assets/images/seveneleven_logo.png',
             width: 45,
             height: 45,
           ),

@@ -17,7 +17,7 @@ class ProductListPage extends StatelessWidget {
       body: ListView(
         children: [
           SizedBox(height: 20), // 간격 추가
-          CategoryCarousel(),
+          CategoryList(),
           SizedBox(height: 10), // 간격 추가
           Container(
             height: 250, // 원하는 높이로 설정

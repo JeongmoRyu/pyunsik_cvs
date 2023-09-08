@@ -27,7 +27,7 @@ class MinistopButton extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/ministop.png',
+            'assets/images/ministop_logo.png',
             width: 45,
             height: 45,
           ),

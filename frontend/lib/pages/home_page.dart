@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
           // 광고 관련 carousel
           CommercialCarousel(),
           SizedBox(height: 20), // 간격 추가
-          CategoryCarousel(),
+          CategoryList(),
           SizedBox(height: 40),
           Padding(
             padding: EdgeInsets.only(left: 20.0),
@@ -39,7 +39,7 @@ class HomePage extends StatelessWidget {
           Container(
             height: 400,
             width: 350,
-            child: ScrollEffect(),
+            child: VerticalList(),
           ),
           SizedBox(height: 20),
           Container(
