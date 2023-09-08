@@ -18,25 +18,25 @@ class AlarmButton extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry>[
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/gs.jpg',
+            imageAsset: 'assets/images/gs_logo.png',
             text: 'GS에서 9개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
           ),
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/cu.png',
+            imageAsset: 'assets/images/cu_logo.png',
             text: 'CU에서 10개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
           ),
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/ministop.png',
+            imageAsset: 'assets/images/ministop_logo.png',
             text: 'MiniStop에서 7개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
           ),
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/seveneleven.png',
+            imageAsset: 'assets/images/711_logo2.jpeg',
             text: 'SevenEleven에서 5개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,

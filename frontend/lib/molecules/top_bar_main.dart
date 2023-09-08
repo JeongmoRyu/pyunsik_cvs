@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/button/alarm_button.dart';
 
 class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
@@ -9,7 +10,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
    return AppBar(
      actions: <Widget>[
        SizedBox(
-         width: 300,
+         width: 250,
 
          child: Padding(
            padding: const EdgeInsets.all(8.0),
@@ -24,6 +25,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
          ),
        ),
        Spacer(),
+       AlarmButton(),
        IconButton(
            onPressed: () {},
            icon: Icon(Icons.bookmark_outline)

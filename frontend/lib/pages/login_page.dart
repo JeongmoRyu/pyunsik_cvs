@@ -92,7 +92,7 @@ class Login extends StatelessWidget {
                 SizedBox(height: 20,),
                 TextButton(
                   onPressed: () {
-                    context.go('/signin_page');
+                    context.go('/signup');
                   },
                   child: Text('회원가입'), // '회원가입' 텍스트 추가
                 ),

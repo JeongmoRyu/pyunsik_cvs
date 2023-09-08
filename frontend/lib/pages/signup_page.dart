@@ -229,7 +229,7 @@ class _SignupState extends State<Signup> {
                   SizedBox(height: 20,),
                   TextButton(
                     onPressed: () {
-                      context.go('/login_page');
+                      context.go('/login');
                     },
                     child: Text('로그인으로 돌아가기'), // '회원가입' 텍스트 추가
                   ),
