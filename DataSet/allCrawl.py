@@ -76,9 +76,9 @@ def find_product(pcode, driver):
 
         # 행사 정보 확인
         if span_class == "plus2":
-            badge_text = "2+1"
+            badge_text = "TWO_PLUS_ONE"
         elif span_class == "plus1":
-            badge_text = "1+1"
+            badge_text = "ONE_PLUS_ONE"
 
         # 딕셔너리에 상품 이름, 가격, 이미지 주소, 행사 정보 추가
         if product_name not in product_data:
