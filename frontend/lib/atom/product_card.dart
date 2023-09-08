@@ -22,7 +22,7 @@ class ImageWidget extends StatelessWidget {
                 ),
                 // Image.network(
                 //   // 'https://source.unsplash.com/random?sig=$index',
-                //   "https://www.breaknews.com/imgdata/breaknews_com/201606/2016060210398125.jpg",
+                //   "https://image.woodongs.com/imgsvr/item/GD_8801007922195_001.jpg",
                 //   fit: BoxFit.cover,
                 // ),
               ),

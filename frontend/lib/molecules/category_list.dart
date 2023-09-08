@@ -69,7 +69,6 @@ class CategoryCarousel extends StatelessWidget {
             context.go('/product_list_page');
           },
         ),
-
       ],
     )
     );
