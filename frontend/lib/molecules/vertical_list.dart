@@ -14,7 +14,7 @@ class VerticalList extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.all(8.0),
-          child: ImageWidget(index: index),
+          // child: ProductCard(index: index),
         );
       },
     );

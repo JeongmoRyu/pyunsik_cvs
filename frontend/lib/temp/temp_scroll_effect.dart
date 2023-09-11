@@ -41,7 +41,7 @@ class ScrollEffect extends StatelessWidget {
               primary: false,
               shrinkWrap: true,
               itemBuilder: (context, index){
-                return ImageWidget(index: index,);
+                // return ProductCard(index: index,);
               }),
         )
       ],
