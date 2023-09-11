@@ -33,10 +33,9 @@ class CommercialCarousel extends StatelessWidget {
                 return Container(
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: Colors.amber,
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: Image.asset(item, fit: BoxFit.fitWidth),
+                  child: Image.asset(item, fit: BoxFit.cover),
                 );
               },
             );

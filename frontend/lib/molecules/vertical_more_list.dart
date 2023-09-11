@@ -18,7 +18,10 @@ class VerticalMoreList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+      padding: const EdgeInsets.symmetric(
+          horizontal: Constants.horizontalPadding,
+          vertical: Constants.verticalPadding
+      ),
       child: Column(
         children: [
           Row(
@@ -36,6 +39,7 @@ class VerticalMoreList extends StatelessWidget {
           SizedBox(height: 10),
           GridView.count(
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
             childAspectRatio: 4 / 5,

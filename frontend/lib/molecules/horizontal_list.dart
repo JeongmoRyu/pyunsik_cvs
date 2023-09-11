@@ -16,27 +16,30 @@ class HorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
-      child: Column(
-        children: [
-          TextTitle(title: '오늘의 추천 상품'),
-          SizedBox(height: 10),
-          Container(
-            height: 270,
-            child: ListView.separated(
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(width: 10);
-              },
-              scrollDirection: Axis.horizontal, // 가로 스크롤 설정
-              itemCount: 6,
-              itemBuilder: (context, index) {
-                return ProductCard(product: productList[index],);
-              },
-            ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: Constants.horizontalPadding,
+            vertical: Constants.verticalPadding
           ),
-        ],
-      ),
+          child: TextTitle(title: '오늘의 추천 상품'),
+        ),
+        Container(
+          height: 270,
+          child: ListView.separated(
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(width: 10);
+            },
+            padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+            scrollDirection: Axis.horizontal, // 가로 스크롤 설정
+            itemCount: 6,
+            itemBuilder: (context, index) {
+              return ProductCard(product: productList[index],);
+            },
+          ),
+        ),
+      ],
     );
   }
 }

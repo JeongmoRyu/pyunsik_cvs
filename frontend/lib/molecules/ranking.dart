@@ -12,7 +12,10 @@ class Rank extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+      padding: const EdgeInsets.symmetric(
+          horizontal: Constants.horizontalPadding,
+          vertical: Constants.verticalPadding
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,6 +27,7 @@ class Rank extends StatelessWidget {
             crossAxisCount: 2,
             // Generate 100 widgets that display their index in the List.
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             childAspectRatio: (1 / .15),
             children: rankList.asMap().entries.map((entry) {
                 final int index = entry.key + 1;
