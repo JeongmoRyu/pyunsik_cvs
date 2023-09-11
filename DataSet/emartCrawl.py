@@ -15,8 +15,7 @@ pcodes = ['1&align=', '2&align=']
 # pcodes = ['depth3=2']
 # 결과 딕셔너리
 product_data = dict()
-cnt = 0
-pagecnt= 1
+pagecnt = 1
 
 def crawl():
     product_elements = driver.find_elements(By.CLASS_NAME, 'itemWrap')
@@ -25,6 +24,7 @@ def crawl():
         price_element = product_element.find_element(By.CLASS_NAME, 'price')
         img_element = product_element.find_element(By.TAG_NAME, 'img')
 
+        # 첫번째 크롤링이면 1+1, 두번째면 2+1
         span_class = ""
         if pagecnt == 1:
             span_class = "onepl floatR"
@@ -54,7 +54,6 @@ def crawl():
         elif span_class == "twopl floatR":
             badge_text = "TWO_PLUS_ONE"
 
-
         # 딕셔너리에 상품 이름, 가격, 이미지 주소, 행사 정보 추가
         if product_name not in product_data:
             product_data[product_name] = {'가격': product_price, '행사 정보': badge_text, '이미지 주소': product_img_src}
@@ -63,6 +62,7 @@ def crawl():
             product_data[product_name]['가격'] = product_price
             product_data[product_name]['행사 정보'] = badge_text
             product_data[product_name]['이미지 주소'] = product_img_src
+
 def init_driver():
     driver = uc.Chrome(use_subprocess=True, auto_quit=False)
     return driver
@@ -74,21 +74,22 @@ def find_product(pcode, driver):
 
     while True:
         # 로딩시간 때문에 5초정도 기다려야함
-        cnt += 1
         time.sleep(5)
         crawl()
-        # 크롤링을 진행했고, 현재 페이지가 1페이지면 종료해야함
-        if cnt == 2:
-            break
         try:
             next_button = WebDriverWait(driver, LOADING_WAIT_TIME).until(
                 EC.presence_of_element_located(
                     (By.XPATH, '/html/body/div[2]/div/div/div[2]/div[1]/img'))
             )
             next_button.click()
+            # 다음 버튼을 클릭한 후 화면 변화를 기다림
+            WebDriverWait(driver, LOADING_WAIT_TIME).until(
+                EC.staleness_of(next_button)
+            )
         except StaleElementReferenceException:
             continue
         except TimeoutException:
+            # 다음 페이지 로딩을 기다렸지만 타임아웃 발생 시 종료. 마지막 페이지라고 추정됨.
             break
         except ElementClickInterceptedException:
             # 클릭을 가로채는 요소가 있을 때 예외 처리
@@ -104,20 +105,15 @@ def find_product(pcode, driver):
 
 if __name__ == "__main__":
     driver = init_driver()
-
-    # Open the CSV file for writing outside the loop
     with open('emart.csv', 'w', newline='') as csvfile:
-        fieldnames = ['상품명', '가격','행사 정보', '이미지 주소']
+        fieldnames = ['상품명', '가격', '행사 정보', '이미지 주소']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
         writer.writeheader()
 
         for pcode in pcodes:
-            cnt = 0
             find_product(pcode, driver)
             pagecnt += 1
 
-        # Write the data to the CSV file within the loop
         for name, data in product_data.items():
             writer.writerow({'상품명': name, '가격': data['가격'], '행사 정보': data['행사 정보'], '이미지 주소': data['이미지 주소'] })
 
