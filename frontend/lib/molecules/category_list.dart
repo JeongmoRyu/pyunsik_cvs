@@ -60,7 +60,7 @@ class CategoryList extends StatelessWidget {
                 onPressed: () {
                   context.go('/');
                 },
-                imageUrl: 'assets/images/711_logo.png',
+                imageUrl: 'assets/images/711_logo2.jpeg',
                 name: '세븐일레븐'
             ),
             CategoryButton(

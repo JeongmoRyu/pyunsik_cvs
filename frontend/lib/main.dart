@@ -39,7 +39,7 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'ranking',
           builder: (BuildContext context, GoRouterState state) {
-            return Rank();
+            return Ranking();
           },
         ),
         GoRoute(

@@ -4,7 +4,7 @@ import 'package:frontend/molecules/category_list.dart';
 import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/molecules/vertical_more_list.dart';
 
-import '../util/colored_spacer.dart';
+import '../util/custom_box.dart';
 import '../molecules/horizontal_list.dart';
 import '../molecules/top_bar_main.dart';
 import '../product.dart';
@@ -32,11 +32,11 @@ class HomePage extends StatelessWidget {
           // 광고 관련 carousel
           CommercialCarousel(),
           CategoryList(),
-          ColoredSpacer(),
+          CustomBox(),
           VerticalMoreList(title: '오늘의 추천 상품', productList: testList,),
-          ColoredSpacer(),
-          Rank(),
-          ColoredSpacer(),
+          CustomBox(),
+          Ranking(),
+          CustomBox(),
           HorizontalList(title: '오늘의 추천 상품', productList: testList,),
           // 간격 추가
           SizedBox(height: 20),

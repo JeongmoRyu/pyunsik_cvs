@@ -37,7 +37,6 @@ class ProductCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
           ),
           Text(

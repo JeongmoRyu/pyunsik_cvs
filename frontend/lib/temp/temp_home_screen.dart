@@ -409,7 +409,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 40),
               Container(
                 width: 400,
-                child : Rank(),
+                child : Ranking(),
               ),
               // 간격 추가
 

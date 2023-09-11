@@ -3,7 +3,7 @@ import 'package:frontend/util/constants.dart';
 
 import '../atom/text_title.dart';
 
-class Rank extends StatelessWidget {
+class Ranking extends StatelessWidget {
   final List<String> rankList = [
     'product long long long long long long', '상품2', '상품3', '상품4', '상품5',
     '상품6', '상품7', '상품8', '상품9', '상품10'

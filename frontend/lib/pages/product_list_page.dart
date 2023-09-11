@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
+import 'package:frontend/molecules/top_bar_main.dart';
+import 'package:frontend/util/constants.dart';
+import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/ranking.dart';
-import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/category_list.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
+
+import '../product.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({Key? key});
@@ -12,22 +14,33 @@ class ProductListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Product> testList = [
+      new Product(1, 'test product short', '', 1800),
+      new Product(2, 'test product middle middle', '', 39900),
+      new Product(3, 'test product long long long long long long long', '', 1498000),
+      new Product(4, 'test product short', '', 1800),
+      new Product(5, 'test product short', '', 1800),
+      new Product(6, 'test product short', '', 1800),
+      new Product(7, 'test product short', '', 1800),
+      new Product(8, 'test product short', '', 1800),
+    ];
+
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: TopBarMain(appBar: AppBar(),),
       body: ListView(
         children: [
-          SizedBox(height: 20), // 간격 추가
-          CategoryList(),
-          SizedBox(height: 10), // 간격 추가
-          Container(
-            height: 250, // 원하는 높이로 설정
-            // child: HorizontalList(),
+          Padding(
+            padding: const EdgeInsets.all(Constants.horizontalPadding),
+            child: CategoryList(),
           ),
-          SizedBox(height: 10), // 간격 추가
-          Container(
-            width: 400,
-            child: Rank(),
+          Padding(
+            padding: const EdgeInsets.all(Constants.horizontalPadding),
+            child: CategoryList(),
           ),
+          CustomBox(),
+          HorizontalList(title: '오늘의 추천 상품', productList: testList),
+          CustomBox(),
+          Ranking(),
         ],
       ),
     );
