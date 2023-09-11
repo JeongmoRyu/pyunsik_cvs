@@ -4,7 +4,7 @@ import 'package:frontend/molecules/category_list.dart';
 import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/molecules/vertical_more_list.dart';
 
-import '../molecules/ColoredSpacer.dart';
+import '../util/colored_spacer.dart';
 import '../molecules/horizontal_list.dart';
 import '../molecules/top_bar_main.dart';
 import '../product.dart';

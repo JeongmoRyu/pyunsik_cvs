@@ -6,8 +6,8 @@ class ColoredSpacer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 20,
-      color: Colors.grey,
+      height: 10,
+      color: Color.fromRGBO(241, 241, 241, 1.0),
     );
   }
 }
