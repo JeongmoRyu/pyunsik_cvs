@@ -25,7 +25,7 @@ public class SecurityConfig {
         return httpSecurity
                 .csrf(CsrfConfigurer::disable)
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorize -> authorize.antMatchers("api/member/**").permitAll())
+//                .authorizeHttpRequests(authorize -> authorize.antMatchers("api/member/**").permitAll())
                 .exceptionHandling(exception -> {
                     exception.accessDeniedHandler(new CustomAccessDeniedHandler());
                     exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint());

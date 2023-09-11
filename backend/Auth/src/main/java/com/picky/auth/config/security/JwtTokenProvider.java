@@ -7,18 +7,20 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 /**
  * JWT 토큰을 생성하고 유효성을 검증하는 컴포넌트 클래스 JWT 는 여러 암호화 알고리즘을 제공하고 알고리즘과 비밀키를 가지고 토큰을 생성
@@ -33,9 +35,14 @@ public class JwtTokenProvider {
     private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenProvider.class);
     private final UserRepository userRepository;
 
-//    @Value("${springboot.jwt.secret}")
+    @Value("${spring.jwt.secret}")
     private String secretKey = "secretKey";
-    private final long tokenValidMillisecond = 1000L * 60; // 1시간 토큰 유효
+
+    @Value("${spring.jwt.token.access-expire-time}")
+    private long accessExpireTime = 60 * 60 * 24; // 하루 토큰 유효
+
+    @Value("${spring.jwt.token.refresh-expire-time}")
+    private long refreshExpireTime = 60 * 60 * 24 * 30; // 한 달 토큰 유효
 
     /**
      * SecretKey 에 대해 인코딩 수행
@@ -50,19 +57,68 @@ public class JwtTokenProvider {
     /**
      * JWT 토큰 생성
      */
-    public String createToken(String uuid) {
-        LOGGER.info("[createToken] 토큰 생성 시작");
+    public String createAccessToken(String uuid, List<String> roles) {
+        LOGGER.info("[createAccessToken] 토큰 생성 시작");
         Claims claims = Jwts.claims().setSubject(uuid);
+        claims.put("roles", roles);
+
         Date now = new Date();
-        String token = Jwts.builder()
+        String accessToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
+                .setExpiration(new Date(now.getTime() + 1000L * accessExpireTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
-        LOGGER.info("[createToken] 토큰 생성 완료");
-        return token;
+        LOGGER.info("[createAccessToken] 토큰 생성 완료");
+        return accessToken;
+    }
+
+    /**
+     * Refresh 토큰 생성
+     * Redis 저장
+     */
+    public void createRefreshToken(String uuid, List<String> roles) {
+        LOGGER.info("[createRefreshToken] 리프레시 토큰 생성 시작");
+        Claims claims = Jwts.claims().setSubject(uuid);
+        claims.put("roles", roles);
+
+        Date now = new Date();
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + 1000L * refreshExpireTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+        try {
+            // [추가] redis 저장
+            LOGGER.info("[createToken] 리프레시 토큰 생성 완료");
+        } catch (Exception e) {
+            // error
+        }
+    }
+
+    /**
+     * JWT Token or Refresh 토큰 생성
+     * 토큰이나 리프레시 토큰 만료 시 새로 생성
+     */
+    public String createNewToken(String accessToken, HttpServletRequest request) {
+        // redis에서 accessToken : refreshToken 가져오기
+        String refreshToken = "";
+        String newAccessToken;
+        if (refreshToken != null) { // accessToken 만료, refreshToken 유효
+            User user = getUserOfToken(accessToken);
+            newAccessToken = createAccessToken(user.getUUID(), user.getRoles());
+
+            // [추가] redis 저장
+        } else { // accessToken 만료, refreshToken 만료
+            User user = getUserOfToken(accessToken);
+            newAccessToken = createAccessToken(user.getUUID(), user.getRoles());
+            String newRefreshToken = createAccessToken(user.getUUID(), user.getRoles());
+
+            // [추가] redis 저장
+        }
+        return newAccessToken;
     }
 
     /**
@@ -72,7 +128,7 @@ public class JwtTokenProvider {
      */
     public Authentication getAuthentication(String token) {
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 시작");
-        User user = userRepository.getByUUID(this.getUsername(token));
+        User user = userRepository.findByUUID(this.getUsername(token));
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 완료, UUID : {}",
                 user.getUUID());
 
@@ -105,15 +161,21 @@ public class JwtTokenProvider {
     /**
      * JWT 토큰의 유효성 + 만료일 체크
      */
-    public boolean validateToken(String token) {
+    public String validateToken(String accessToken, HttpServletRequest request) {
         LOGGER.info("[validateToken] 토큰 유효 체크 시작");
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken);
             LOGGER.info("[validateToken] 토큰 유효 체크 완료");
-            return !claims.getBody().getExpiration().before(new Date());
+            return accessToken;
         } catch (Exception e) {
             LOGGER.info("[validateToken] 토큰 유효 체크 예외 발생");
-            return false;
+            return createNewToken(accessToken, request);
         }
+    }
+
+    public User getUserOfToken(String token) {
+        LOGGER.info("[getUserOfToken] 토큰 유저 정보 추출 시작");
+        String UUID = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return userRepository.findByUUID(UUID);
     }
 }
