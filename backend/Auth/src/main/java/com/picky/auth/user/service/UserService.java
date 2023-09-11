@@ -1,58 +1,47 @@
 package com.picky.auth.user.service;
 
-import com.picky.auth.config.security.JwtTokenProvider;
 import com.picky.auth.user.domain.entity.User;
 import com.picky.auth.user.domain.repository.UserRepository;
-import com.picky.auth.user.dto.SignInResponse;
-import com.picky.auth.user.dto.SignUpRequest;
+import com.picky.auth.user.dto.UserResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-
 @Service
 public class UserService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthService.class);
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
+
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void signUp(SignUpRequest request) {
-
-        User savedUser = userRepository.save(User.builder()
-                .nickname(request.getNickname())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(Collections.singletonList("ROLE_CONSUMER"))
-                .build());
+    public UserResponse updateNickname(String preNickname, String postNickname) {
+        if (userRepository.existsByNickname(postNickname)) {
+            // [추가] 닉네임 중복 예외 처리 수정 필요
+            throw new RuntimeException("이미 존재하는 닉네임입니다.");
+        } else {
+            User user = userRepository.findByNickname(preNickname);
+            user.setNickname(postNickname);
+            userRepository.save(user);
+            return UserResponse.toResponse(user);
+        }
     }
 
-    public SignInResponse signIn(String nickname, String password) throws RuntimeException {
-        LOGGER.info("[getSignInResponse] signDataHandler 로 회원 정보 요청");
-        User user = userRepository.getByNickname(nickname);
-        LOGGER.info("[getSignInResponse] nickname : {}", nickname);
-
-        LOGGER.info("[getSignInResponse] 패스워드 비교 수행");
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException();
+    public UserResponse updatePassword(String nickname, String prePassword, String postPassword) {
+        User user = userRepository.findByNickname(nickname);
+        if (passwordEncoder.matches(prePassword, user.getPassword())) { // 비밀번호 일치
+            user.setPassword(postPassword);
+            userRepository.save(user);
+            return UserResponse.toResponse(user);
+        } else { // 비밀번호 불일치
+            // [추가] 비밀번호 불일치 예외 처리 수정 필요
+            throw new RuntimeException("비밀번호가 틀립니다.");
         }
-        LOGGER.info("[getSignInResponse] 패스워드 일치");
-
-        LOGGER.info("[getSignInResponse] SignInResponse 객체 생성");
-        SignInResponse signInResponse = SignInResponse.builder()
-                .accessToken(jwtTokenProvider.createToken(String.valueOf(user.getUUID())))
-                .build();
-
-        LOGGER.info("[getSignInResponse] SignInResponse 객체에 값 주입");
-
-        return signInResponse;
     }
 }

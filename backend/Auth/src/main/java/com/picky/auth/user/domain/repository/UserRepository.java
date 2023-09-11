@@ -5,7 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User getByUUID(String UUID);
+    User findByUUID(String UUID);
 
-    User getByNickname(String nickname);
+    User findByNickname(String nickname);
+
+    boolean existsByNickname(String nickname);
+
 }

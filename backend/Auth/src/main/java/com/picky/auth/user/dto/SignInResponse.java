@@ -2,17 +2,21 @@ package com.picky.auth.user.dto;
 
 import lombok.*;
 
-@Data
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString
-public class SignInResponse extends SignUpResponse {
+public class SignInResponse {
 
+    private String UUID;
+    private String nickname;
+    private String fcmToken;
     private String accessToken;
 
     @Builder
-    public SignInResponse(String uuid, String nickname, int height, int weight, int age, int gender, String fcmToken, String accessToken) {
-        super(uuid, nickname, height, weight, age, gender, fcmToken);
+    public SignInResponse(String UUID, String nickname, String fcmToken, String accessToken) {
+        this.UUID = UUID;
+        this.nickname = nickname;
+        this.fcmToken = fcmToken;
         this.accessToken = accessToken;
     }
 }

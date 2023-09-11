@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
-@Setter
 @NoArgsConstructor
 public class SignUpRequest {
 
