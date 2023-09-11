@@ -14,7 +14,7 @@ class Rank extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextTitle(title: '인기 상품',),
-        SizedBox(height: 20),
+        SizedBox(height: 10),
         GridView.count(
           // Create a grid with 2 columns. If you change the scrollDirection to
           // horizontal, this produces 2 rows.

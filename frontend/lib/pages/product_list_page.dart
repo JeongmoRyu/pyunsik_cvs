@@ -21,7 +21,7 @@ class ProductListPage extends StatelessWidget {
           SizedBox(height: 10), // 간격 추가
           Container(
             height: 250, // 원하는 높이로 설정
-            child: SideScrollEffect(),
+            // child: HorizontalList(),
           ),
           SizedBox(height: 10), // 간격 추가
           Container(

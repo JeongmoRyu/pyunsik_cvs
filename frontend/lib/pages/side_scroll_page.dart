@@ -10,7 +10,7 @@ class SideScrollPage extends StatelessWidget {
         appBar: CustomAppBar(),// AppBar에 표시할 제목
         body: Container(
           height: 250, // 원하는 높이로 설정
-          child: SideScrollEffect(),
+          // child: HorizontalList(),
         ),
       ),
     );

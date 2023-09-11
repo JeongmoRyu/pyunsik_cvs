@@ -5,6 +5,7 @@ import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/molecules/vertical_more_list.dart';
 
 import '../molecules/ColoredSpacer.dart';
+import '../molecules/horizontal_list.dart';
 import '../molecules/top_bar_main.dart';
 import '../product.dart';
 
@@ -19,6 +20,10 @@ class HomePage extends StatelessWidget {
       new Product(2, 'test product middle middle', '', 39900),
       new Product(3, 'test product long long long long long long long', '', 1498000),
       new Product(4, 'test product short', '', 1800),
+      new Product(5, 'test product short', '', 1800),
+      new Product(6, 'test product short', '', 1800),
+      new Product(7, 'test product short', '', 1800),
+      new Product(8, 'test product short', '', 1800),
     ];
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),
@@ -30,10 +35,9 @@ class HomePage extends StatelessWidget {
           ColoredSpacer(),
           VerticalMoreList(title: '오늘의 추천 상품', productList: testList,),
           ColoredSpacer(),
-          Container(
-            width: 400,
-            child: Rank(),
-          ),
+          Rank(),
+          ColoredSpacer(),
+          HorizontalList(title: '오늘의 추천 상품', productList: testList,),
           // 간격 추가
           SizedBox(height: 20),
         ],

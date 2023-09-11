@@ -15,7 +15,7 @@ class ProductCard extends StatelessWidget {
 
     return SizedBox(
       height: 50,
-      width: double.infinity,
+      width: 200,
       // child: Container(
       //   color: Colors.pink,
       // ),

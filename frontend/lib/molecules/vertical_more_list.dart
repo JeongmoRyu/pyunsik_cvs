@@ -18,8 +18,19 @@ class VerticalMoreList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextTitle(title: title),
-        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(child: TextTitle(title: title)),
+            Flexible(
+              child: TextButton(onPressed: () {}, child: Text(
+                '더보기',
+                textAlign: TextAlign.right,
+              )),
+            )
+          ],
+        ),
+        SizedBox(height: 10),
         GridView.count(
           shrinkWrap: true,
           mainAxisSpacing: 10,
