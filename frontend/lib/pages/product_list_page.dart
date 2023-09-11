@@ -24,9 +24,12 @@ class ProductListPage extends StatelessWidget {
             child: SideScrollEffect(),
           ),
           SizedBox(height: 10), // 간격 추가
-          Container(
-            width: 400,
-            child: Rank(),
+          Padding(
+            padding: const EdgeInsets.only(left : 20.0),
+            child: Container(
+              width: 400,
+              child: Rank(),
+            ),
           ),
         ],
       ),
