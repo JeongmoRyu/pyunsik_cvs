@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../atom/text_title.dart';
+
 class Rank extends StatelessWidget {
   final List<String> rankList = [
-    '상품 1', '상품 2', '상품 3', '상품 4', '상품 5',
-    '상품 6', '상품 7', '상품 8', '상품 9', '상품 10'
+    'product long long long long long long', '상품2', '상품3', '상품4', '상품5',
+    '상품6', '상품7', '상품8', '상품9', '상품10'
   ];
 
   @override
@@ -11,79 +13,45 @@ class Rank extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '인기 상품',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: rankList.sublist(0, 5).asMap().entries.map((entry) {
-                  final int index = entry.key + 1;
-                  final String rank = entry.value;
-                  return RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '$index: ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold, // index 텍스트 굵게 표시
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '$rank', // 나머지 텍스트
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+        TextTitle(title: '인기 상품',),
+        SizedBox(height: 20),
+        GridView.count(
+          // Create a grid with 2 columns. If you change the scrollDirection to
+          // horizontal, this produces 2 rows.
+          crossAxisCount: 2,
+          // Generate 100 widgets that display their index in the List.
+          shrinkWrap: true,
+          childAspectRatio: (1 / .15),
+          children: rankList.asMap().entries.map((entry) {
+              final int index = entry.key + 1;
+              final String item = entry.value;
+              return Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                    child: Text(
+                      '$index',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold, // index 텍스트 굵게 표시
+                      ),
                     ),
-                  );
-                }).toList(),
-              ),
-            ),
-            SizedBox(width: 20), // 오른쪽과의 간격 조절
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: rankList.sublist(5).asMap().entries.map((entry) {
-                  final int index = entry.key + 6;
-                  final String rank = entry.value;
-                  return RichText(
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '$index: ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold, // index 텍스트 굵게 표시
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '$rank', // 나머지 텍스트
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+                  ),
+                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      '$item',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
                     ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
+                  )
+                ],
+              );
+            }).toList(),
         ),
       ],
     );
