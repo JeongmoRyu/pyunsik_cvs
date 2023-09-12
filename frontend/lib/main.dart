@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/current_combination_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/pages/product_filtered_page.dart';
 import 'package:frontend/pages/home_page.dart';
@@ -98,8 +99,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int currentPageIndex = 0;
-
+  // int currentPageIndex = 0;
+  int currentPageIndex = 2; //테스트용
   void updateIndex(int index) {
     setState(() {currentPageIndex = index;});
   }
@@ -128,7 +129,7 @@ class _MainPageState extends State<MainPage> {
         ),
         Container(
           alignment: Alignment.center,
-          child: Placeholder(),
+          child: CurrentCombinationPage(),
         ),
         Container(
           alignment: Alignment.center,

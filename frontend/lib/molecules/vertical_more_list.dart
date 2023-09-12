@@ -42,7 +42,7 @@ class VerticalMoreList extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
             mainAxisSpacing: 10,
             crossAxisSpacing: 10,
-            childAspectRatio: 4 / 5,
+            childAspectRatio: 8 / 11,
             crossAxisCount: 2,
             children: [
               for (int i = 0; i < 4; i++)

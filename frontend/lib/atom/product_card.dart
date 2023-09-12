@@ -14,11 +14,7 @@ class ProductCard extends StatelessWidget {
     NumberFormat format = NumberFormat.decimalPattern('en_us');
 
     return SizedBox(
-      height: 50,
       width: 200,
-      // child: Container(
-      //   color: Colors.pink,
-      // ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,41 +45,5 @@ class ProductCard extends StatelessWidget {
         ],
       ),
     );
-    // return SizedBox(
-    //   height: 200, // Increased the height to accommodate the text below
-    //   width: double.infinity,
-    //   child: Column(
-    //     children: [
-    //       Expanded(
-    //         flex: 2,
-    //         child: Card(
-    //           child: AspectRatio(
-    //             aspectRatio: 1 / 1,
-    //             child: Image.asset(
-    //                 'assets/images/coffee.jpg',
-    //                 fit: BoxFit.cover
-    //             ),
-    //             // Image.network(
-    //             //   // 'https://source.unsplash.com/random?sig=$index',
-    //             //   "https://image.woodongs.com/imgsvr/item/GD_8801007922195_001.jpg",
-    //             //   fit: BoxFit.cover,
-    //             // ),
-    //           ),
-    //         ),
-    //       ),
-    //       SizedBox(height: 10), // Adding spacing between the image and text
-    //       Expanded(
-    //         flex: 1,
-    //         child: Text(
-    //           '남양)프렌치카푸치노200ml',
-    //           style: TextStyle(
-    //             fontSize: 18,
-    //             fontWeight: FontWeight.bold,
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }
