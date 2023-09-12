@@ -3,6 +3,7 @@ package com.picky.auth.user.dto;
 import com.picky.auth.user.domain.entity.User;
 import lombok.*;
 
+@Getter
 @NoArgsConstructor
 @ToString
 public class UserResponse {
