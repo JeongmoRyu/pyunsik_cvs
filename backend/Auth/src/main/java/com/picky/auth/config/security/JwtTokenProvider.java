@@ -58,7 +58,7 @@ public class JwtTokenProvider {
      * JWT 토큰 생성
      */
     public String createAccessToken(String uuid, List<String> roles) {
-        LOGGER.info("[createAccessToken] 토큰 생성 시작");
+        LOGGER.info("[createAccessToken] 토큰 생성 시작 UUID : {}", uuid);
         Claims claims = Jwts.claims().setSubject(uuid);
         claims.put("roles", roles);
 
@@ -128,23 +128,12 @@ public class JwtTokenProvider {
      */
     public Authentication getAuthentication(String token) {
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 시작");
-        User user = userRepository.findByUUID(this.getUsername(token));
+        User user = this.getUserOfToken(token);
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 완료, UUID : {}",
                 user.getUUID());
 
         // Authentication을 구현하는 방법 중 하나 -> UsernamePasswordAuthenticationToken
         return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
-    }
-
-    /**
-     * JWT 토큰에서 회원 구별 정보 추출
-     */
-    public String getUsername(String token) {
-        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출");
-        String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
-                .getSubject();
-        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
-        return info;
     }
 
     /**
@@ -173,9 +162,13 @@ public class JwtTokenProvider {
         }
     }
 
+    /**
+     * JWT 토큰에서 회원 구별 정보 추출
+     */
     public User getUserOfToken(String token) {
         LOGGER.info("[getUserOfToken] 토큰 유저 정보 추출 시작");
         String UUID = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        LOGGER.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, UUID : {}", UUID);
         return userRepository.findByUUID(UUID);
     }
 }
