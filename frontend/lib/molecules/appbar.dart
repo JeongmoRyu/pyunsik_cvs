@@ -27,7 +27,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
         TextButton(
           onPressed: () {
-            goRouter.go('/login_page'); // 로그인 페이지로 이동
+            goRouter.go('/login'); // 로그인 페이지로 이동
           },
           child: Text(
             'Login',

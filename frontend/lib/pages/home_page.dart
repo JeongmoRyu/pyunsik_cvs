@@ -17,10 +17,10 @@ class HomePage extends StatelessWidget {
       appBar: TopBarMain(appBar: AppBar(),),
       body: ListView(
         children: [
-          SizedBox(height: 20), // 간격 추가
+          // SizedBox(height: 20),
           // 광고 관련 carousel
           CommercialCarousel(),
-          SizedBox(height: 20), // 간격 추가
+          SizedBox(height: 20),
           CategoryList(),
           SizedBox(height: 40),
           Padding(
@@ -41,9 +41,12 @@ class HomePage extends StatelessWidget {
             child: VerticalList(),
           ),
           SizedBox(height: 20),
-          Container(
-            width: 400,
-            child: Rank(),
+          Padding(
+            padding: const EdgeInsets.only(left: 20.0),
+            child: Container(
+              width: 400,
+              child: Rank(),
+            ),
           ),
           // 간격 추가
           SizedBox(height: 20),

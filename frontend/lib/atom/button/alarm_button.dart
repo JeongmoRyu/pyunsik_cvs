@@ -18,28 +18,32 @@ class AlarmButton extends StatelessWidget {
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry>[
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/gs.jpg',
+            imageAsset: 'assets/images/gs_logo.png',
             text: 'GS에서 9개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
+            backgroundColor: Colors.white,
           ),
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/cu.png',
+            imageAsset: 'assets/images/cu_logo.png',
             text: 'CU에서 10개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
+            backgroundColor: Colors.white,
           ),
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/ministop.png',
+            imageAsset: 'assets/images/ministop_logo.png',
             text: 'MiniStop에서 7개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
+            backgroundColor: Colors.white,
           ),
           _buildPopupMenuItem(
-            imageAsset: 'assets/images/seveneleven.png',
+            imageAsset: 'assets/images/711_logo2.jpeg',
             text: 'SevenEleven에서 5개 상품이 할인 중입니다.',
             route: '/product_list_page',
             goRouter: goRouter,
+            backgroundColor: Colors.white,
           ),
         ];
       },
@@ -51,18 +55,22 @@ class AlarmButton extends StatelessWidget {
     required String text,
     required String route,
     required GoRouter goRouter,
+    Color? backgroundColor,
   }) {
     return PopupMenuItem(
-      child: ListTile(
-        leading: Image.asset(
-          imageAsset,
-          width: 45,
-          height: 45,
+      child: Container(
+        color: backgroundColor,
+        child: ListTile(
+          leading: Image.asset(
+            imageAsset,
+            width: 45,
+            height: 45,
+          ),
+          title: Text(text),
+          onTap: () {
+            goRouter.go(route);
+          },
         ),
-        title: Text(text),
-        onTap: () {
-          goRouter.go(route);
-        },
       ),
     );
   }
