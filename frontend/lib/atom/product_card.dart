@@ -4,15 +4,13 @@ import 'package:intl/intl.dart';
 
 class ProductCard extends StatelessWidget {
   static const String defaultFileName = 'assets/images/wip.jpg';
-
+  static NumberFormat format = NumberFormat.decimalPattern('en_us');
   const ProductCard({Key? key, required this.product}) : super(key: key);
 
   final Product product;
 
   @override
   Widget build(BuildContext context) {
-    NumberFormat format = NumberFormat.decimalPattern('en_us');
-
     return SizedBox(
       width: 200,
       child: Column(
