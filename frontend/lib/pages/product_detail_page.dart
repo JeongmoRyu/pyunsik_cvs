@@ -6,6 +6,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 
+import '../product.dart';
+
 
 class ProductDetailPage extends StatefulWidget {
   const ProductDetailPage({Key? key}) : super(key: key);
@@ -15,6 +17,16 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  List<Product> testList = [
+    new Product(1, 'test product short', '', 1800),
+    new Product(2, 'test product middle middle', '', 39900),
+    new Product(3, 'test product long long long long long long long', '', 1498000),
+    new Product(4, 'test product short', '', 1800),
+    new Product(5, 'test product short', '', 1800),
+    new Product(6, 'test product short', '', 1800),
+    new Product(7, 'test product short', '', 1800),
+    new Product(8, 'test product short', '', 1800),
+  ];
   Map<String, dynamic> ProductDetail = {
     'productName': '남양)프렌치카푸치노200ml',
     'price': 2700,
@@ -329,7 +341,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             SizedBox(height: 10,),
             Container(
               height: 250, // 원하는 높이로 설정
-              child: SideScrollEffect(),
+              child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
             ),
         ],
       ),
