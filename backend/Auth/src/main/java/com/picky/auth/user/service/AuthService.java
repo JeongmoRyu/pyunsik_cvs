@@ -8,9 +8,12 @@ import com.picky.auth.user.dto.SignUpRequest;
 import com.picky.auth.user.dto.UserResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 
 @Service
@@ -27,6 +30,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     public void signUp(SignUpRequest request) {
         if (userRepository.existsByNickname(request.getNickname())) {
             // [추가] 닉네임 중복 예외 처리 수정 필요
@@ -40,7 +44,8 @@ public class AuthService {
         }
     }
 
-    public SignInResponse signIn(String nickname, String password) throws RuntimeException {
+    @Transactional(readOnly = true)
+    public SignInResponse login(String nickname, String password) throws RuntimeException {
         LOGGER.info("[getSignInResponse] signDataHandler 로 회원 정보 요청");
         User user = userRepository.findByNickname(nickname);
         LOGGER.info("[getSignInResponse] nickname : {}", nickname);
@@ -62,6 +67,37 @@ public class AuthService {
         LOGGER.info("[getSignInResponse] SignInResponse 객체에 값 주입");
 
         return signInResponse;
+    }
+
+    // 로그아웃
+    public void logout(HttpServletRequest servletRequest) {
+        String accessToken = jwtTokenProvider.resolveToken(servletRequest);
+
+        // redis에서 토큰, 리프레시 토큰 삭제 (값이 있으면 삭제, 없으면 예외처리)
+    }
+
+    // 회원탈퇴
+    @Transactional
+    public void signout(HttpServletRequest servletRequest) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LOGGER.info("[signout] 회원 탈퇴 요청 유저 : {}", UserResponse.toResponse(user));
+        userRepository.delete(user);
+        this.logout(servletRequest);
+    }
+
+    // getUuid by JWT
+    public String getUuidByJwt(String accessToken) {
+        return jwtTokenProvider.getUserOfToken(accessToken).getUUID();
+    }
+
+    // getFcmToken by JWT
+    public String getFcmTokenByJwt(String accessToken) {
+        return jwtTokenProvider.getUserOfToken(accessToken).getFcmToken();
+    }
+
+    // getNickname by JWT
+    public String getNicknameByJwt(String accessToken) {
+        return jwtTokenProvider.getUserOfToken(accessToken).getNickname();
     }
 
 }
