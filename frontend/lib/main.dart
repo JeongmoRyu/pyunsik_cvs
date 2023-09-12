@@ -9,6 +9,7 @@ import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/pages/side_scroll_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
+import 'package:frontend/pages/product_detail_page.dart';
 
 import 'molecules/nav_bar.dart';
 
@@ -66,7 +67,14 @@ final GoRouter _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return ProductListPage();
           },
+        ),
+        GoRoute(
+          path: 'product_detail',
+          builder: (BuildContext context, GoRouterState state) {
+            return ProductDetailPage();
+          },
         )
+
 
       ],
     ),
