@@ -35,7 +35,7 @@ class Ranking extends StatelessWidget {
                 return Row(
                   children: [
                     SizedBox(
-                      width: 20,
+                      width: 22,
                       child: Text(
                         '$index',
                         textAlign: TextAlign.center,
