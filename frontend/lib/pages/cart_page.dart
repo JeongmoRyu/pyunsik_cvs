@@ -60,11 +60,15 @@ class _CartPageState extends State<CartPage> {
                   ),
                   Spacer(),
                   TextButton(
-                    onPressed: () => showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            CartConfirmRemoveSelectedDialog(),
-                    ),
+                    onPressed: () {
+                      if (cart.numberOfSelected > 0) {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              CartConfirmRemoveSelectedDialog(),
+                        );
+                      }
+                    },
                     child: Text(
                         '선택삭제'
                     ),

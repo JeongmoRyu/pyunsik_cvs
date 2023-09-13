@@ -46,11 +46,14 @@ class Cart extends ChangeNotifier {
   }
 
   void removeSelected() {
+    var selectedProducts = [];
     for (int i = 0; i < _products.length; i++) {
       if (_isSelected[i]) {
-        _products.removeAt(i);
-        _isSelected.removeAt(i);
+        selectedProducts.add(_products[i]);
       }
+    }
+    for (var product in selectedProducts) {
+      remove(product);
     }
     notifyListeners();
   }
