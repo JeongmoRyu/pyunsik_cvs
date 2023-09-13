@@ -31,6 +31,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+                .httpBasic().disable() // Rest api 사용을 위해 기본설정 해제
+                .formLogin().disable() // jwt 인증방식 사용하므로 Form기반 로그인 비활성화
                 .csrf(CsrfConfigurer::disable) // REST API는 csrf 보안이 필요 없으므로 비활성화
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션은 사용하지 않기 때문에 STATELESS로 설정
 //                .authorizeHttpRequests(authorize -> authorize.antMatchers("api/member/**").permitAll())
