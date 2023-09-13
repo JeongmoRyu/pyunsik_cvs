@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class NicknameUpdateRequest {
+public class NicknameUpdateRequest { // 닉네임 수정 요청 DTO
 
     String preNickname;
     String postNickname;

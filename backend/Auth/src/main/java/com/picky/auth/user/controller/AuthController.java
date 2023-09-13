@@ -1,9 +1,10 @@
 package com.picky.auth.user.controller;
 
-import com.picky.auth.user.dto.*;
+import com.picky.auth.user.dto.SignInRequest;
+import com.picky.auth.user.dto.SignInResponse;
+import com.picky.auth.user.dto.SignUpRequest;
 import com.picky.auth.user.service.AuthService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +13,9 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
@@ -30,10 +31,10 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity<SignInResponse> login(@RequestBody SignInRequest request)
             throws RuntimeException {
-        LOGGER.info("[login] 로그인을 시도하고 있습니다. nickname : {}, pw : ****", request.getNickname());
+        log.info("[login] 로그인을 시도하고 있습니다. nickname : {}, pw : ****", request.getNickname());
         SignInResponse signInResponse = authService.login(request.getNickname(), request.getPassword());
 
-        LOGGER.info("[login] 정상적으로 로그인되었습니다. nickname : {}, token : {}", request.getNickname(),
+        log.info("[login] 정상적으로 로그인되었습니다. nickname : {}, token : {}", request.getNickname(),
                 signInResponse.getAccessToken());
         return ResponseEntity.ok(signInResponse);
     }
@@ -41,18 +42,18 @@ public class AuthController {
     // 로그아웃
     @GetMapping(value = "/logout")
     public ResponseEntity<Void> logout(HttpServletRequest servletRequest) {
-        LOGGER.info("[logout] 로그아웃을 시도하고 있습니다.");
+        log.info("[logout] 로그아웃을 시도하고 있습니다.");
         authService.logout(servletRequest);
-        LOGGER.info("[logout] 정상적으로 로그아웃 되었습니다.");
+        log.info("[logout] 정상적으로 로그아웃 되었습니다.");
         return ResponseEntity.ok().build();
     }
 
     // 회원탈퇴
     @DeleteMapping
     public ResponseEntity<Void> signout(HttpServletRequest servletRequest) {
-        LOGGER.info("[signout] 회원탈퇴를 시도하고 있습니다.");
+        log.info("[signout] 회원탈퇴를 시도하고 있습니다.");
         authService.signout(servletRequest);
-        LOGGER.info("[signout] 정상적으로 탈퇴 되었습니다.");
+        log.info("[signout] 정상적으로 탈퇴 되었습니다.");
         return ResponseEntity.ok().build();
     }
 

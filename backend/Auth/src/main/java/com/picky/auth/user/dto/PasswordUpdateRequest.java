@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class PasswordUpdateRequest {
+public class PasswordUpdateRequest { // 비밀번호 수정 요청 DTO
 
     String nickname;
     String prePassword;

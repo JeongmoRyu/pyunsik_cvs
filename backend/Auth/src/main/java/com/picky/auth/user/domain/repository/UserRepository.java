@@ -3,11 +3,13 @@ package com.picky.auth.user.domain.repository;
 import com.picky.auth.user.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByUUID(String UUID);
+    Optional<User> findByUuid(String uuid);
 
-    User findByNickname(String nickname);
+    Optional<User> findByNickname(String nickname);
 
     boolean existsByNickname(String nickname);
 

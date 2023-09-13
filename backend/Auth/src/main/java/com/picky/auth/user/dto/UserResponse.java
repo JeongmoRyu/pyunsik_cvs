@@ -6,9 +6,9 @@ import lombok.*;
 @Getter
 @NoArgsConstructor
 @ToString
-public class UserResponse {
+public class UserResponse { // 회원가입 응답 DTO
 
-    private String UUID;
+    private String uuid;
     private String nickname;
     private int height;
     private int weight;
@@ -17,8 +17,8 @@ public class UserResponse {
     private String fcmToken;
 
     @Builder
-    public UserResponse(String UUID, String nickname, int height, int weight, int age, int gender, String fcmToken) {
-        this.UUID = UUID;
+    public UserResponse(String uuid, String nickname, int height, int weight, int age, int gender, String fcmToken) {
+        this.uuid = uuid;
         this.nickname = nickname;
         this.height = height;
         this.weight = weight;
@@ -29,7 +29,7 @@ public class UserResponse {
 
     public static UserResponse toResponse(User user) {
         return UserResponse.builder()
-                .UUID(user.getUUID())
+                .uuid(user.getUuid())
                 .nickname(user.getNickname())
                 .height(user.getHeight())
                 .weight(user.getWeight())
