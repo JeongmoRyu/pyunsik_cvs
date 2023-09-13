@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/text_title.dart';
-import 'package:frontend/product.dart';
+import 'package:frontend/models/product.dart';
 import 'package:frontend/util/constants.dart';
 
 import '../atom/product_card.dart';

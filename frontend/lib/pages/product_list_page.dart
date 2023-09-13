@@ -3,10 +3,10 @@ import 'package:frontend/molecules/top_bar_main.dart';
 import 'package:frontend/util/constants.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/ranking.dart';
-import 'package:frontend/molecules/category_list.dart';
+import 'package:frontend/molecules/category_list_cvs.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 
-import '../product.dart';
+import '../models/product.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({Key? key});

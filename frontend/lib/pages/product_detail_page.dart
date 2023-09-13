@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/top_bar_main.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 
-import '../product.dart';
+import '../models/product.dart';
 
 
 class ProductDetailPage extends StatefulWidget {

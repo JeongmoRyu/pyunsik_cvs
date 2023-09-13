@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/current_combination_page.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/pages/cart_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/pages/product_filtered_page.dart';
 import 'package:frontend/pages/home_page.dart';
@@ -11,75 +12,76 @@ import 'package:frontend/pages/side_scroll_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
 
+import 'models/cart.dart';
 import 'molecules/nav_bar.dart';
 
 
 void main() => runApp(const MyApp());
 
 /// The route configuration.
-final GoRouter _router = GoRouter(
-  initialLocation: '/',
-  routes: <RouteBase>[
-    GoRoute(
-      path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return MainPage();
-      },
-      routes: <RouteBase>[
-        GoRoute(
-          path: 'product_filtered',
-          builder: (BuildContext context, GoRouterState state) {
-            return ProductFilteredPage();
-          },
-        ),
-        GoRoute(
-          path: 'scrapbook',
-          builder: (BuildContext context, GoRouterState state) {
-            return ScrapBook();
-          },
-        ),
-        GoRoute(
-          path: 'ranking',
-          builder: (BuildContext context, GoRouterState state) {
-            return Ranking();
-          },
-        ),
-        GoRoute(
-          path: 'login',
-          builder: (BuildContext context, GoRouterState state) {
-            return Login();
-          },
-        ),
-        GoRoute(
-          path: 'signup',
-          builder: (BuildContext context, GoRouterState state) {
-            return Signup();
-          },
-        ),
-        GoRoute(
-          path: 'side_scroll',
-          builder: (BuildContext context, GoRouterState state) {
-            return SideScrollPage();
-          },
-        ),
-        GoRoute(
-          path: 'product_list',
-          builder: (BuildContext context, GoRouterState state) {
-            return ProductListPage();
-          },
-        ),
-        GoRoute(
-          path: 'product_detail',
-          builder: (BuildContext context, GoRouterState state) {
-            return ProductDetailPage();
-          },
-        )
-
-
-      ],
-    ),
-  ],
-);
+GoRouter router() {
+  return GoRouter(
+    initialLocation: '/',
+    routes: <RouteBase>[
+      GoRoute(
+        path: '/',
+        builder: (BuildContext context, GoRouterState state) {
+          return MainPage();
+        },
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'product_filtered',
+            builder: (BuildContext context, GoRouterState state) {
+              return ProductFilteredPage();
+            },
+          ),
+          GoRoute(
+            path: 'scrapbook',
+            builder: (BuildContext context, GoRouterState state) {
+              return ScrapBook();
+            },
+          ),
+          GoRoute(
+            path: 'ranking',
+            builder: (BuildContext context, GoRouterState state) {
+              return Ranking();
+            },
+          ),
+          GoRoute(
+            path: 'login',
+            builder: (BuildContext context, GoRouterState state) {
+              return Login();
+            },
+          ),
+          GoRoute(
+            path: 'signup',
+            builder: (BuildContext context, GoRouterState state) {
+              return Signup();
+            },
+          ),
+          GoRoute(
+            path: 'side_scroll',
+            builder: (BuildContext context, GoRouterState state) {
+              return SideScrollPage();
+            },
+          ),
+          GoRoute(
+            path: 'product_list',
+            builder: (BuildContext context, GoRouterState state) {
+              return ProductListPage();
+            },
+          ),
+          GoRoute(
+            path: 'product_detail',
+            builder: (BuildContext context, GoRouterState state) {
+              return ProductDetailPage();
+            },
+          )
+        ],
+      ),
+    ],
+  );
+}
 
 /// The main app.
 class MyApp extends StatelessWidget {
@@ -88,13 +90,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (context) => Cart(),
+      child: MaterialApp.router(
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        routerConfig: router(),
       ),
-      routerConfig: _router,
-
     );
   }
 }
@@ -137,7 +141,7 @@ class _MainPageState extends State<MainPage> {
         ),
         Container(
           alignment: Alignment.center,
-          child: CurrentCombinationPage(),
+          child: CartPage(),
         ),
         Container(
           alignment: Alignment.center,

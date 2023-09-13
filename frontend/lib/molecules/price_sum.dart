@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../product.dart';
+import '../models/cart.dart';
 import '../util/constants.dart';
 
 class PriceSum extends StatelessWidget {
-
-  final List<Product> productList;
-  final List<bool> isChecked;
-
   const PriceSum({
     super.key,
-    required this.productList,
-    required this.isChecked,
   });
 
   @override
   Widget build(BuildContext context) {
-    int totalPrice = 0;
+    var cart = context.watch<Cart>();
+    int totalPrice = cart.getTotalPrice();
     int totalDiscount = 0;
     int finalPrice = 0;
-    for (int i = 0; i < productList.length; i++) {
-      if (isChecked[i]) {
-        totalPrice += productList[i].price;
-      }
-    }
     finalPrice = totalPrice - totalDiscount;
     return Column(
 

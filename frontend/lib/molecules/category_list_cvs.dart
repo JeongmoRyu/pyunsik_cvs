@@ -46,8 +46,8 @@ class CategoryList extends StatelessWidget {
                 onPressed: () {
                   context.go('/login');
                 },
-                imageUrl: 'assets/images/gs_logo.png',
-                name: 'GS'
+                imageUrl: 'assets/images/emart24_logo.png',
+                name: '이마트24'
             ),
             CategoryButton(
                 onPressed: () {

@@ -3,7 +3,7 @@ import 'package:frontend/atom/product_card.dart';
 import 'package:frontend/util/constants.dart';
 
 import '../atom/text_title.dart';
-import '../product.dart';
+import '../models/product.dart';
 
 class HorizontalList extends StatelessWidget {
   final String title;

@@ -14,7 +14,7 @@ class NavBar extends StatelessWidget {
           callback!(index);
         },
         selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
+        destinations: <Widget>[
           NavigationDestination(
             selectedIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
@@ -26,7 +26,7 @@ class NavBar extends StatelessWidget {
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.interests),
-            icon: Icon(Icons.interests_outlined),
+            icon: Badge.count(count:3, child: Icon(Icons.interests_outlined)),
             label: '조합',
           ),
           NavigationDestination(

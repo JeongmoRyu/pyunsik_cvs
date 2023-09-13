@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/molecules/ranking.dart';
-import 'package:frontend/molecules/category_list.dart';
+import 'package:frontend/molecules/category_list_cvs.dart';
 import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/molecules/vertical_more_list.dart';
 
 import '../util/custom_box.dart';
 import '../molecules/horizontal_list.dart';
 import '../molecules/top_bar_main.dart';
-import '../product.dart';
+import '../models/product.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/product.dart';
+import 'package:frontend/models/product.dart';
 import 'package:intl/intl.dart';
 
 class ProductCardHorizontal extends StatelessWidget {
