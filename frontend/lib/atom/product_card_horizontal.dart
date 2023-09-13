@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
+import 'package:frontend/molecules/CartConfirmRemoveDialog.dart';
 import 'package:intl/intl.dart';
 
 class ProductCardHorizontal extends StatelessWidget {
@@ -50,6 +51,14 @@ class ProductCardHorizontal extends StatelessWidget {
               ],
             ),
           ),
+          IconButton(
+            onPressed: () => showDialog<String>(
+                context: context,
+                builder: (BuildContext context) =>
+                    CartConfirmRemoveDialog(product: product)
+            ),
+            icon: Icon(Icons.close),
+          )
         ],
       ),
     );

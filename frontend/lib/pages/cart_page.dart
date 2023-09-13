@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/molecules/CartConfirmRemoveSelectedDialog.dart';
 import 'package:frontend/molecules/combination_list.dart';
 import 'package:frontend/molecules/empty_cart.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
@@ -49,7 +50,7 @@ class _CartPageState extends State<CartPage> {
               child: Row( //리펙터링 필요
                 children: [
                   Checkbox(
-                      value: cart.isCheckedAll,
+                      value: cart.isSelectedAll,
                       onChanged: (bool? value) {
                         cart.toggleAllCheckbox(value!);
                       }
@@ -59,9 +60,11 @@ class _CartPageState extends State<CartPage> {
                   ),
                   Spacer(),
                   TextButton(
-                    onPressed: () {
-                      cart.removeSelected();
-                    },
+                    onPressed: () => showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            CartConfirmRemoveSelectedDialog(),
+                    ),
                     child: Text(
                         '선택삭제'
                     ),

@@ -8,22 +8,25 @@ class Cart extends ChangeNotifier {
     new Product(2, 'test product middle middle', '', 39900),
     new Product(3, 'test product long long long long long long long', '', 1498000),
   ];
-  final List<bool> _isChecked = [true, true, true];
+  final List<bool> _isSelected = [true, true, true];
 
-  bool _isCheckedAll = true;
+  bool _isSelectedAll = true;
 
 
   List<Product> get products => _products;
-  List<bool> get isChecked => _isChecked;
-  bool get isCheckedAll => _isCheckedAll;
+  List<bool> get isSelected => _isSelected;
+  bool get isSelectedAll => _isSelectedAll;
 
   int get numberOfProducts => _products.length;
+  int get numberOfSelected => _isSelected.where(
+          (element) => element == true
+        ).length;
   bool get isEmpty => _products.isEmpty;
 
   int getTotalPrice() {
     int totalPrice = 0;
     for (int i = 0; i < _products.length; i++) {
-      if (_isChecked[i]) {
+      if (_isSelected[i]) {
         totalPrice += _products[i].price;
       }
     }
@@ -32,44 +35,44 @@ class Cart extends ChangeNotifier {
 
   void add(Product product) {
     _products.add(product);
-    _isChecked.add(true);
+    _isSelected.add(true);
     notifyListeners();
   }
 
   void remove(Product product) {
-    _isChecked.removeAt(_products.indexOf(product));
+    _isSelected.removeAt(_products.indexOf(product));
     _products.remove(product);
     notifyListeners();
   }
 
   void removeSelected() {
     for (int i = 0; i < _products.length; i++) {
-      if (_isChecked[i]) {
+      if (_isSelected[i]) {
         _products.removeAt(i);
-        _isChecked.removeAt(i);
+        _isSelected.removeAt(i);
       }
     }
     notifyListeners();
   }
 
   void toggleCheckbox(int index, bool value) {
-    _isChecked[index] = value;
+    _isSelected[index] = value;
     if (!value) { // 개별 체크가 취소 되면 모두 체크 해제
-      _isCheckedAll = value;
+      _isSelectedAll = value;
     }
-    for (int i = 0; i < _isChecked.length; i++) { //모든 개별 체크가 되있으면 모두체크 확인
-      if (!_isChecked[i]) {
+    for (int i = 0; i < _isSelected.length; i++) { //모든 개별 체크가 되있으면 모두체크 확인
+      if (!_isSelected[i]) {
         notifyListeners();
         return;
       }
     }
-    _isCheckedAll = value;
+    _isSelectedAll = value;
     notifyListeners();
   }
   void toggleAllCheckbox(bool value) {
-    _isCheckedAll = value;
-    for (int i = 0; i < _isChecked.length; i++) {
-      _isChecked[i] = value;
+    _isSelectedAll = value;
+    for (int i = 0; i < _isSelected.length; i++) {
+      _isSelected[i] = value;
     }
     notifyListeners();
   }

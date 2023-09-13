@@ -31,7 +31,7 @@ class CombinationList extends StatelessWidget {
         return Row( //디자인 수정 필요
           children: [
             Checkbox(
-                value: cart.isChecked[index],
+                value: cart.isSelected[index],
                 onChanged: (value) {
                   cart.toggleCheckbox(index, value!);
                 },
