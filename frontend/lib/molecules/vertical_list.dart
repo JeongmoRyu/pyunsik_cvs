@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/product_card.dart';
 
+import '../models/product.dart';
+
 class VerticalList extends StatelessWidget {
-  const VerticalList({Key? key});
+  final List<Product> productList;
+  const VerticalList({Key? key,
+    required this.productList
+  });
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // 이 값을 2로 설정하여 두 줄로 표시합니다.
-      ),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: EdgeInsets.all(8.0),
-          // child: ProductCard(index: index),
-        );
-      },
+    return GridView.count(
+      shrinkWrap: true,
+      // physics: NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 10,
+      crossAxisSpacing: 10,
+      childAspectRatio: 8 / 11,
+      crossAxisCount: 2,
+      children: [
+        for (var product in productList)
+          ProductCard(
+            product: product,
+          )
+      ],
     );
   }
 }
