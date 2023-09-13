@@ -6,8 +6,11 @@ class Product {
   String productName;
   String fileName;
   int price;
+  int? kcal;
 
   Product(this.id, this.productName, this.fileName, this.price);
+
+  Product.withKcal(this.id, this.productName, this.fileName, this.price, this.kcal);
 
   @override
   int get hashCode => id;

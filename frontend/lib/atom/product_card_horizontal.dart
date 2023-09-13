@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
-import 'package:frontend/molecules/CartConfirmRemoveDialog.dart';
+import 'package:frontend/molecules/cart_confirm_remove_dialog.dart';
 import 'package:intl/intl.dart';
 
 class ProductCardHorizontal extends StatelessWidget {

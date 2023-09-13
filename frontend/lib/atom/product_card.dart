@@ -15,12 +15,12 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
-    return InkWell(
-      onTap: () {
-        cart.add(new Product(6, 'test add', '', 3000)); //for test
-      },
-      child: SizedBox(
-        width: 200,
+    return SizedBox(
+      width: 200,
+      child: InkWell(
+        onTap: () {
+          cart.add(new Product(6, 'test add', '', 3000)); //for test
+        },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

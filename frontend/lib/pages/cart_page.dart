@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/molecules/CartConfirmRemoveSelectedDialog.dart';
+import 'package:frontend/molecules/cart_confirm_remove_selected_dialog.dart';
 import 'package:frontend/molecules/combination_list.dart';
 import 'package:frontend/molecules/empty_cart.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
