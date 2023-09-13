@@ -27,11 +27,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     new Product(7, 'test product short', '', 1800),
     new Product(8, 'test product short', '', 1800),
   ];
+
   Map<String, dynamic> ProductDetail = {
     'productName': '남양)프렌치카푸치노200ml',
     'price': 2700,
     'filename': 'assets/images/coffee.png',
-    'badge': '배지',
+    'badge': '1+1',
     'category': 1,
     'favoriteCount': 42,
     'weight': 200,
@@ -119,23 +120,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  '제품 명 :  ${ProductDetail['productName']}',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              height: 25,
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  '가격 :  ${ProductDetail['price']} 원',
+                  ' ${ProductDetail['productName']}',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -147,6 +132,39 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
             SizedBox(height: 10,),
             Container(
+              height: 25,
+              padding: EdgeInsets.only(left: 20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      if (ProductDetail['badge'] != null)
+                        TextSpan(
+                          text: ' ${ProductDetail['badge']}',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      TextSpan(
+                        text: ' ${ProductDetail['price']} 원',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 15,),
+            Container(
               width: MediaQuery.of(context).size.width * 0.8,
               color: Colors.grey[200],
               child: Row(
@@ -154,13 +172,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   Expanded(
                     flex: 4,
                     child: Container(
-                      height: 200,
+                      height: 250,
                       color: Colors.grey[200],
 
                       child: Container(
                         child: SfCircularChart(
                           series: <CircularSeries>[
                             RadialBarSeries<ChartData, String>(
+                              trackColor: Colors.white,
                               dataSource: chartData,
                               pointColorMapper:(ChartData data, _) => data.color,
                               xValueMapper: (ChartData data, _) => data.x,
@@ -184,19 +203,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           children: [
                             ListTile(
                               leading: Icon(Icons.circle, color: Colors.red),
-                              title: Text('순탄수 : ' + '${carbRatio.toStringAsFixed(3)} %'),
+                              title: Text('순탄수 : ' + '${carbRatio.toStringAsFixed(2)}%'),
                             ),
                             ListTile(
                               leading: Icon(Icons.circle, color: Colors.green),
-                              title: Text('단백질 : ' '${proteinRatio.toStringAsFixed(3)}' + ' %'),
+                              title: Text('단백질 : ' '${proteinRatio.toStringAsFixed(2)}%'),
                             ),
                             ListTile(
                               leading: Icon(Icons.circle, color: Colors.blue),
-                              title: Text('지방 : '+'${fatRatio.toStringAsFixed(3)}' + ' %'),
+                              title: Text('지방 : '+'${fatRatio.toStringAsFixed(2)}%'),
                             ),
                             ListTile(
                               leading: Icon(Icons.circle, color: Colors.orange),
-                              title: Text('나트륨 : '+'${sodiumRatio.toStringAsFixed(3)}' + ' %'),
+                              title: Text('나트륨 : '+'${sodiumRatio.toStringAsFixed(2)}%'),
                             ),
                           ],
                         ),
@@ -223,7 +242,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         SizedBox(height: 15,),
                         Container(
                           height: 10,
-                          width: 100,
+                          width: 90,
                           color: Colors.grey, // 회색 배경
                           child: FractionallySizedBox(
                             widthFactor: proteinRatio, // 비율 설정
@@ -252,7 +271,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         SizedBox(height: 15,),
                         Container(
                           height: 10,
-                          width: 100,
+                          width: 90,
                           color: Colors.grey, // 회색 배경
                           child: FractionallySizedBox(
                             widthFactor: proteinRatio, // 비율 설정
@@ -281,7 +300,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         SizedBox(height: 15,),
                         Container(
                           height: 10,
-                          width: 100,
+                          width: 90,
                           color: Colors.grey, // 회색 배경
                           child: FractionallySizedBox(
                             widthFactor: proteinRatio, // 비율 설정
@@ -329,20 +348,20 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             ),
                           ),
                         ),
-                        // 작은 컨테이너 내용을 추가하세요
+
                       ),
                     ),
                   ),
                 ),
               ),
             ),
-
-
             SizedBox(height: 10,),
             Container(
-              height: 250, // 원하는 높이로 설정
+              height: 350, // 원하는 높이로 설정
               child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
             ),
+            SizedBox(height: 10,),
+
         ],
       ),
     ),
@@ -356,27 +375,27 @@ class ChartData {
   final double y;
   final Color color;
 }
-class kcalData {
-  kcalData(this.x, this.y, this.color);
-  final String x;
-  final double y;
-  final Color color;
-}
-class proteinData {
-  proteinData(this.x, this.y, this.color);
-  final String x;
-  final double y;
-  final Color color;
-}
-class fatData {
-  fatData(this.x, this.y, this.color);
-  final String x;
-  final double y;
-  final Color color;
-}
-class sodiumData {
-  sodiumData(this.x, this.y, this.color);
-  final String x;
-  final double y;
-  final Color color;
-}
+// class kcalData {
+//   kcalData(this.x, this.y, this.color);
+//   final String x;
+//   final double y;
+//   final Color color;
+// }
+// class proteinData {
+//   proteinData(this.x, this.y, this.color);
+//   final String x;
+//   final double y;
+//   final Color color;
+// }
+// class fatData {
+//   fatData(this.x, this.y, this.color);
+//   final String x;
+//   final double y;
+//   final Color color;
+// }
+// class sodiumData {
+//   sodiumData(this.x, this.y, this.color);
+//   final String x;
+//   final double y;
+//   final Color color;
+// }
