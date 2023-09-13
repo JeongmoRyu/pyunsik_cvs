@@ -1,8 +1,10 @@
 package com.picky.business.product.domain.entity;
 
 import lombok.*;
+import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,4 +51,32 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
+
+        public static Specification<Product> filterProducts(
+            String productName,
+            String category,
+            int minPrice, int maxPrice,
+            int minCarb, int maxCarb,
+            int minProtein, int maxProtein,
+            int minFat, int maxFat,
+            int minSodium, int maxSodium) {
+
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (productName != null) {
+                predicates.add(criteriaBuilder.like(root.get("productName"), "%" + productName + "%"));
+            }
+
+            if (category != null) {
+                predicates.add(criteriaBuilder.equal(root.get("category"), category));
+            }
+            predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
+            predicates.add(criteriaBuilder.between(root.get("carb"), minCarb, maxCarb));
+            predicates.add(criteriaBuilder.between(root.get("protein"), minProtein, maxProtein));
+            predicates.add(criteriaBuilder.between(root.get("fat"), minFat, maxFat));
+            predicates.add(criteriaBuilder.between(root.get("sodium"), minSodium, maxSodium));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+    }
 }

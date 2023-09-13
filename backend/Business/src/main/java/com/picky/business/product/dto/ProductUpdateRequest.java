@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+//product update
 public class ProductUpdateRequest {
     private String productName;
     private Integer price;

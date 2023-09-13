@@ -3,12 +3,10 @@ package com.picky.business.product.service;
 import com.picky.business.exception.ProductNotFoundException;
 import com.picky.business.product.domain.entity.Product;
 import com.picky.business.product.domain.repository.ProductRepository;
-import com.picky.business.product.dto.CommentResponse;
-import com.picky.business.product.dto.ProductDetailResponse;
-import com.picky.business.product.dto.ProductRegistRequest;
-import com.picky.business.product.dto.ProductUpdateRequest;
+import com.picky.business.product.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -24,6 +22,45 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private static final String NOT_FOUND = "값을 가진 제품이 없습니다";
+
+    private int[] getMinMax(List<Integer> values) {
+        if (values == null || values.size() > 2) return new int[]{0, Integer.MAX_VALUE};
+        int minValue = (values.get(0) != null) ? values.get(0) : 0;
+        int maxValue = (values.get(1) != null) ? values.get(1) : Integer.MAX_VALUE;
+        return new int[]{minValue, maxValue};
+    }
+
+    //Query를 통한 검색
+    public List<ProductPreviewResponse> searchProductByQuery(
+            String productName, String category,
+            List<Integer> price, List<Integer> carb,
+            List<Integer> protein, List<Integer> fat, List<Integer> sodium
+    ) {
+        int[] priceRange = getMinMax(price);
+        int[] carbRange = getMinMax(carb);
+        int[] proteinRange = getMinMax(protein);
+        int[] fatRange = getMinMax(fat);
+        int[] sodiumRange = getMinMax(sodium);
+        Specification<Product> specification = Product.filterProducts(
+                productName, category,
+                priceRange[0], priceRange[1],
+                        carbRange[0], carbRange[1],
+                        proteinRange[0], proteinRange[1],
+                        fatRange[0], fatRange[1],
+                        sodiumRange[0], sodiumRange[1]
+        );
+        //TODO: 유저정보 통해서 isFavorite 정보 입력 필요
+        return productRepository.findAll(specification)
+                .stream()
+                .map(product -> ProductPreviewResponse.builder()
+                        .productId(product.getId())
+                        .productName(product.getProductName())
+                        .price(product.getPrice())
+                        .filename(product.getFilename())
+                        .badge(product.getBadge())
+                        .build())
+                .collect(Collectors.toList());
+    }
 
     public ProductDetailResponse findProductByProductId(Long id) {
         Product product = Optional.ofNullable(productRepository.findProductById(id))
@@ -87,15 +124,18 @@ public class ProductService {
         productRepository.save(currentProduct);
     }
 
-    public void deleteProduct(Long id){
+    public void deleteProduct(Long id) {
         //findById값이 null이면 예외 던지기, 그렇지 않다면 deleteById 실행
         productRepository.findById(id)
                 .ifPresentOrElse(
                         product -> productRepository.deleteById(id),
-                        () -> { throw new ProductNotFoundException(id + " NOT FOUND"); }
+                        () -> {
+                            throw new ProductNotFoundException(id + " NOT FOUND");
+                        }
                 );
 
     }
+
     private void updateProductFields(Product currentProduct, ProductUpdateRequest request) {
         updateIfNotNull(request::getProductName, currentProduct::setProductName);
         updateIfNotNull(request::getPrice, currentProduct::setPrice);
