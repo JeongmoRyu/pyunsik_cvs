@@ -1,0 +1,33 @@
+spring:
+    datasource:
+        driver-class-name: org.h2.Driver
+        url: jdbc:h2:tcp://localhost/~/test
+        username: sa
+        password:
+
+    jwt:
+        secret: picky^^@!
+        token:
+            access-expire-time: 86400 # 만료시간 하루
+            refresh-expire-time: 2592000 # 만료시간 한 달
+
+    jpa:
+        hibernate:
+            ddl-auto: create
+        open-in-view: false
+
+        properties:
+            hibernate:
+                format_sql: true
+                highlight_sql: true
+
+    h2:
+        console:
+            enabled: true  # H2 Console? ???? ?? (H2 Console? H2 Database? UI? ????? ??)
+            path: /h2-console  # H2 Console? Path
+
+logging:
+    level:
+        org.hibernate:
+            SQL: debug
+            type: trace
