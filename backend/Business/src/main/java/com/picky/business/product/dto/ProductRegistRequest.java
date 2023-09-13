@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+//product 등록
 public class ProductRegistRequest {
     private String productName;
     private int price;

@@ -6,7 +6,7 @@ spring:
     password: ${DB_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -14,3 +14,11 @@ spring:
         format_sql: true
   server:
     port: 8080
+  redis:
+    host: J9A505.p.ssafy.io
+    port: 6382
+    sentinel:
+      master: mymaster
+      nodes: J9A505.p.ssafy.io:26382,J9A505.p.ssafy.io:26383,J9A505.p.ssafy.io:26384
+    lettuce:
+      shutdown-timeout: 200ms

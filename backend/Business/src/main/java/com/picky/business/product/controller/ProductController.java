@@ -1,6 +1,7 @@
 package com.picky.business.product.controller;
 
 import com.picky.business.product.dto.ProductDetailResponse;
+import com.picky.business.product.dto.ProductPreviewResponse;
 import com.picky.business.product.dto.ProductRegistRequest;
 import com.picky.business.product.dto.ProductUpdateRequest;
 import com.picky.business.product.service.ProductService;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/product")
 @RequiredArgsConstructor
@@ -17,6 +20,17 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     private final ProductService productService;
+    @GetMapping
+    public ResponseEntity<List<ProductPreviewResponse>> getProductByQuery(
+            @RequestParam(required = false) String productName,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) List<Integer> price,
+            @RequestParam(required = false) List<Integer> carb,
+            @RequestParam(required = false) List<Integer> protein,
+            @RequestParam(required = false) List<Integer> fat,
+            @RequestParam(required = false) List<Integer> sodium){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName,category,price,carb,protein,fat,sodium));
+    }
 
     @GetMapping(value = "/{productId}")
     public ResponseEntity<ProductDetailResponse> productDetailsByProductId(
