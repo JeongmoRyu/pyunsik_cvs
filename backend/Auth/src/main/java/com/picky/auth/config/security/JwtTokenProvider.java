@@ -37,13 +37,13 @@ public class JwtTokenProvider {
     private final UserRepository userRepository;
 
     @Value("${spring.jwt.secret}")
-    private String secretKey = "secretKey";
+    private String secretKey;
 
     @Value("${spring.jwt.token.access-expire-time}")
-    private long accessExpireTime = 60L * 60 * 24; // 하루 토큰 유효
+    private long accessExpireTime; // 하루 토큰 유효
 
     @Value("${spring.jwt.token.refresh-expire-time}")
-    private long refreshExpireTime = 60L * 60 * 24 * 30; // 한 달 토큰 유효
+    private long refreshExpireTime; // 한 달 토큰 유효
 
     /**
      * [init]
