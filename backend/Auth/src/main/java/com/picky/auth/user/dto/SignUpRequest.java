@@ -3,7 +3,6 @@ package com.picky.auth.user.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class SignUpRequest {
+public class SignUpRequest { // 회원가입 요청 DTO
 
     @NotBlank
     private String password;

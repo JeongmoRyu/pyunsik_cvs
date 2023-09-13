@@ -1,24 +1,20 @@
 package com.picky.auth.user.controller;
 
-import com.picky.auth.config.security.JwtTokenProvider;
-import com.picky.auth.user.domain.entity.User;
 import com.picky.auth.user.dto.NicknameUpdateRequest;
 import com.picky.auth.user.dto.PasswordUpdateRequest;
 import com.picky.auth.user.dto.UserResponse;
 import com.picky.auth.user.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/user")
+@Slf4j
 public class UserController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     private final UserService userService;
 

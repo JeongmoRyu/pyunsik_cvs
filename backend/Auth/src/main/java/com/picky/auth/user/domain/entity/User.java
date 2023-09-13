@@ -26,7 +26,7 @@ public class User {
     private long id;
 
     @Column(nullable = false, unique = true)
-    private String UUID;
+    private String uuid;
 
     @Column(nullable = false)
     private String password;
@@ -50,14 +50,14 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER) // 엔티티가 검색될 때 해당 엔티티와 연결된 roles 리스트 데이터도 함께 가져옴
     private List<String> roles = new ArrayList<>();
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
     @Builder
     public User(long id, String password, String nickname, boolean isDeleted, int height, int weight, int age, int gender, String fcmToken, List<String> roles) {
         this.id = id;
-        this.UUID = java.util.UUID.randomUUID().toString();
+        this.uuid = java.util.UUID.randomUUID().toString();
         this.password = password;
         this.nickname = nickname;
         this.isDeleted = isDeleted;
