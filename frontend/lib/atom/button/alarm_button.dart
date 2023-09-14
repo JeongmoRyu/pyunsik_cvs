@@ -36,10 +36,11 @@ class _AlarmButtonState extends State<AlarmButton> {
               goRouter.go(value); // Use the value as the route
               _togglePopup();
             },
-            icon: Icon(
-              FontAwesomeIcons.bell,
-              color: Colors.black,
-            ),
+            icon: Badge.count(count:4, child: Icon(FontAwesomeIcons.bell)),
+            // Icon(
+            //   FontAwesomeIcons.bell,
+            //   color: Colors.black,
+            // ),
             offset: Offset(0, kToolbarHeight),
             itemBuilder: (BuildContext context) {
               return <PopupMenuEntry>[
