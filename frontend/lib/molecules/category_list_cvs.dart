@@ -72,64 +72,6 @@ class CategoryList extends StatelessWidget {
             ),
           ]
         ),
-    //   child :CarouselSlider(
-    //   options: CarouselOptions(
-    //     height: 70,
-    //     autoPlay: false,
-    //     enlargeCenterPage: false,
-    //     viewportFraction: 0.2,
-    //     aspectRatio: 1 / 1,
-    //     enableInfiniteScroll: false,
-    //     initialPage: 2,
-    //
-    //     // finalPage: -2
-    //
-    //   ),
-    //   items: [
-    //
-    //     GsButton(
-    //       onPressed: () {
-    //         context.go('/');
-    //       },
-    //     ),
-    //     CuButton(
-    //       onPressed: () {
-    //         context.go('/product_filtered_page');
-    //       },
-    //     ),
-    //     MinistopButton(
-    //       onPressed: () {
-    //         context.go('/scrapbook_page');
-    //       },
-    //     ),
-    //     SevenElevenButton(
-    //       onPressed: () {
-    //         context.go('/product_list_page');
-    //       },
-    //     ),
-    //     GsButton(
-    //       onPressed: () {
-    //         context.go('/side_scroll_page');
-    //       },
-    //     ),
-    //     CuButton(
-    //       onPressed: () {
-    //         context.go('/login_page');
-    //       },
-    //     ),
-    //     MinistopButton(
-    //       onPressed: () {
-    //         context.go('/scrapbook_page');
-    //       },
-    //     ),
-    //     SevenElevenButton(
-    //       onPressed: () {
-    //         context.go('/product_list_page');
-    //       },
-    //     ),
-    //
-    //   ],
-    // )
     );
   }
 }

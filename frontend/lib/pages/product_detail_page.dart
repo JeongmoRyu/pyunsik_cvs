@@ -30,18 +30,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   ];
 
   Map<String, dynamic> ProductDetail = {
-    'productName': '남양)프렌치카푸치노200ml',
-    'price': 2700,
-    'filename': 'assets/images/coffee.png',
-    'badge': '1+1',
-    'category': 1,
+    'productName': '불닭볶음면',
+    'price': 1800,
+    'filename': 'assets/images/ramen.PNG',
+    'badge': '2+1',
+    'category': 2,
     'favoriteCount': 42,
     'weight': 200,
-    'kcal': 150,
-    'carb': 20.5,
-    'protein': 10.0,
-    'fat': 5.0,
-    'sodium': 300.0,
+    'kcal': 425,
+    'carb': 63,
+    'protein': 9,
+    'fat': 15,
+    'sodium': 950.0,
     'comments': [
       {
         'nickname': 'abc',
@@ -52,6 +52,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         'nickname': 'abcd',
         'content': '맛있어요!',
         'createdAt': '2023-09-16',
+      },
+      {
+        'nickname': 'efghj',
+        'content': '너무 매워요 ㅠㅠㅠ',
+        'createdAt': '2023-09-17',
       },
     ],
   };
@@ -84,15 +89,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
 
     chartData = [
-      ChartData('kcal', 150 / StandardDetail['kcal'], Colors.grey),
-      ChartData('carb', 20.5 / StandardDetail['carb'], Colors.red),
-      ChartData('protein', 10 / StandardDetail['protein'], Colors.green),
-      ChartData('fat', 5.0 / StandardDetail['fat'], Colors.blue),
-      ChartData('sodium', 300 / StandardDetail['sodium'], Colors.orange),
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.grey),
+      ChartData('carb', ProductDetail['carb'] / StandardDetail['carb'], Colors.red),
+      ChartData('protein', ProductDetail['protein'] / StandardDetail['protein'], Colors.green),
+      ChartData('fat', ProductDetail['fat'] / StandardDetail['fat'], Colors.blue),
+      ChartData('sodium', ProductDetail['sodium'] / StandardDetail['sodium'], Colors.orange),
     ];
 
     kcalData = [
-      ChartData('kcal', 150 / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
     ];
 
 
@@ -107,9 +112,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               Container(
                 width: double.infinity,
                 height: 350,
-                padding: EdgeInsets.only(left: 20, right: 20, top: 10,),
                 child: Image.asset(
-                  'assets/images/wip.jpg',
+                  'assets/images/ramen.PNG',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -165,7 +169,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               SizedBox(height: 15,),
-              TempChartInAll(),
+              TempChart(),
+              CustomBox(),
               SizedBox(height: 10,),
               Container(
                 height: 350, // 원하는 높이로 설정
@@ -173,8 +178,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ),
               CustomBox(),
 
-              TempChart(),
-              CustomBox(),
+
 
               // SizedBox(height: 10,),
 

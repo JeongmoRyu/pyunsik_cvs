@@ -11,18 +11,18 @@ class TempChartInAll extends StatefulWidget {
 class _TempChartInAllState extends State<TempChartInAll> {
   // 제품 정보 및 기준 정보 정의
   Map<String, dynamic> ProductDetail = {
-    'productName': '남양)프렌치카푸치노200ml',
-    'price': 2700,
-    'filename': 'assets/images/coffee.png',
-    'badge': '1+1',
-    'category': 1,
+    'productName': '불닭볶음면',
+    'price': 1800,
+    'filename': 'assets/images/ramen.PNG',
+    'badge': '2+1',
+    'category': 2,
     'favoriteCount': 42,
     'weight': 200,
-    'kcal': 167,
-    'carb': 20.5,
-    'protein': 10.0,
-    'fat': 5.0,
-    'sodium': 300.0,
+    'kcal': 425,
+    'carb': 63,
+    'protein': 9,
+    'fat': 15,
+    'sodium': 950.0,
     'comments': [
       {
         'nickname': 'abc',
@@ -34,8 +34,14 @@ class _TempChartInAllState extends State<TempChartInAll> {
         'content': '맛있어요!',
         'createdAt': '2023-09-16',
       },
+      {
+        'nickname': 'efghj',
+        'content': '너무 매워요 ㅠㅠㅠ',
+        'createdAt': '2023-09-17',
+      },
     ],
   };
+
 
   Map<String, dynamic> StandardDetail = {
     'kcal': 2500,
@@ -65,15 +71,15 @@ class _TempChartInAllState extends State<TempChartInAll> {
     carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
 
     chartData = [
-      ChartData('kcal', 167 / StandardDetail['kcal'], Colors.grey),
-      ChartData('carb', 20.5 / StandardDetail['carb'], Colors.red),
-      ChartData('protein', 10 / StandardDetail['protein'], Colors.green),
-      ChartData('fat', 5.0 / StandardDetail['fat'], Colors.blue),
-      ChartData('sodium', 300 / StandardDetail['sodium'], Colors.orange),
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.grey),
+      ChartData('carb', ProductDetail['carb'] / StandardDetail['carb'], Colors.red),
+      ChartData('protein', ProductDetail['protein'] / StandardDetail['protein'], Colors.green),
+      ChartData('fat', ProductDetail['fat'] / StandardDetail['fat'], Colors.blue),
+      ChartData('sodium', ProductDetail['sodium'] / StandardDetail['sodium'], Colors.orange),
     ];
 
     kcalData = [
-      ChartData('kcal', 150 / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
     ];
 
 
@@ -84,11 +90,10 @@ class _TempChartInAllState extends State<TempChartInAll> {
     return Container(
       height: 480,
       child: Scaffold(
-        body: ListView(
+        body: Column(
           children: [
             // 차트 표시 부분
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
               color: Colors.grey[200],
               child: Row(
                 children: [
@@ -99,18 +104,44 @@ class _TempChartInAllState extends State<TempChartInAll> {
                       height: 250,
                       color: Colors.grey[200],
 
-                      child: Container(
-                        child: SfCircularChart(
-                          series: <CircularSeries>[
-                            RadialBarSeries<ChartData, String>(
-                              trackColor: Colors.white,
-                              dataSource: chartData,
-                              pointColorMapper:(ChartData data, _) => data.color,
-                              xValueMapper: (ChartData data, _) => data.x,
-                              yValueMapper: (ChartData data, _) => data.y,
+                      child: Stack(
+                        alignment: Alignment.center, // 텍스트를 중앙에 배치
+                        children: [
+                          Container(
+                            child: SfCircularChart(
+                              series: <CircularSeries>[
+                                RadialBarSeries<ChartData, String>(
+                                  trackColor: Colors.white,
+                                  dataSource: chartData,
+                                  pointColorMapper:(ChartData data, _) => data.color,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: '${ProductDetail['kcal']}',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black, // 흰색 텍스트 색상
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'kcal',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.black, // 검정색 텍스트 색상
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -151,7 +182,6 @@ class _TempChartInAllState extends State<TempChartInAll> {
             ),
             // 기타 정보 표시 부분
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
               color: Colors.grey[200],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -251,8 +281,7 @@ class _TempChartInAllState extends State<TempChartInAll> {
             ),
             // 칼로리 정보 표시 부분
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 150,
+              height: 155,
               color: Colors.grey[200],
               child: Center(
                 child: Align(

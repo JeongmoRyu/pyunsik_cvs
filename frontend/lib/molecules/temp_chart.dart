@@ -11,18 +11,18 @@ class TempChart extends StatefulWidget {
 class _TempChartState extends State<TempChart> {
   // 제품 정보 및 기준 정보 정의
   Map<String, dynamic> ProductDetail = {
-    'productName': '남양)프렌치카푸치노200ml',
-    'price': 2700,
-    'filename': 'assets/images/wip.jpg',
-    'badge': '1+1',
-    'category': 1,
+    'productName': '불닭볶음면',
+    'price': 1800,
+    'filename': 'assets/images/ramen.PNG',
+    'badge': '2+1',
+    'category': 2,
     'favoriteCount': 42,
     'weight': 200,
-    'kcal': 167,
-    'carb': 20.5,
-    'protein': 10.0,
-    'fat': 5.0,
-    'sodium': 300.0,
+    'kcal': 425,
+    'carb': 63,
+    'protein': 9,
+    'fat': 15,
+    'sodium': 950.0,
     'comments': [
       {
         'nickname': 'abc',
@@ -34,8 +34,14 @@ class _TempChartState extends State<TempChart> {
         'content': '맛있어요!',
         'createdAt': '2023-09-16',
       },
+      {
+        'nickname': 'efghj',
+        'content': '너무 매워요 ㅠㅠㅠ',
+        'createdAt': '2023-09-17',
+      },
     ],
   };
+
 
   Map<String, dynamic> StandardDetail = {
     'kcal': 2500,
@@ -67,14 +73,14 @@ class _TempChartState extends State<TempChart> {
 
 
     chartData = [
-      ChartData('carb', 20.5 * 4 / StandardDetail['kcal'], Colors.grey),
-      ChartData('protein', 10 * 4 / StandardDetail['kcal'], Colors.black),
-      ChartData('fat', 5.0 * 9 / StandardDetail['kcal'], Colors.blueGrey),
+      ChartData('carb', (ProductDetail['carb']*4) / StandardDetail['kcal'], Colors.grey),
+      ChartData('protein', (ProductDetail['protein']*4) / StandardDetail['kcal'], Colors.black),
+      ChartData('fat', (ProductDetail['fat']*9) / StandardDetail['kcal'], Colors.blueGrey),
     ];
 
 
     kcalData = [
-      ChartData('kcal', 167 / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
     ];
   }
 
@@ -83,11 +89,10 @@ class _TempChartState extends State<TempChart> {
     return Container(
       height: 480,
       child: Scaffold(
-        body: ListView(
+        body: Column(
           children: [
             // 차트 표시 부분
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
               color: Colors.grey[200],
               child: Row(
                 children: [
@@ -97,24 +102,48 @@ class _TempChartState extends State<TempChart> {
                     child: Container(
                       height: 250,
                       color: Colors.grey[200],
-                      child: Container(
-                        height: 250,
-                        color: Colors.grey[200],
-                        child: Container(
-                          child: SfCircularChart(
-                            series: <CircularSeries>[
-                              DoughnutSeries<ChartData, String>(
-                                // gap: '5%',
-                                dataSource: chartData,
-                                pointColorMapper: (ChartData data, _) => data.color,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                                radius: '90%',
-                                innerRadius: '85%',
-                              ),
-                            ],
+                      child: Stack(
+                        alignment: Alignment.center, // 텍스트를 중앙에 배치
+                        children: [
+                          Container(
+                            height: 250,
+                            color: Colors.grey[200],
+                            child: SfCircularChart(
+                              series: <CircularSeries>[
+                                DoughnutSeries<ChartData, String>(
+                                  // gap: '5%',
+                                  dataSource: chartData,
+                                  pointColorMapper: (ChartData data, _) => data.color,
+                                  xValueMapper: (ChartData data, _) => data.x,
+                                  yValueMapper: (ChartData data, _) => data.y,
+                                  radius: '90%',
+                                  innerRadius: '85%',
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
+                          RichText(
+                            text: TextSpan(
+                              children: <TextSpan>[
+                                TextSpan(
+                                  text: '${ProductDetail['kcal']}',
+                                  style: TextStyle(
+                                    fontSize: 35,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white, // 흰색 텍스트 색상
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'kcal',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white, // 검정색 텍스트 색상
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -151,7 +180,6 @@ class _TempChartState extends State<TempChart> {
             ),
             // 기타 정보 표시 부분
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
               color: Colors.grey[200],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -183,6 +211,7 @@ class _TempChartState extends State<TempChart> {
                           height: 20,
                           child: Text('${ProductDetail['carb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
                         ),
+
                       ],
                     ),
                   ),
@@ -251,8 +280,7 @@ class _TempChartState extends State<TempChart> {
             ),
             // 칼로리 정보 표시 부분
             Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 150,
+              height: 155,
               color: Colors.grey[200],
               child: Center(
                 child: Align(

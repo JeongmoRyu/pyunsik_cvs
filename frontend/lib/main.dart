@@ -112,7 +112,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   // int currentPageIndex = 0;
-  int currentPageIndex = 2; //테스트용
+  int currentPageIndex = 0; //테스트용
   void updateIndex(int index) {
     setState(() {currentPageIndex = index;});
   }
