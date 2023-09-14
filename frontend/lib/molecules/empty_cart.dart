@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class EmptyCart extends StatelessWidget {
   const EmptyCart({super.key});
@@ -18,7 +19,9 @@ class EmptyCart extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: FilledButton(
-              onPressed: (){},
+              onPressed: (){
+                context.go('/product_filtered');
+              },
               child: Text(
                   '상품 담으러 가기' // 목록 페이지로 이동
               ),

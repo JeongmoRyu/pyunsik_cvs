@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/atom/text_title.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/util/constants.dart';
+import 'package:go_router/go_router.dart';
 
 import '../atom/product_card.dart';
 
@@ -29,7 +30,12 @@ class VerticalMoreList extends StatelessWidget {
             children: [
               Flexible(child: TextTitle(title: title)),
               Flexible(
-                child: TextButton(onPressed: () {}, child: Text(
+                child: TextButton(
+                    onPressed: () {
+                      context.go('/product_filtered');
+
+                    },
+                    child: Text(
                   '더보기',
                   textAlign: TextAlign.right,
                 )),

@@ -16,14 +16,14 @@ class CategoryList extends StatelessWidget {
           children: <Widget>[
             CategoryButton(
                 onPressed: () {
-                  context.go('/product_filtered');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/gs_logo.png',
                 name: 'GS'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/scrapbook');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/cu_logo.png',
                 name: 'CU'
@@ -37,35 +37,35 @@ class CategoryList extends StatelessWidget {
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/side_scroll');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/ministop_logo.png',
                 name: '미니스톱'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/login');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/emart24_logo.png',
                 name: '이마트24'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/signup');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/cu_logo.png',
                 name: 'CU'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/product_detail');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/711_logo2.jpeg',
                 name: '세븐일레븐'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_list');
                 },
                 imageUrl: 'assets/images/ministop_logo.png',
                 name: '미니스톱'

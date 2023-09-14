@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/molecules/top_bar_main.dart';
+import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
@@ -106,7 +106,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: TopBarMain(appBar: AppBar(),),
+      appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
         body: ListView(
             children: [
               Container(

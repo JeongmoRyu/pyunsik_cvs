@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/pages/signup_page.dart';
+import 'package:frontend/molecules/top_bar_sub.dart';
 
 
 class Login extends StatelessWidget {
@@ -10,7 +11,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -11,6 +11,7 @@ import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/pages/side_scroll_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
+import 'package:frontend/pages/cart_page.dart';
 
 import 'models/cart.dart';
 import 'molecules/nav_bar.dart';
@@ -76,7 +77,14 @@ GoRouter router() {
             builder: (BuildContext context, GoRouterState state) {
               return ProductDetailPage();
             },
+          ),
+          GoRoute(
+            path: 'cart_page',
+            builder: (BuildContext context, GoRouterState state) {
+              return CartPage();
+            },
           )
+
         ],
       ),
     ],
@@ -145,7 +153,7 @@ class _MainPageState extends State<MainPage> {
         ),
         Container(
           alignment: Alignment.center,
-          child: Placeholder(),
+          child: Login(),
         ),
       ][currentPageIndex],
     );

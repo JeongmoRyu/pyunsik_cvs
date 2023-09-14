@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
 
 class Cart extends ChangeNotifier {
-  //final List<Product> _products = [];
-  final List<Product> _products = [
-    new Product(1, 'test product short', '', 1800),
-    new Product(2, 'test product middle middle', '', 39900),
-    new Product(3, 'test product long long long long long long long', '', 1498000),
-  ];
-  final List<bool> _isSelected = [true, true, true];
+  final List<Product> _products = [];
+  // final List<Product> _products = [
+  //   new Product(1, 'test product short', '', 1800),
+  //   new Product(2, 'test product middle middle', '', 39900),
+  //   new Product(3, 'test product long long long long long long long', '', 1498000),
+  // ];
+  final List<bool> _isSelected = [];
 
   bool _isSelectedAll = true;
 
