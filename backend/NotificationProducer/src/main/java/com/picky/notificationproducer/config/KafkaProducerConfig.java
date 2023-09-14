@@ -28,13 +28,13 @@ public class KafkaProducerConfig {
      */
     @Bean
     public ProducerFactory<String, Object> producerFactory() {
-        Map<String, Object> properties = new HashMap<>();
+        Map<String, Object> configProps = new HashMap<>();
 
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomSerializer.class);
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomSerializer.class);
 
-        return new DefaultKafkaProducerFactory<>(properties);
+        return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     /**
