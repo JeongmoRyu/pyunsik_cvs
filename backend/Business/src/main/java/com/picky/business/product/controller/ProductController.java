@@ -1,9 +1,7 @@
 package com.picky.business.product.controller;
 
-import com.picky.business.product.dto.ProductDetailResponse;
-import com.picky.business.product.dto.ProductPreviewResponse;
-import com.picky.business.product.dto.ProductRegistRequest;
-import com.picky.business.product.dto.ProductUpdateRequest;
+import com.picky.business.product.dto.*;
+import com.picky.business.product.service.CommentService;
 import com.picky.business.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +18,8 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final CommentService commentService;
+
     @GetMapping
     public ResponseEntity<List<ProductPreviewResponse>> getProductByQuery(
             @RequestParam(required = false) String productName,
@@ -28,8 +28,8 @@ public class ProductController {
             @RequestParam(required = false) List<Integer> carb,
             @RequestParam(required = false) List<Integer> protein,
             @RequestParam(required = false) List<Integer> fat,
-            @RequestParam(required = false) List<Integer> sodium){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName,category,price,carb,protein,fat,sodium));
+            @RequestParam(required = false) List<Integer> sodium) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium));
     }
 
     @GetMapping(value = "/{productId}")
@@ -50,9 +50,27 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body("상품 수정 완료");
     }
 
-    @DeleteMapping(value="/{productId}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long productId){
+    @DeleteMapping(value = "/{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.status(HttpStatus.CREATED).body("상품 삭제 완료");
+    }
+
+    @PostMapping(value = "/comment/{productId}")
+    public ResponseEntity<String> addComment(@PathVariable Long productId, @RequestBody CommentWriteRequest request) {
+        commentService.addComment(productId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productId + ":" + request.getContent() + " 댓글 등록 완료");
+    }
+
+    @PatchMapping(value = "/{productId}/comment/{commentId}")
+    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @PathVariable Long commentId, @RequestBody CommentUpdateRequest request) {
+        commentService.updateComment(productId, commentId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("댓글 수정 완료");
+    }
+    @DeleteMapping(value = "/comment/{commentId}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long commentId){
+        //TODO 댓글 작성자 userId와 삭제하려는 사람 userID 일치하는지 로직 필요
+        commentService.deleteComment(commentId);
+        return ResponseEntity.status(HttpStatus.CREATED).body("댓글 삭제 완료");
     }
 }
