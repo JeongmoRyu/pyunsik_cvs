@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private static final String NOT_FOUND = "값을 가진 제품이 없습니다";
+    private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
 
     private int[] getMinMax(List<Integer> values) {
         if (values == null || values.size() > 2) return new int[]{0, Integer.MAX_VALUE};
@@ -41,14 +42,14 @@ public class ProductService {
         int[] proteinRange = getMinMax(protein);
         int[] fatRange = getMinMax(fat);
         int[] sodiumRange = getMinMax(sodium);
-        productName = productName.replace(" ","");
+        productName = productName.replace(" ", "");
         Specification<Product> specification = Product.filterProducts(
                 productName, category,
                 priceRange[0], priceRange[1],
-                        carbRange[0], carbRange[1],
-                        proteinRange[0], proteinRange[1],
-                        fatRange[0], fatRange[1],
-                        sodiumRange[0], sodiumRange[1]
+                carbRange[0], carbRange[1],
+                proteinRange[0], proteinRange[1],
+                fatRange[0], fatRange[1],
+                sodiumRange[0], sodiumRange[1]
         );
         //TODO: 유저정보 통해서 isFavorite 정보 입력 필요
         return productRepository.findAll(specification)
@@ -64,9 +65,7 @@ public class ProductService {
     }
 
     public ProductDetailResponse findProductByProductId(Long id) {
-        Product product = Optional.ofNullable(productRepository.findProductById(id))
-                .orElseThrow(() -> new ProductNotFoundException(id + NOT_FOUND));
-
+        Product product = getProduct(id);
 
         List<CommentResponse> commentResponseList = Optional.ofNullable(product.getComments())
                 .orElse(Collections.emptyList())
@@ -111,30 +110,21 @@ public class ProductService {
                         .fat(request.getFat())
                         .sodium(request.getSodium())
                         .convenienceCode(request.getConvenienceCode())
+                        .isDeleted(false)
                         .build()
         );
     }
 
     public void updateProduct(Long id, ProductUpdateRequest request) {
-        // 해당 ID의 제품 찾기
-        Product currentProduct = productRepository.findById(id)
-                .orElseThrow(() -> new ProductNotFoundException(id + NOT_FOUND));
-
-        //필드값 변경
-        updateProductFields(currentProduct, request);
-        productRepository.save(currentProduct);
+        Product product = getProduct(id);
+        updateProductFields(product, request);
+        productRepository.save(product);
     }
 
     public void deleteProduct(Long id) {
-        //findById값이 null이면 예외 던지기, 그렇지 않다면 deleteById 실행
-        productRepository.findById(id)
-                .ifPresentOrElse(
-                        product -> productRepository.deleteById(id),
-                        () -> {
-                            throw new ProductNotFoundException(id + " NOT FOUND");
-                        }
-                );
-
+        Product product = getProduct(id);
+        product.setIsDeleted(true);
+        productRepository.save(product);
     }
 
     private void updateProductFields(Product currentProduct, ProductUpdateRequest request) {
@@ -157,5 +147,16 @@ public class ProductService {
         if (value != null) {
             setter.accept(value);
         }
+    }
+
+    public Product getProduct(Long id) {
+        return productRepository.findById(id)
+                .map(product -> {
+                    if (product.getIsDeleted() == null || product.getIsDeleted()) {
+                        throw new ProductNotFoundException(id + DELETED);
+                    }
+                    return product;
+                })
+                .orElseThrow(() -> new ProductNotFoundException(id + NOT_FOUND));
     }
 }

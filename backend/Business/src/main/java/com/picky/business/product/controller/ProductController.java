@@ -62,7 +62,7 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productId + ":" + request.getContent() + " 댓글 등록 완료");
     }
 
-    @PatchMapping(value = "/{productId}/comment/{commentId}")
+    @PatchMapping(value = "/comment/{commentId}")
     public ResponseEntity<String> updateProduct(@PathVariable Long productId, @PathVariable Long commentId, @RequestBody CommentUpdateRequest request) {
         commentService.updateComment(productId, commentId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body("댓글 수정 완료");

@@ -1,10 +1,8 @@
 package com.picky.business.product.service;
 
 import com.picky.business.exception.CommentNotFoundException;
-import com.picky.business.exception.ProductNotFoundException;
 import com.picky.business.product.domain.entity.Comment;
 import com.picky.business.product.domain.repository.CommentRepository;
-import com.picky.business.product.domain.repository.ProductRepository;
 import com.picky.business.product.dto.CommentUpdateRequest;
 import com.picky.business.product.dto.CommentWriteRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +18,8 @@ import java.util.function.Supplier;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final ProductRepository productRepository;
     private final ProductService productService;
+    private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
     private static final String NOT_FOUND = "값을 가진 데이터가 없습니다";
 
     //TODO Token 정보로 userId, userNickname 가져오기 해야함
@@ -32,28 +30,22 @@ public class CommentService {
                 .userId(0L)
                 .userNickname("TestNickName")
                 .productId(productId)
+                .isDeleted(false)
                 .build();
-        comment.setIsDeleted(false);
         commentRepository.save(comment);
     }
 
     public void updateComment(Long productId, Long commentId, CommentUpdateRequest request) {
-        productService.findProductByProductId(productId);
-        Comment currentComment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new CommentNotFoundException("Comment:" + commentId + NOT_FOUND));
-        log.info("바꿀 내용: "+request.getContent());
-        updateIfNotNull(request::getContent, currentComment::setContent);
-        log.info("변경 후 내용:" + currentComment.getContent());
-        commentRepository.save(currentComment);
+        productService.getProduct(productId);
+        Comment comment = getComment(commentId);
+        updateIfNotNull(request::getContent, comment::setContent);
+        commentRepository.save(comment);
     }
-    public void deleteComment(Long commentId){
-        commentRepository.findById(commentId)
-                .ifPresentOrElse(
-                        comment -> commentRepository.deleteById(commentId),
-                        () -> {
-                            throw new CommentNotFoundException(commentId + " NOT FOUND");
-                        }
-                );
+
+    public void deleteComment(Long commentId) {
+        Comment currentComment = getComment(commentId);
+        currentComment.setIsDeleted(true);
+        commentRepository.save(currentComment);
     }
 
     private <T> void updateIfNotNull(Supplier<T> getter, Consumer<T> setter) {
@@ -61,5 +53,16 @@ public class CommentService {
         if (value != null) {
             setter.accept(value);
         }
+    }
+
+    public Comment getComment(Long id) {
+        return commentRepository.findById(id)
+                .map(comment -> {
+                    if (comment.getIsDeleted() == null || comment.getIsDeleted()) {
+                        throw new CommentNotFoundException(id + DELETED);
+                    }
+                    return comment;
+                })
+                .orElseThrow(() -> new CommentNotFoundException(id + NOT_FOUND));
     }
 }
