@@ -16,7 +16,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
             child: TextField(
               decoration: InputDecoration(
                   filled: true,
-                  fillColor: Colors.grey,
+                  fillColor: Color.fromRGBO(241, 241, 241, 1.0),
                   prefixIcon: Icon(Icons.search,),
                   border: InputBorder.none
               ),
