@@ -11,6 +11,8 @@ import '../molecules/top_bar_main.dart';
 import '../models/product.dart';
 import '../util/constants.dart';
 
+import 'package:frontend/molecules/temp_chart_in_all.dart';
+
 class CartPage extends StatefulWidget {
   const CartPage({Key? key});
 
@@ -79,6 +81,7 @@ class _CartPageState extends State<CartPage> {
             CombinationList(),
             CustomBox(),
             PriceSum(),
+            TempChartInAll(),
             CustomBox(),
             HorizontalList(
                 title: '다른 고객이 함께 구매한 상품',

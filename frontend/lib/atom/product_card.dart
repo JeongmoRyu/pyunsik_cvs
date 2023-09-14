@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
       width: 200,
       child: InkWell(
         onTap: () {
-          cart.add(new Product(6, 'test add', '', 3000)); //for test
+          cart.add(new Product(6, '불닭볶음면', '', 1800)); //for test
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

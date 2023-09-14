@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/alarm_button.dart';
+import 'package:go_router/go_router.dart';
 
 class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
@@ -27,7 +28,9 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
         //
         // ],
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              context.go('/scrapbook');
+            },
             icon: Icon(Icons.bookmark_outline)
         ),
         IconButton(

@@ -4,6 +4,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
+import 'package:frontend/molecules/temp_chart.dart';
+import 'package:frontend/molecules/temp_chart_in_all.dart';
 
 import '../models/product.dart';
 
@@ -28,18 +30,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   ];
 
   Map<String, dynamic> ProductDetail = {
-    'productName': '남양)프렌치카푸치노200ml',
-    'price': 2700,
-    'filename': 'assets/images/coffee.png',
-    'badge': '1+1',
-    'category': 1,
+    'productName': '불닭볶음면',
+    'price': 1800,
+    'filename': 'assets/images/ramen.PNG',
+    'badge': '2+1',
+    'category': 2,
     'favoriteCount': 42,
     'weight': 200,
-    'kcal': 150,
-    'carb': 20.5,
-    'protein': 10.0,
-    'fat': 5.0,
-    'sodium': 300.0,
+    'kcal': 425,
+    'carb': 63,
+    'protein': 9,
+    'fat': 15,
+    'sodium': 950.0,
     'comments': [
       {
         'nickname': 'abc',
@@ -50,6 +52,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         'nickname': 'abcd',
         'content': '맛있어요!',
         'createdAt': '2023-09-16',
+      },
+      {
+        'nickname': 'efghj',
+        'content': '너무 매워요 ㅠㅠㅠ',
+        'createdAt': '2023-09-17',
       },
     ],
   };
@@ -82,15 +89,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
 
     chartData = [
-      ChartData('kcal', 150 / StandardDetail['kcal'], Colors.grey),
-      ChartData('carb', 20.5 / StandardDetail['carb'], Colors.red),
-      ChartData('protein', 10 / StandardDetail['protein'], Colors.green),
-      ChartData('fat', 5.0 / StandardDetail['fat'], Colors.blue),
-      ChartData('sodium', 300 / StandardDetail['sodium'], Colors.orange),
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.grey),
+      ChartData('carb', ProductDetail['carb'] / StandardDetail['carb'], Colors.red),
+      ChartData('protein', ProductDetail['protein'] / StandardDetail['protein'], Colors.green),
+      ChartData('fat', ProductDetail['fat'] / StandardDetail['fat'], Colors.blue),
+      ChartData('sodium', ProductDetail['sodium'] / StandardDetail['sodium'], Colors.orange),
     ];
 
     kcalData = [
-      ChartData('kcal', 150 / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
     ];
 
 
@@ -105,9 +112,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               Container(
                 width: double.infinity,
                 height: 350,
-                padding: EdgeInsets.only(left: 20),
                 child: Image.asset(
-                  'assets/images/coffee.jpg',
+                  'assets/images/ramen.PNG',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -163,203 +169,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               SizedBox(height: 15,),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                color: Colors.grey[200],
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                        height: 250,
-                        color: Colors.grey[200],
-
-                        child: Container(
-                          child: SfCircularChart(
-                            series: <CircularSeries>[
-                              RadialBarSeries<ChartData, String>(
-                                trackColor: Colors.white,
-                                dataSource: chartData,
-                                pointColorMapper:(ChartData data, _) => data.color,
-                                xValueMapper: (ChartData data, _) => data.x,
-                                yValueMapper: (ChartData data, _) => data.y,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Container(
-                        height: 250,
-                        color: Colors.grey[200],
-
-                        child: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ListTile(
-                                leading: Icon(Icons.circle, color: Colors.red),
-                                title: Text('순탄수 : ' + '${carbRatio.toStringAsFixed(2)}%'),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.circle, color: Colors.green),
-                                title: Text('단백질 : ' '${proteinRatio.toStringAsFixed(2)}%'),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.circle, color: Colors.blue),
-                                title: Text('지방 : '+'${fatRatio.toStringAsFixed(2)}%'),
-                              ),
-                              ListTile(
-                                leading: Icon(Icons.circle, color: Colors.orange),
-                                title: Text('나트륨 : '+'${sodiumRatio.toStringAsFixed(2)}%'),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                color: Colors.grey[200],
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 20,
-                            child: Text('순탄수'),
-                          ),
-                          SizedBox(height: 15,),
-                          Container(
-                            height: 10,
-                            width: 90,
-                            color: Colors.grey, // 회색 배경
-                            child: FractionallySizedBox(
-                              widthFactor: proteinRatio, // 비율 설정
-                              alignment: Alignment.centerLeft, // 왼쪽 정렬
-                              child: Container(
-                                color: Colors.green, // 초록색
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          Container(
-                            height: 20,
-                            child: Text('${ProductDetail['carb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 20,
-                            child: Text('단백질'),
-                          ),
-                          SizedBox(height: 15,),
-                          Container(
-                            height: 10,
-                            width: 90,
-                            color: Colors.grey, // 회색 배경
-                            child: FractionallySizedBox(
-                              widthFactor: proteinRatio, // 비율 설정
-                              alignment: Alignment.centerLeft, // 왼쪽 정렬
-                              child: Container(
-                                color: Colors.green, // 초록색
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          Container(
-                            height: 20,
-                            child: Text('${ProductDetail['protein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 20,
-                            child: Text('지방'),
-                          ),
-                          SizedBox(height: 15,),
-                          Container(
-                            height: 10,
-                            width: 90,
-                            color: Colors.grey, // 회색 배경
-                            child: FractionallySizedBox(
-                              widthFactor: proteinRatio, // 비율 설정
-                              alignment: Alignment.centerLeft, // 왼쪽 정렬
-                              child: Container(
-                                color: Colors.green, // 초록색
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10,),
-                          Container(
-                            height: 20,
-                            child: Text('${ProductDetail['fat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 150,
-                color: Colors.grey[200],
-                child: Center(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(10.0), // 원하는 모서리 둥글기 값 설정
-                        ),
-                        child: Container(
-                          child: Center(
-
-                            child: Text(
-                              ' "${StandardDetail['kcal'] - ProductDetail['kcal']}kcal를 더 먹을 수 있어요" ',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,// 흰색으로 설정
-                              ),
-                            ),
-                          ),
-
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              TempChart(),
+              CustomBox(),
               SizedBox(height: 10,),
               Container(
                 height: 350, // 원하는 높이로 설정
                 child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
               ),
               CustomBox(),
+
+
+
               // SizedBox(height: 10,),
 
           ],
