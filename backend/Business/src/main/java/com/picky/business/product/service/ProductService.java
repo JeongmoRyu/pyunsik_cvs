@@ -41,6 +41,7 @@ public class ProductService {
         int[] proteinRange = getMinMax(protein);
         int[] fatRange = getMinMax(fat);
         int[] sodiumRange = getMinMax(sodium);
+        productName = productName.replace(" ","");
         Specification<Product> specification = Product.filterProducts(
                 productName, category,
                 priceRange[0], priceRange[1],
