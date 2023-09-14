@@ -31,14 +31,8 @@ class ProductListPage extends StatelessWidget {
       appBar: TopBarMain(appBar: AppBar(),),
       body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(Constants.horizontalPadding),
-            child: CategoryList(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(Constants.horizontalPadding),
-            child: CategoryGenreList(),
-          ),
+          CategoryList(),
+          CategoryGenreList(),
           CustomBox(),
           HorizontalList(title: '오늘의 추천 상품', productList: testList),
           CustomBox(),

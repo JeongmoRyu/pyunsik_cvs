@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/category_button.dart';
 import 'package:go_router/go_router.dart';
 
+import '../util/constants.dart';
+
 
 class CategoryList extends StatelessWidget {
   const CategoryList({Key? key});
@@ -11,7 +13,8 @@ class CategoryList extends StatelessWidget {
     return Container(
         height: 90,
         child: ListView(
-            itemExtent: 70.0,
+          itemExtent: 70.0,
+          padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
             CategoryButton(
