@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/product.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+
+import '../models/cart.dart';
 
 class PlusNavBar extends StatefulWidget {
   const PlusNavBar({Key? key});
@@ -13,6 +19,8 @@ class _PlusNavBarState extends State<PlusNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
+
     return Container(
       height: 60,
       child: Row(
@@ -55,7 +63,8 @@ class _PlusNavBarState extends State<PlusNavBar> {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                // 추가하기 버튼이 눌렸을 때의 동작
+                cart.add(new Product(6, '불닭볶음면', '', 1800));
+                context.go('/cart_page');
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.lightBlue,
