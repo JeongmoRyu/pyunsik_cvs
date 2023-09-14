@@ -43,6 +43,8 @@ public class Product {
     private double fat;
     @Column
     private double sodium;
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isDeleted = false;
 
     @ElementCollection
     @CollectionTable(name = "convenience_store")
