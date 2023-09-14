@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-
-class PlusNavBar extends StatelessWidget {
+class PlusNavBar extends StatefulWidget {
   const PlusNavBar({Key? key});
+
+  @override
+  _PlusNavBarState createState() => _PlusNavBarState();
+}
+
+class _PlusNavBarState extends State<PlusNavBar> {
+  int itemCount = 355;
+  bool isBookmarked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +21,30 @@ class PlusNavBar extends StatelessWidget {
             children: [
               Expanded(
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {
+                      // 아이콘 클릭 시 상태를 변경합니다.
+                      isBookmarked = !isBookmarked;
+                      if (isBookmarked) {
+                        itemCount++;
+                      } else {
+                        itemCount--;
+                      }
+                    });
+                  },
                   icon: Icon(
-                    Icons.bookmark_outline,
-                    color: Colors.grey,
-                    size: 30, // 아이콘 크기를 조절합니다.
+                    isBookmarked
+                        ? Icons.bookmark
+                        : Icons.bookmark_outline,
+                    color: isBookmarked
+                        ? Colors.blue
+                        : Colors.grey,
+                    size: 30,
                   ),
                 ),
               ),
               Text(
-                '355',
+                '$itemCount',
                 style: TextStyle(
                   fontSize: 10,
                 ),
@@ -35,14 +55,14 @@ class PlusNavBar extends StatelessWidget {
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                // 버튼 클릭 이벤트 처리
+                // 추가하기 버튼이 눌렸을 때의 동작
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.lightBlue,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                minimumSize: Size(300, 50), // 버튼의 최소 너비와 높이를 조절
+                minimumSize: Size(300, 50),
               ),
               child: Text(
                 '추가하기',

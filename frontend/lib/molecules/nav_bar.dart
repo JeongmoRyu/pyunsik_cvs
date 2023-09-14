@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/product.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
+import '../models/cart.dart';
 class NavBar extends StatelessWidget {
   int currentPageIndex;
   Function? callback;
@@ -7,6 +12,8 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
+
     return SizedBox(
       height: 60,
       child: NavigationBar(
@@ -26,7 +33,7 @@ class NavBar extends StatelessWidget {
           ),
           NavigationDestination(
             selectedIcon: Icon(Icons.interests),
-            icon: Badge.count(count:3, child: Icon(Icons.interests_outlined)),
+            icon: Badge.count(count: cart.numberOfProducts, child: Icon(Icons.interests_outlined)),
             label: '조합',
           ),
           NavigationDestination(

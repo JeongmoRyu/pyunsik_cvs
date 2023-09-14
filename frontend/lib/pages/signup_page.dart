@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
+import 'package:frontend/molecules/top_bar_sub.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -24,7 +25,7 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
       body: Center(
         child: Container(
           padding: EdgeInsets.only(top: 150.0),

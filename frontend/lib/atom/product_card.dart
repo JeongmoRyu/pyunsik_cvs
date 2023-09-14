@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 import '../models/cart.dart';
 
@@ -19,7 +20,7 @@ class ProductCard extends StatelessWidget {
       width: 200,
       child: InkWell(
         onTap: () {
-          cart.add(new Product(6, '불닭볶음면', '', 1800)); //for test
+          context.go('/product_detail');
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

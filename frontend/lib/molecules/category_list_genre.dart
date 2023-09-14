@@ -16,49 +16,49 @@ class CategoryGenreList extends StatelessWidget {
           children: <Widget>[
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/burger.png',
                 name: '간편식사'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/noodles.png',
                 name: '즉석요리'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/cookies.png',
                 name: '과자'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/popsicle.png',
                 name: '아이스크림'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/groceries.png',
                 name: '식품'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/drink.png',
                 name: '음료'
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/box.png',
                 name: '생활용품'
