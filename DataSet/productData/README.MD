@@ -8,5 +8,5 @@
 <BR>
 <BR>
 <BR>
-## DBAllProduct 
+## FinalData 
 식품영양정보와 편의점 행사 정보, URL을 Matching처리한 CSV 파일
