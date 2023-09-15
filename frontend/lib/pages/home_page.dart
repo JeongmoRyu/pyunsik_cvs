@@ -34,11 +34,11 @@ class HomePage extends StatelessWidget {
           CommercialCarousel(),
           CategoryList(),
           CustomBox(),
-          VerticalMoreList(title: '오늘의 추천 상품', productList: testList,),
+          VerticalMoreList(title: '오늘의 행사상품', productList: testList,),
           CustomBox(),
           Ranking(),
           CustomBox(),
-          HorizontalList(title: '오늘의 추천 상품', productList: testList,),
+          HorizontalList(title: '오늘의 추천상품', productList: testList,),
           // 간격 추가
           SizedBox(height: 20),
         ],
