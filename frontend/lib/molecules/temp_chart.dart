@@ -130,14 +130,14 @@ class _TempChartState extends State<TempChart> {
                                   style: TextStyle(
                                     fontSize: 35,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black, // 흰색 텍스트 색상
+                                    color: Color.fromRGBO(45, 45, 45, 1.0), // 흰색 텍스트 색상
                                   ),
                                 ),
                                 TextSpan(
                                   text: 'kcal',
                                   style: TextStyle(
                                     fontSize: 15,
-                                    color: Colors.black, // 검정색 텍스트 색상
+                                    color: Color.fromRGBO(45, 45, 45, 1.0), // 검정색 텍스트 색상
                                   ),
                                 ),
                               ],

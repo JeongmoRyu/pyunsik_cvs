@@ -23,7 +23,7 @@ class HorizontalList extends StatelessWidget {
             horizontal: Constants.horizontalPadding,
             vertical: Constants.verticalPadding
           ),
-          child: TextTitle(title: '오늘의 추천 상품'),
+          child: TextTitle(title: title),
         ),
         Container(
           height: 270,

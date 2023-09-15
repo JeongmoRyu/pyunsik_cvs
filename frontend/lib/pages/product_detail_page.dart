@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
+import 'package:frontend/util/constants.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
@@ -18,6 +20,8 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  static NumberFormat format = NumberFormat.decimalPattern('en_us');
+
   List<Product> testList = [
     new Product(1, 'test product short', '', 1800),
     new Product(2, 'test product middle middle', '', 39900),
@@ -118,17 +122,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               // CustomBox(),
-              SizedBox(height: 10,),
+              SizedBox(height: 20,),
               Container(
                 height: ProductDetail['productName'].length > 20 ? 55 : 25,
-                padding: EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: Constants.horizontalPadding),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    ' ${ProductDetail['productName']}',
+                    '${ProductDetail['productName']}',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       backgroundColor: Colors.white,
                     ),
@@ -138,12 +142,22 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               SizedBox(height: 10,),
               Container(
                 height: 25,
-                padding: EdgeInsets.only(left: 20),
+                padding: EdgeInsets.only(left: Constants.horizontalPadding),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: RichText(
                     text: TextSpan(
                       children: [
+
+                        TextSpan(
+                          text: format.format(ProductDetail['price']) + '원',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
                         if (ProductDetail['badge'] != null)
                           TextSpan(
                             text: ' ${ProductDetail['badge']}',
@@ -154,15 +168,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                               backgroundColor: Colors.white,
                             ),
                           ),
-                        TextSpan(
-                          text: ' ${ProductDetail['price']} 원',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -174,7 +179,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               SizedBox(height: 10,),
               Container(
                 height: 350, // 원하는 높이로 설정
-                child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
+                child: HorizontalList(title: '함께 보면 좋을 상품', productList: testList,),
               ),
               CustomBox(),
 
