@@ -1,5 +1,6 @@
 package com.picky.notificationproducer.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@Slf4j
 public class KafkaTopicConfig {
 
-    @Value("${spring.kafka.producer.bootstrap-servers}")
+    @Value("${kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
     /**
@@ -23,12 +25,15 @@ public class KafkaTopicConfig {
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
+        log.info("[kafkaAdmin] kafkaAdmin 생성 시작");
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        log.info("[kafkaAdmin] configs 설정 완료");
         return new KafkaAdmin(configs);
     }
 
     @Bean
     public NewTopic topic() {
+        log.info("[topic] topic 생성 시작");
         return new NewTopic("Notification", 1, (short) 1);
     }
 }

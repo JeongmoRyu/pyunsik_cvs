@@ -5,27 +5,22 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
-  kafka:
-    producer:
-      bootstrap-servers: 172.0.0.1:9094
-      key-serializer: com.picky.notificationproducer.config.CustomSerializer
-      value-serializer: com.picky.notificationproducer.config.CustomSerializer
-    consumer:
-      bootstrap-servers: 172.0.0.1:9094
-      group-id: notification
-      auto-offset-reset: earliest
-      key-serializer: com.picky.notificationproducer.config.CustomSerializer
-      value-serializer: com.picky.notificationproducer.config.CustomSerializer
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     open-in-view: false
 
     properties:
       hibernate:
         format_sql: true
         highlight_sql: true
+
+kafka:
+  producer:
+    bootstrap-servers: localhost:9094
+    key-serializer: com.picky.notificationproducer.config.CustomSerializer
+    value-serializer: com.picky.notificationproducer.config.CustomSerializer
 
 server:
   port: 8082
