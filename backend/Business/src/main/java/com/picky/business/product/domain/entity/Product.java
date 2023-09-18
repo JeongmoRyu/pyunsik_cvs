@@ -46,10 +46,8 @@ public class Product {
     @Column(columnDefinition = "boolean default false")
     private Boolean isDeleted = false;
 
-    @ElementCollection
-    @CollectionTable(name = "convenience_store")
-    @Column(name = "convenience_store_code")
-    private List<Integer> convenienceCode = new ArrayList<>();
+    @Column
+    private int convenienceCode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
