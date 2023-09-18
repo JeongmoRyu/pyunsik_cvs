@@ -61,7 +61,7 @@ class _ScrapBookState extends State<ScrapBook> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, // 탭의 수
+      length: 2,
       child: Scaffold(
         appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
         body: Column(

@@ -72,18 +72,10 @@ class _ApiTempState extends State<ApiTemp> {
       if (data['filename'] == null) {
         data['filename'] = 'none';
       }
-      if (data['comments'].isEmpty) {
-        data['comments'] = ['hi'];
-      }
 
-      // 데이터를 성공적으로 가져왔을 때 UI 업데이트
       setState(() {
         ProductDetail = data;
-        // kcalRatio = ProductDetail['kcal'] / StandardDetail['kcal'];
-        // proteinRatio = ProductDetail['protein'] / StandardDetail['protein'];
-        // fatRatio = ProductDetail['fat'] / StandardDetail['fat'];
-        // sodiumRatio = ProductDetail['sodium'] / StandardDetail['sodium'];
-        // carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
+
 
         chartData = [
           ChartData('carb', carbRatio, Colors.grey),
@@ -104,95 +96,124 @@ class _ApiTempState extends State<ApiTemp> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: TopBarMain(appBar: AppBar()),
-      body: ListView(
-        children: [
-          // Container(
-          //   height: 200,
-          //   child: Text('${ProductDetail}'),
-          // ),
-          Container(
-            height: 300,
-            child: ProductDetail['filename'] != 'none'
-                ? Image.network(
-              '${ProductDetail['filename']}',
-              fit: BoxFit.cover,
-            )
-                : Image.asset(
-              'assets/images/wip.jpg',
-              fit: BoxFit.cover,
-            ),
-          ),
-          SizedBox(height: 10,),
-          Container(
-            height: ProductDetail['productName'].length > 20 ? 55 : 25,
-            padding: EdgeInsets.only(left: 20),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                ' ${ProductDetail['productName']}',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  backgroundColor: Colors.white,
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: TopBarMain(appBar: AppBar()),
+          body: ListView(
+            children: [
+
+              Container(
+                height: 300,
+                child: ProductDetail['filename'] != 'none'
+                    ? Image.network(
+                  '${ProductDetail['filename']}',
+                  fit: BoxFit.cover,
+                )
+                    : Image.asset(
+                  'assets/images/wip.jpg',
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-          ),
-          SizedBox(height: 10,),
-          Container(
-            height: 25,
-            padding: EdgeInsets.only(left: 20),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    if (ProductDetail['badge'] != null)
-                      TextSpan(
-                        text: ' ${ProductDetail['badge']}',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
-                    TextSpan(
-                      text: ' ${ProductDetail['price']} 원',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        backgroundColor: Colors.white,
-                      ),
+              SizedBox(height: 10,),
+              Container(
+                height: ProductDetail['productName'].length > 20 ? 55 : 25,
+                padding: EdgeInsets.only(left: 20),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    ' ${ProductDetail['productName']}',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      backgroundColor: Colors.white,
                     ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10,),
+              Container(
+                height: 25,
+                padding: EdgeInsets.only(left: 20),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        if (ProductDetail['badge'] != null)
+                          TextSpan(
+                            text: ' ${ProductDetail['badge']}',
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              backgroundColor: Colors.white,
+                            ),
+                          ),
+                        TextSpan(
+                          text: ' ${ProductDetail['price']} 원',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 15,),
+
+              Container(
+                height: 48,
+                child: TabBar(
+                  labelColor: Colors.black,
+                  tabs: [
+                    Tab(text: '상세정보'),
+                    Tab(text: '상품리뷰'),
                   ],
                 ),
               ),
-            ),
+              Container(
+                height: 480,
+                child: TabBarView(
+                  children: [
+                    TempChart(productDetail: ProductDetail),
+                    ListView.builder(
+                      itemCount: ProductDetail['comments'].length,
+                      itemBuilder: (context, index) {
+                        final comment = ProductDetail['comments'][index];
+
+                        return InkWell(
+                          onTap: () {
+
+                          },
+                          child: ListTile(
+                            title: Text(comment['nickname']),
+                            subtitle: Text('${comment['content']}'),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 10,),
+              Container(
+                height: 350, // 원하는 높이로 설정
+                child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
+              ),
+              CustomBox(),
+
+
+            ],
           ),
-          SizedBox(height: 15,),
-          Container(
-            height: 480,
-            child: TempChart(productDetail: ProductDetail),
-          ),
-
-
-          SizedBox(height: 10,),
-          Container(
-            height: 350, // 원하는 높이로 설정
-            child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
-          ),
-          CustomBox(),
-
-
-        ],
-      ),
-      bottomNavigationBar: PlusNavBar(),
-
+          bottomNavigationBar: PlusNavBar(),
+        ),
     );
   }
 }
