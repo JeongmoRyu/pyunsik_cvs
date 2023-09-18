@@ -50,6 +50,11 @@ public class AuthService {
         User user = userRepository.findByNickname(nickname).orElseThrow(() -> new CustomException(ExceptionCode.INVALID_MEMBER));
         log.info("[getSignInResponse] nickname : {}", nickname);
 
+        log.info("[getSignInResponse] 탈퇴 여부 파악");
+        if (user.isDeleted()) {
+            throw new CustomException(ExceptionCode.DELETED_MEMBER);
+        }
+
         log.info("[getSignInResponse] 패스워드 비교 수행");
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new CustomException(ExceptionCode.INVALID_PASSWORD);
@@ -81,7 +86,8 @@ public class AuthService {
     public void signout(HttpServletRequest servletRequest) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("[signout] 회원 탈퇴 요청 유저 : {}", UserResponse.toResponse(user));
-        userRepository.delete(user);
+        user.setDeleted(true);
+        userRepository.save(user);
         this.logout(servletRequest);
     }
 
@@ -100,4 +106,8 @@ public class AuthService {
         return jwtTokenProvider.getUserOfToken(accessToken).getNickname();
     }
 
+    // getId by JWT
+    public Long getIdByJwt(String accessToken) {
+        return jwtTokenProvider.getUserOfToken(accessToken).getId();
+    }
 }
