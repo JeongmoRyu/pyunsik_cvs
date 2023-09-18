@@ -6,7 +6,9 @@ import 'package:frontend/molecules/filter_range.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/molecules/appbar.dart';
+import 'package:provider/provider.dart';
 
+import '../models/filter.dart';
 import '../models/product.dart';
 
 class ProductFilteredPage extends StatelessWidget {
@@ -28,14 +30,21 @@ class ProductFilteredPage extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
-        body: ListView(
-            children: [
-              FilterList(),
-              VerticalList(productList: testList)
-            ]
+    var filter = context.watch<Filter>();
+    return WillPopScope(
+      onWillPop: () async {
+          filter.resetFilter();
+          return true;
+        },
+      child: Scaffold(
+          appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
+          body: ListView(
+              children: [
+                FilterList(),
+                VerticalList(productList: testList)
+              ]
+          ),
         ),
-      );
+    );
   }
 }

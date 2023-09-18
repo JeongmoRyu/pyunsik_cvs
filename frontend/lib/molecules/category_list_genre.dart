@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/category_button.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../models/filter.dart';
 import '../util/constants.dart';
 
 
@@ -10,6 +12,8 @@ class CategoryGenreList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var filter = context.watch<Filter>();
+    const tagName = '카테고리';
     return Container(
       height: 90,
       child: ListView(
@@ -19,6 +23,7 @@ class CategoryGenreList extends StatelessWidget {
           children: <Widget>[
             CategoryButton(
                 onPressed: () {
+                  filter.addChoice(tagName, '간편식사');
                   context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/burger.png',
@@ -26,6 +31,7 @@ class CategoryGenreList extends StatelessWidget {
             ),
             CategoryButton(
                 onPressed: () {
+                  filter.addChoice(tagName, '즉석요리');
                   context.go('/product_filtered');
                 },
                 imageUrl: 'assets/images/noodles.png',
