@@ -1,5 +1,6 @@
 package com.picky.business.product.service;
 
+import com.picky.business.connect.service.ConnectAuthService;
 import com.picky.business.exception.CommentNotFoundException;
 import com.picky.business.product.domain.entity.Comment;
 import com.picky.business.product.domain.repository.CommentRepository;
@@ -19,16 +20,18 @@ import java.util.function.Supplier;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ProductService productService;
+    private final ConnectAuthService connectAuthService;
     private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
     private static final String NOT_FOUND = "값을 가진 데이터가 없습니다";
 
     //TODO Token 정보로 userId, userNickname 가져오기 해야함
     @Transactional
-    public void addComment(Long productId, CommentWriteRequest request) {
+    public void addComment(Long productId, CommentWriteRequest request, String accessToken) {
+        log.info("{token:}"+accessToken);
         Comment comment = Comment.builder()
                 .content(request.getContent())
-                .userId(0L)
-                .userNickname("TestNickName")
+                .userId(connectAuthService.getUserIdByAccessToken(accessToken))
+                .userNickname(connectAuthService.getNicknameByAccessToken(accessToken))
                 .productId(productId)
                 .isDeleted(false)
                 .build();

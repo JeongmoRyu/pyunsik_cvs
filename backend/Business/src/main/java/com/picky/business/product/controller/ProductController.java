@@ -58,7 +58,8 @@ public class ProductController {
 
     @PostMapping(value = "/comment/{productId}")
     public ResponseEntity<String> addComment(@PathVariable Long productId, @RequestBody CommentWriteRequest request) {
-        commentService.addComment(productId, request);
+        String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZWEzYzIyNC0xMWMzLTRiNjItOTc4OS04ZDYzNmJjOGYyNTMiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NTAxMDAyMywiZXhwIjoxNjk3NjAyMDIzfQ.h6wNgzVTjFYUGnf0HYZFIaOY8caoTEFCPnp7GcZ_hZ8";
+        commentService.addComment(productId, request, accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(productId + ":" + request.getContent() + " 댓글 등록 완료");
     }
 
