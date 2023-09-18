@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/molecules/category_list_genre.dart';
+import 'package:frontend/molecules/filter_choice.dart';
+import 'package:frontend/molecules/filter_list.dart';
+import 'package:frontend/molecules/filter_range.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/molecules/appbar.dart';
@@ -28,7 +32,7 @@ class ProductFilteredPage extends StatelessWidget {
         appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
         body: ListView(
             children: [
-              Placeholder(),
+              FilterList(),
               VerticalList(productList: testList)
             ]
         ),
