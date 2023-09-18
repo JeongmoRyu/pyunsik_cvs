@@ -46,7 +46,7 @@ public class Product {
     @Column(columnDefinition = "boolean default false")
     private Boolean isDeleted = false;
 
-    @Column(name = "convenience_store_code")
+    @Column
     private int convenienceCode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)

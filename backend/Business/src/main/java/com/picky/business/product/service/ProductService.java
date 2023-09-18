@@ -96,6 +96,7 @@ public class ProductService {
                 .fat(product.getFat())
                 .sodium(product.getSodium())
                 .comments(commentResponseList)
+                .convenienceCode(product.getConvenienceCode())
                 .build();
     }
 
