@@ -6,6 +6,7 @@ import 'package:frontend/molecules/filter_range.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/vertical_list.dart';
 import 'package:frontend/molecules/appbar.dart';
+import 'package:frontend/util/custom_box.dart';
 import 'package:provider/provider.dart';
 
 import '../models/filter.dart';
@@ -40,7 +41,9 @@ class ProductFilteredPage extends StatelessWidget {
           appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
           body: ListView(
               children: [
+                CustomBox(),
                 FilterList(),
+                CustomBox(),
                 VerticalList(productList: testList)
               ]
           ),
