@@ -17,6 +17,7 @@ public enum ExceptionCode {
     INVALID_MEMBER(BAD_REQUEST, "잘못된 사용자 입니다.", 400),
     DUPLICATE_NICKNAME(BAD_REQUEST, "중복된 닉네임 입니다.", 400),
     INVALID_PASSWORD(BAD_REQUEST, "비밀번호가 틀립니다.", 400),
+    DELETED_MEMBER(BAD_REQUEST, "탈퇴한 사용자 입니다.", 400),
 
     // 401 UNAUTHORIZED : 인증되지 않은 사용자
     INVALID_TOKEN(UNAUTHORIZED, "잘못된 토큰입니다", 401),
