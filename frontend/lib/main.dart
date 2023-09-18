@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/product_list.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/pages/cart_page.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,7 @@ import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/cart_page.dart';
 
 import 'models/cart.dart';
+import 'models/filter.dart';
 import 'molecules/nav_bar.dart';
 
 
@@ -98,8 +100,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => Cart(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Cart()),
+        ChangeNotifierProvider(create: (context) => Filter()),
+        ChangeNotifierProxyProvider<Filter, ProductList>(
+          create: (context) => ProductList(),
+          update: (context, filter, productList) {
+            if (productList == null) throw ArgumentError.notNull('productList');
+            productList.filter = filter;
+            return productList;
+          },
+        )
+      ],
       child: MaterialApp.router(
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/filter.dart';
+import 'package:provider/provider.dart';
 
 import '../util/constants.dart';
 
@@ -12,6 +14,7 @@ class FilterChoice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var filter = context.watch<Filter>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -34,7 +37,7 @@ class FilterChoice extends StatelessWidget {
               itemCount: options.length,
               itemBuilder: (context, index) {
                 return Center(
-                    child: Text(options[index], textAlign: TextAlign.center,)
+                    child: getText(filter, index),
                 );
               },
             ),
@@ -43,4 +46,40 @@ class FilterChoice extends StatelessWidget {
       ],
     );
   }
+  Widget getText(var filter, index) {
+    if (filter.doesExists(tag, options[index])) {
+      return InkWell(
+        onTap: () {
+          filter.removeChoice(tag, options[index]);
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              options[index],
+              style: TextStyle(
+                fontWeight: FontWeight.bold
+              ),
+            ),
+            const Icon(
+              Icons.close,
+              size: 18,
+            )
+          ],
+        ),
+      );
+    }
+    return InkWell(
+      onTap: () {
+        filter.addChoice(tag, options[index]);
+      },
+      child: Text(
+        options[index],
+        style: TextStyle(
+          color: Colors.grey
+        ),
+      ),
+    );
+  }
 }
+
