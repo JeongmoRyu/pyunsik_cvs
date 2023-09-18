@@ -22,5 +22,6 @@ public class ProductDetailResponse {
     private double protein;
     private double fat;
     private double sodium;
+    private int convenienceCode;
     private List<CommentResponse> comments;
 }
