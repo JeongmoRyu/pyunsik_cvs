@@ -100,4 +100,9 @@ public class AuthService {
         return jwtTokenProvider.getUserOfToken(accessToken).getNickname();
     }
 
+    // getId by JWT
+    public Long getIdByJwt(String accessToken) {
+        return jwtTokenProvider.getUserOfToken(accessToken).getId();
+    }
+
 }
