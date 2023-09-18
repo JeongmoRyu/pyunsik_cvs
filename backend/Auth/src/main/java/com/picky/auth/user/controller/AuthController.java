@@ -74,10 +74,4 @@ public class AuthController {
     public String getNicknameByJwt(@PathVariable("accessToken") String accessToken) {
         return authService.getNicknameByJwt(accessToken);
     }
-
-    // getId by JWT
-    @GetMapping("/id/{accessToken}")
-    public Long getIdByJwt(@PathVariable("accessToken") String accessToken) {
-        return authService.getIdByJwt(accessToken);
-    }
 }
