@@ -1,6 +1,6 @@
 package com.picky.notificationproducer.producer.service;
 
-import com.picky.notificationproducer.producer.domain.dto.NotificationRequest;
+import com.picky.notificationproducer.producer.dto.NotificationRequest;
 import com.picky.notificationproducer.producer.domain.entity.Notification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class ProducerService {
      * CompletableFuture Object 반환 - 작업의 완료 여부, 결과 추적 가능
      */
     public void sendMessage(NotificationRequest request, String topic) {
-        log.info("[ProducerService] received message : {}", Notification.toEntity(request));
+        log.info("[ProducerService] sending message : {}", Notification.toEntity(request));
         kafkaTemplate.send(topic, Notification.toEntity(request));
     }
 }

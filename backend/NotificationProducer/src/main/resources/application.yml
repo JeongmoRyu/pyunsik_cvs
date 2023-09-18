@@ -1,6 +1,31 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}/kafka
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
-      key-serializer: org.apache.kafka.common.serialization.CustomSerializer
-      value-serializer: org.apache.kafka.common.serialization.CustomSerializer
+      bootstrap-servers: 172.0.0.1:9094
+      key-serializer: com.picky.notificationproducer.config.CustomSerializer
+      value-serializer: com.picky.notificationproducer.config.CustomSerializer
+    consumer:
+      bootstrap-servers: 172.0.0.1:9094
+      group-id: notification
+      auto-offset-reset: earliest
+      key-serializer: com.picky.notificationproducer.config.CustomSerializer
+      value-serializer: com.picky.notificationproducer.config.CustomSerializer
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+server:
+  port: 8082

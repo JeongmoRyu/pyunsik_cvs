@@ -1,4 +1,4 @@
-package com.picky.notificationproducer.producer.domain.dto;
+package com.picky.notificationproducer.producer.dto;
 
 import com.picky.notificationproducer.producer.domain.entity.Notification;
 import lombok.Builder;

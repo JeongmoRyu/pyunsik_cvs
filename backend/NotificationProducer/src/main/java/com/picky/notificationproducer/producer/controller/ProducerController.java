@@ -1,6 +1,6 @@
 package com.picky.notificationproducer.producer.controller;
 
-import com.picky.notificationproducer.producer.domain.dto.NotificationRequest;
+import com.picky.notificationproducer.producer.dto.NotificationRequest;
 import com.picky.notificationproducer.producer.service.ProducerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
