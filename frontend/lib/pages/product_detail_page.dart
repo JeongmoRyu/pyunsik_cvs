@@ -88,14 +88,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     sodiumRatio = ProductDetail['sodium'] / StandardDetail['sodium'];
     carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
 
-    chartData = [
-      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.grey),
-      ChartData('carb', ProductDetail['carb'] / StandardDetail['carb'], Colors.red),
-      ChartData('protein', ProductDetail['protein'] / StandardDetail['protein'], Colors.green),
-      ChartData('fat', ProductDetail['fat'] / StandardDetail['fat'], Colors.blue),
-      ChartData('sodium', ProductDetail['sodium'] / StandardDetail['sodium'], Colors.orange),
-    ];
-
     kcalData = [
       ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
     ];
@@ -169,7 +161,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
               ),
               SizedBox(height: 15,),
-              TempChart(),
+              TempChart(productDetail: ProductDetail),
               CustomBox(),
               SizedBox(height: 10,),
               Container(
@@ -195,27 +187,3 @@ class ChartData {
   final double y;
   final Color color;
 }
-// class kcalData {
-//   kcalData(this.x, this.y, this.color);
-//   final String x;
-//   final double y;
-//   final Color color;
-// }
-// class proteinData {
-//   proteinData(this.x, this.y, this.color);
-//   final String x;
-//   final double y;
-//   final Color color;
-// }
-// class fatData {
-//   fatData(this.x, this.y, this.color);
-//   final String x;
-//   final double y;
-//   final Color color;
-// }
-// class sodiumData {
-//   sodiumData(this.x, this.y, this.color);
-//   final String x;
-//   final double y;
-//   final Color color;
-// }

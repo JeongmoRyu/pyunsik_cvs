@@ -10,36 +10,54 @@ class TempChartInAll extends StatefulWidget {
 
 class _TempChartInAllState extends State<TempChartInAll> {
   // 제품 정보 및 기준 정보 정의
-  Map<String, dynamic> ProductDetail = {
-    'productName': '불닭볶음면',
-    'price': 1800,
-    'filename': 'assets/images/ramen.PNG',
-    'badge': '2+1',
-    'category': 2,
-    'favoriteCount': 42,
-    'weight': 200,
-    'kcal': 425,
-    'carb': 63,
-    'protein': 9,
-    'fat': 15,
-    'sodium': 950.0,
-    'comments': [
+  Map<String, dynamic> CombinationDetail = {
+
+    'combinationName': '아이스치즈불닭볶음면',
+    'totalPrice' : 5100,
+    'totalKcal' : 550,
+    'totalCarb':  80.7,
+    'totalProtein' : 9,
+    'totalFat' : 15.4,
+    'totalSodium' : 1090,
+    'CombinationItems' : [
       {
-        'nickname': 'abc',
-        'content': '좋아요!',
-        'createdAt': '2023-09-15',
+        'productId' : 729,
+        'productName' : '불닭볶음면',
+        'price' : 1800,
+        'filename' : 'https://tqklhszfkvzk6518638.cdn.ntruss.com/product/8801073110502.jpg',
+        'kcal' : 425,
+        'carb':  63,
+        'protein' : 9,
+        'fat' : 15,
+        'sodium' : 950.0,
+        'amount' : 1
       },
       {
-        'nickname': 'abcd',
-        'content': '맛있어요!',
-        'createdAt': '2023-09-16',
+        'productId' : 1,
+        'productName' : '폴라포포도',
+        'price' : 1800,
+        'filename' : 'https://image.woodongs.com/imgsvr/item/GD_8809713220048_004.jpg',
+        'kcal' : 70,
+        'carb':  17,
+        'protein' : 0,
+        'fat' : 0.4,
+        'sodium' : 35,
+        'amount' : 1
       },
       {
-        'nickname': 'efghj',
-        'content': '너무 매워요 ㅠㅠㅠ',
-        'createdAt': '2023-09-17',
+        'productId' : 1,
+        'productName' : '인포켓치즈',
+        'price' : 1500,
+        'filename' : 'https://image.woodongs.com/imgsvr/item/GD_8809713220048_004.jpg',
+        'kcal' : 55,
+        'carb':  0.7,
+        'protein' : 0,
+        'fat' : 0,
+        'sodium' : 105,
+        'amount' : 1
       },
-    ],
+    ]
+
   };
 
 
@@ -64,22 +82,22 @@ class _TempChartInAllState extends State<TempChartInAll> {
   @override
   void initState() {
     super.initState();
-    kcalRatio = ProductDetail['kcal'] / StandardDetail['kcal'];
-    proteinRatio = ProductDetail['protein'] / StandardDetail['protein'];
-    fatRatio = ProductDetail['fat'] / StandardDetail['fat'];
-    sodiumRatio = ProductDetail['sodium'] / StandardDetail['sodium'];
-    carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
+    kcalRatio = CombinationDetail['totalKcal'] / StandardDetail['kcal'];
+    proteinRatio = CombinationDetail['totalProtein'] / StandardDetail['protein'];
+    fatRatio = CombinationDetail['totalFat'] / StandardDetail['fat'];
+    sodiumRatio = CombinationDetail['totalSodium'] / StandardDetail['sodium'];
+    carbRatio = CombinationDetail['totalCarb'] / StandardDetail['carb'];
 
     chartData = [
-      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.grey),
-      ChartData('carb', ProductDetail['carb'] / StandardDetail['carb'], Colors.red),
-      ChartData('protein', ProductDetail['protein'] / StandardDetail['protein'], Colors.green),
-      ChartData('fat', ProductDetail['fat'] / StandardDetail['fat'], Colors.blue),
-      ChartData('sodium', ProductDetail['sodium'] / StandardDetail['sodium'], Colors.orange),
+      ChartData('kcal', CombinationDetail['totalKcal'] / StandardDetail['kcal'], Colors.grey),
+      ChartData('carb', CombinationDetail['totalCarb'] / StandardDetail['carb'], Colors.red),
+      ChartData('protein', CombinationDetail['totalProtein'] / StandardDetail['protein'], Colors.green),
+      ChartData('fat', CombinationDetail['totalFat'] / StandardDetail['fat'], Colors.blue),
+      ChartData('sodium', CombinationDetail['totalSodium'] / StandardDetail['sodium'], Colors.orange),
     ];
 
     kcalData = [
-      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', CombinationDetail['totalKcal'] / CombinationDetail['totalKcal'], Colors.red)
     ];
 
 
@@ -124,7 +142,7 @@ class _TempChartInAllState extends State<TempChartInAll> {
                             text: TextSpan(
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: '${ProductDetail['kcal']}',
+                                  text: '${CombinationDetail['totalKcal']}',
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
@@ -211,7 +229,7 @@ class _TempChartInAllState extends State<TempChartInAll> {
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${ProductDetail['carb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
+                          child: Text('${CombinationDetail['totalCarb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
                         ),
                       ],
                     ),
@@ -241,7 +259,7 @@ class _TempChartInAllState extends State<TempChartInAll> {
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${ProductDetail['protein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
+                          child: Text('${CombinationDetail['totalProtein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
                         ),
                       ],
                     ),
@@ -271,7 +289,7 @@ class _TempChartInAllState extends State<TempChartInAll> {
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${ProductDetail['fat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
+                          child: Text('${CombinationDetail['totalFat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
                         ),
                       ],
                     ),
@@ -298,12 +316,17 @@ class _TempChartInAllState extends State<TempChartInAll> {
                       child: Container(
                         child: Center(
                           child: Text(
-                            ' "${StandardDetail['kcal'] - ProductDetail['kcal']}kcal를 더 먹을 수 있어요" ',
+                            StandardDetail['kcal'] > CombinationDetail['totalKcal']
+                                ? ' "${StandardDetail['kcal'] - CombinationDetail['totalKcal']}kcal를 더 먹을 수 있어요" '
+                                : ' "${StandardDetail['kcal']}kcal 초과했습니다!!" ',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: StandardDetail['kcal'] > CombinationDetail['totalKcal']
+                                  ? Colors.white
+                                  : Colors.red,
                               fontSize: 20,
                             ),
-                          ),
+                          )
+                          ,
                         ),
                       ),
                     ),
