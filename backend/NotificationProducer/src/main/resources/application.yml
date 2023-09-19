@@ -18,7 +18,7 @@ spring:
 
 kafka:
   producer:
-    bootstrap-servers: localhost:9094
+    bootstrap-servers: ${KAFKA_URL}:9092
     key-serializer: com.picky.notificationproducer.config.CustomSerializer
     value-serializer: com.picky.notificationproducer.config.CustomSerializer
 
