@@ -68,7 +68,7 @@ class CategoryList extends StatelessWidget {
             ),
             CategoryButton(
                 onPressed: () {
-                  context.go('/product_list');
+                  context.go('/tempapi');
                 },
                 imageUrl: 'assets/images/ministop_logo.png',
                 name: '미니스톱'

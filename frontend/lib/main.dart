@@ -12,6 +12,9 @@ import 'package:frontend/pages/side_scroll_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/cart_page.dart';
+import 'package:frontend/pages/api_temp.dart';
+
+import 'package:frontend/pages/combination_detail_page.dart';
 
 import 'models/cart.dart';
 import 'molecules/nav_bar.dart';
@@ -83,7 +86,21 @@ GoRouter router() {
             builder: (BuildContext context, GoRouterState state) {
               return CartPage();
             },
+          ),
+          GoRoute(
+            path: 'tempapi',
+            builder: (BuildContext context, GoRouterState state) {
+              return ApiTemp();
+            },
+          ),
+          GoRoute(
+            path: 'combination_detail',
+            builder: (BuildContext context, GoRouterState state) {
+              return CombinationDetailPage();
+            },
           )
+
+
 
         ],
       ),
@@ -127,12 +144,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     return Scaffold(
       bottomNavigationBar: NavBar(
         currentPageIndex: currentPageIndex,
