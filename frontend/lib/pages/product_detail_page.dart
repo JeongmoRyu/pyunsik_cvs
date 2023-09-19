@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
+import 'package:frontend/util/constants.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
@@ -19,6 +21,8 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  static NumberFormat format = NumberFormat.decimalPattern('en_us');
+
   List<Product> testList = [
     new Product(1, 'test product short', '', 1800),
     new Product(2, 'test product middle middle', '', 39900),
@@ -149,7 +153,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                         ),
                       TextSpan(
-                        text: ' ${ProductDetail['price']} 원',
+                        text: format.format(ProductDetail['price']) + '원',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
