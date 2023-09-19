@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 
+import '../molecules/top_bar_main.dart';
+
 
 class ScrapBook extends StatefulWidget {
   const ScrapBook({Key? key}) : super(key: key);
@@ -63,7 +65,7 @@ class _ScrapBookState extends State<ScrapBook> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
+        appBar: TopBarMain(appBar: AppBar(),),// AppBar에 표시할 제목
         body: Column(
           children: [
             Container(
@@ -112,7 +114,7 @@ class _ScrapBookState extends State<ScrapBook> {
                       final item = favorites[index];
                       return InkWell(
                         onTap: () {
-                          context.push('/product_detail');
+                          context.push('/detail');
                         },
                         child: ListTile(
                           title: Text(item['name']),

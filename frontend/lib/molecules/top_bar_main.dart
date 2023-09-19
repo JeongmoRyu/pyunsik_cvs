@@ -35,7 +35,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(
             onPressed: () {
-              context.go('/cart_page');
+              context.go('/cart');
             },
             icon: Icon(Icons.interests_outlined)
         ),

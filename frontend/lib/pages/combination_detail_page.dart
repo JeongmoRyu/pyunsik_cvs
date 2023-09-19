@@ -161,7 +161,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                   );
                   cart.add(product);
                 }
-                context.go('/cart_page');
+                context.go('/cart');
               },
               child: Text('Cart에 추가'),
             ),

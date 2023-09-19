@@ -22,7 +22,7 @@ final _shellNavigatorCartKey = GlobalKey<NavigatorState>(debugLabel: 'shellCart'
 final _shellNavigatorScrapBookKey = GlobalKey<NavigatorState>(debugLabel: 'shellScrapBook');
 
 final goRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: '/',
   navigatorKey: _rootNavigatorKey,
   debugLogDiagnostics: true,
   routes: [
@@ -39,7 +39,7 @@ final goRouter = GoRouter(
           navigatorKey: _shellNavigatorHomeKey,
           routes: [
             GoRoute(
-              path: '/home',
+              path: '/',
               pageBuilder: (context, state) => const NoTransitionPage(
                 child: HomePage(),
               )
