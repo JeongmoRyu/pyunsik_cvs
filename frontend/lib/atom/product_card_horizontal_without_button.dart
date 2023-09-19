@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
-import 'package:frontend/molecules/cart_confirm_remove_dialog.dart';
 import 'package:intl/intl.dart';
 
-class ProductCardHorizontal extends StatelessWidget {
+class ProductCardHorizontalWithoutButton extends StatelessWidget {
   // static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
-  const ProductCardHorizontal({Key? key, required this.product}) : super(key: key);
+  const ProductCardHorizontalWithoutButton({Key? key, required this.product}) : super(key: key);
 
   final Product product;
 
@@ -51,14 +50,6 @@ class ProductCardHorizontal extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) =>
-                    CartConfirmRemoveDialog(product: product)
-            ),
-            icon: Icon(Icons.close),
-          )
         ],
       ),
     );
