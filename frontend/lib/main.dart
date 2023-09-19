@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:frontend/models/product_list.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/pages/cart_page.dart';
@@ -260,7 +260,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
 
 void main() {
   // turn off the # in the URLs on the web
-  usePathUrlStrategy();
+  // usePathUrlStrategy();
   runApp(const MyApp());
 }
 
