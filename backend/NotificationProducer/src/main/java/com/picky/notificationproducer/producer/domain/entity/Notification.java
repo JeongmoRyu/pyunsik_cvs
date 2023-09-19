@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -16,17 +18,18 @@ import javax.persistence.Id;
 public class Notification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String date;
     private String message;
 
     @Builder
-    public Notification(String message) {
+    public Notification(String date, String message) {
+        this.date = date;
         this.message = message;
     }
 
     public static Notification toEntity(NotificationRequest request) {
         return Notification.builder()
+                .date(LocalDateTime.now().toString())
                 .message(request.getMessage())
                 .build();
     }
