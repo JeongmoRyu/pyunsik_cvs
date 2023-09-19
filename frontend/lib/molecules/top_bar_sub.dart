@@ -13,6 +13,12 @@ class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         IconButton(
             onPressed: () {
+              context.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_new)
+        ),
+        IconButton(
+            onPressed: () {
               context.go('/scrapbook');
             },
             icon: Icon(Icons.bookmark_outline)

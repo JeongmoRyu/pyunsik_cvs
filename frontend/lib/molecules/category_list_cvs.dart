@@ -10,68 +10,48 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const tag = '편의점';
     return Container(
         height: 90,
         child: ListView(
           itemExtent: 70.0,
           padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
+          children: const <Widget>[
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
                 imageUrl: 'assets/images/gs_logo.png',
-                name: 'GS'
+                tag: tag,
+                name: 'GS25'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
                 imageUrl: 'assets/images/cu_logo.png',
+                tag: tag,
                 name: 'CU'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
                 imageUrl: 'assets/images/711_logo2.jpeg',
+                tag: tag,
                 name: '세븐일레븐'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
                 imageUrl: 'assets/images/ministop_logo.png',
+                tag: tag,
                 name: '미니스톱'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
                 imageUrl: 'assets/images/emart24_logo.png',
+                tag: tag,
                 name: '이마트24'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
-                imageUrl: 'assets/images/cu_logo.png',
-                name: 'CU'
+                imageUrl: 'assets/images/wip.jpg',
+                tag: '할인행사',
+                name: '1+1'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_list');
-                },
-                imageUrl: 'assets/images/711_logo2.jpeg',
-                name: '세븐일레븐'
-            ),
-            CategoryButton(
-                onPressed: () {
-                  context.go('/tempapi');
-                },
-                imageUrl: 'assets/images/ministop_logo.png',
-                name: '미니스톱'
+                imageUrl: 'assets/images/wip.jpg',
+                tag: '할인행사',
+                name: '2+1'
             ),
           ]
         ),

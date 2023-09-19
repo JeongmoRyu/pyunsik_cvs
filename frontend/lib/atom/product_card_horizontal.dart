@@ -4,7 +4,7 @@ import 'package:frontend/molecules/cart_confirm_remove_dialog.dart';
 import 'package:intl/intl.dart';
 
 class ProductCardHorizontal extends StatelessWidget {
-  // static const String defaultFileName = 'assets/images/wip.jpg';
+  static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
   const ProductCardHorizontal({Key? key, required this.product}) : super(key: key);
 
@@ -21,8 +21,8 @@ class ProductCardHorizontal extends StatelessWidget {
             aspectRatio: 1 / 1,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                  product.fileName, //임시 이미지
+              child: Image.asset(
+                  defaultFileName, //임시 이미지
                   fit: BoxFit.cover
               ),
             ),

@@ -61,7 +61,7 @@ class _ScrapBookState extends State<ScrapBook> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 2, // 탭의 수
       child: Scaffold(
         appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
         body: Column(
@@ -112,7 +112,7 @@ class _ScrapBookState extends State<ScrapBook> {
                       final item = favorites[index];
                       return InkWell(
                         onTap: () {
-                          context.push('/product_detail');
+                          context.go('/product_detail');
                         },
                         child: ListTile(
                           title: Text(item['name']),
@@ -132,7 +132,7 @@ class _ScrapBookState extends State<ScrapBook> {
 
                       return InkWell(
                         onTap: () {
-                          context.push('/combination_detail');
+                          context.go('/cart_page');
                         },
                         child: ListTile(
                           title: Text(combination['name']),
