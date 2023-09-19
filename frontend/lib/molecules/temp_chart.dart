@@ -14,38 +14,6 @@ class TempChart extends StatefulWidget {
 
 class _TempChartState extends State<TempChart> {
   late Map<String, dynamic> productDetail;
-  // 제품 정보 및 기준 정보 정의
-  // Map<String, dynamic> ProductDetail = {
-  //   'productName': '불닭볶음면',
-  //   'price': 1800,
-  //   'filename': 'assets/images/ramen.PNG',
-  //   'badge': '2+1',
-  //   'category': 2,
-  //   'favoriteCount': 42,
-  //   'weight': 200,
-  //   'kcal': 425,
-  //   'carb': 63,
-  //   'protein': 9,
-  //   'fat': 15,
-  //   'sodium': 950.0,
-  //   'comments': [
-  //     {
-  //       'nickname': 'abc',
-  //       'content': '좋아요!',
-  //       'createdAt': '2023-09-15',
-  //     },
-  //     {
-  //       'nickname': 'abcd',
-  //       'content': '맛있어요!',
-  //       'createdAt': '2023-09-16',
-  //     },
-  //     {
-  //       'nickname': 'efghj',
-  //       'content': '너무 매워요 ㅠㅠㅠ',
-  //       'createdAt': '2023-09-17',
-  //     },
-  //   ],
-  // };
 
 
   Map<String, dynamic> StandardDetail = {
@@ -66,6 +34,7 @@ class _TempChartState extends State<TempChart> {
   double fatbarRatio = 0.0;
   double sodiumbarRatio = 0.0;
   double carbbarRatio = 0.0;
+  double fullRatio = 1.0;
 
   // 차트 데이터 정의
   List<ChartData> chartData = [];
@@ -210,13 +179,21 @@ class _TempChartState extends State<TempChart> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: FractionallySizedBox(
-                            widthFactor: carbbarRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: Colors.green,
-                            ),
-                          ),
+                          child: carbbarRatio > 1
+                              ? FractionallySizedBox(
+                                widthFactor: fullRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.red,
+                                ),
+                              )
+                              : FractionallySizedBox(
+                                widthFactor: carbbarRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.green,
+                                ),
+                              ),
                         ),
                         SizedBox(height: 10,),
                         Container(
@@ -241,13 +218,21 @@ class _TempChartState extends State<TempChart> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: FractionallySizedBox(
-                            widthFactor: proteinbarRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: Colors.green,
-                            ),
-                          ),
+                          child: proteinbarRatio > 1
+                              ? FractionallySizedBox(
+                                widthFactor: fullRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.red,
+                                ),
+                              )
+                              : FractionallySizedBox(
+                                widthFactor: proteinbarRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.green,
+                                ),
+                              ),
                         ),
                         SizedBox(height: 10,),
                         Container(
@@ -271,13 +256,21 @@ class _TempChartState extends State<TempChart> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: FractionallySizedBox(
-                            widthFactor: fatbarRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: Colors.green,
-                            ),
-                          ),
+                          child: fatbarRatio > 1
+                              ? FractionallySizedBox(
+                                widthFactor: fatbarRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.red,
+                                ),
+                              )
+                              : FractionallySizedBox(
+                                widthFactor: fatbarRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.green,
+                                ),
+                              ),
                         ),
                         SizedBox(height: 10,),
                         Container(

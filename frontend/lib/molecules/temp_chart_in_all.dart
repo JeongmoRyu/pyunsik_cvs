@@ -45,10 +45,10 @@ class _TempChartInAllState extends State<TempChartInAll> {
         'amount' : 1
       },
       {
-        'productId' : 1,
+        'productId' : 32,
         'productName' : '인포켓치즈',
         'price' : 1500,
-        'filename' : 'https://image.woodongs.com/imgsvr/item/GD_8809713220048_004.jpg',
+        'filename' : 'https://image.woodongs.com/imgsvr/item/GD_8801155834708.jpg',
         'kcal' : 55,
         'carb':  0.7,
         'protein' : 0,
@@ -74,6 +74,7 @@ class _TempChartInAllState extends State<TempChartInAll> {
   double fatRatio = 0.0;
   double sodiumRatio = 0.0;
   double carbRatio = 0.0;
+  double fullRatio = 1.0;
 
   List<ChartData> chartData = [];
   List<ChartData> kcalData = [];
@@ -218,14 +219,22 @@ class _TempChartInAllState extends State<TempChartInAll> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: FractionallySizedBox(
-                            widthFactor: carbRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: Colors.green,
+                          child: carbRatio > 1
+                              ? FractionallySizedBox(
+                                widthFactor: fullRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.red,
+                                ),
+                              )
+                              : FractionallySizedBox(
+                                widthFactor: carbRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.green,
+                              ),
                             ),
-                          ),
-                        ),
+                         ),
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
@@ -248,11 +257,19 @@ class _TempChartInAllState extends State<TempChartInAll> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: FractionallySizedBox(
-                            widthFactor: proteinRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: Colors.green,
+                          child: proteinRatio > 1
+                              ? FractionallySizedBox(
+                                widthFactor: fullRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.red,
+                                ),
+                              )
+                              : FractionallySizedBox(
+                                widthFactor: proteinRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.green,
                             ),
                           ),
                         ),
@@ -278,12 +295,20 @@ class _TempChartInAllState extends State<TempChartInAll> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: FractionallySizedBox(
-                            widthFactor: fatRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: Colors.green,
-                            ),
+                          child: fatRatio > 1
+                              ? FractionallySizedBox(
+                                widthFactor: fullRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.red,
+                                ),
+                              )
+                              : FractionallySizedBox(
+                                widthFactor: fatRatio,
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                  color: Colors.green,
+                              ),
                           ),
                         ),
                         SizedBox(height: 10,),

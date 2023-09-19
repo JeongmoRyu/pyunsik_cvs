@@ -14,6 +14,8 @@ import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/cart_page.dart';
 import 'package:frontend/pages/api_temp.dart';
 
+import 'package:frontend/pages/combination_detail_page.dart';
+
 import 'models/cart.dart';
 import 'molecules/nav_bar.dart';
 
@@ -90,7 +92,14 @@ GoRouter router() {
             builder: (BuildContext context, GoRouterState state) {
               return ApiTemp();
             },
+          ),
+          GoRoute(
+            path: 'combination_detail',
+            builder: (BuildContext context, GoRouterState state) {
+              return CombinationDetailPage();
+            },
           )
+
 
 
         ],

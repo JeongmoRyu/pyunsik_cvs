@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
-import 'package:frontend/molecules/top_bar_main.dart';
+import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/temp_chart.dart';
 
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
 import '../models/product.dart';
-
-
-
 
 class ApiTemp extends StatefulWidget {
   @override
@@ -30,32 +27,7 @@ class _ApiTempState extends State<ApiTemp> {
     new Product(8, 'test product short', '', 1800),
   ];
 
-  Map<String, dynamic> ProductDetail = {};
-
-  double kcalRatio = 0.0;
-  double proteinRatio = 0.0;
-  double fatRatio = 0.0;
-  double sodiumRatio = 0.0;
-  double carbRatio = 0.0;
-
-  List<ChartData> chartData = [];
-  List<ChartData> kcalData = [];
-
-  Map<String, dynamic> StandardDetail = {
-    'kcal': 2500,
-    'carb': 130,
-    'protein': 60,
-    'fat': 51.0,
-    'sodium': 2000.0,
-  };
-
-  @override
-  void initState() {
-    super.initState();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
+  Future<Map<String, dynamic>> fetchData() async {
     final String apiUrl = "http://j9a505.p.ssafy.io:8080/api/product/1";
 
     final headers = {
@@ -72,148 +44,148 @@ class _ApiTempState extends State<ApiTemp> {
       if (data['filename'] == null) {
         data['filename'] = 'none';
       }
-
-      setState(() {
-        ProductDetail = data;
-
-
-        chartData = [
-          ChartData('carb', carbRatio, Colors.grey),
-          ChartData('protein', proteinRatio, Colors.black),
-          ChartData('fat', fatRatio, Colors.blueGrey),
-        ];
-
-        kcalData = [
-          ChartData('kcal', kcalRatio, Colors.red),
-        ];
-
-      });
-      print('data: $ProductDetail');
+      return data;
     } else {
-      print('did not work');
+      throw Exception('Failed to load data');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: TopBarMain(appBar: AppBar()),
-          body: ListView(
-            children: [
+      length: 2,
+      child: Scaffold(
+        appBar: TopBarSub(appBar: AppBar()),
+        body: FutureBuilder(
+          future: fetchData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // 데이터 로딩 중인 경우 로딩 스피너를 표시
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              // 데이터 로딩 중 오류가 발생한 경우 오류 메시지 표시
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              // 데이터 로딩이 완료된 경우 화면에 데이터 표시
+              final ProductDetail = snapshot.data as Map<String, dynamic>;
 
-              Container(
-                height: 300,
-                child: ProductDetail['filename'] != 'none'
-                    ? Image.network(
-                  '${ProductDetail['filename']}',
-                  fit: BoxFit.cover,
-                )
-                    : Image.asset(
-                  'assets/images/wip.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              SizedBox(height: 10,),
-              Container(
-                height: ProductDetail['productName'].length > 20 ? 55 : 25,
-                padding: EdgeInsets.only(left: 20),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    ' ${ProductDetail['productName']}',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: Colors.white,
+              return ListView(
+                children: [
+                  Image.network(
+                      '${ProductDetail['filename']}',
+                      fit: BoxFit.cover,
+                  ),
+                  // Container(
+                  //   height: 300,
+                  //
+                  //   child: ProductDetail['filename'] != 'none'
+                  //       ? Image.network(
+                  //     '${ProductDetail['filename']}',
+                  //     fit: BoxFit.fitHeight,
+                  //   )
+                  //       : Image.asset(
+                  //     'assets/images/wip.jpg',
+                  //     fit: BoxFit.fitHeight,
+                  //   ),
+                  // ),
+                  SizedBox(height: 10,),
+                  Container(
+                    height: ProductDetail['productName'].length > 20 ? 55 : 25,
+                    padding: EdgeInsets.only(left: 20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        ' ${ProductDetail['productName']}',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          backgroundColor: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 10,),
-              Container(
-                height: 25,
-                padding: EdgeInsets.only(left: 20),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        if (ProductDetail['badge'] != null)
-                          TextSpan(
-                            text: ' ${ProductDetail['badge']}',
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              backgroundColor: Colors.white,
+                  SizedBox(height: 10,),
+                  Container(
+                    height: 25,
+                    padding: EdgeInsets.only(left: 20),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            if (ProductDetail['badge'] != null)
+                              TextSpan(
+                                text: ' ${ProductDetail['badge']}',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  backgroundColor: Colors.white,
+                                ),
+                              ),
+                            TextSpan(
+                              text: ' ${ProductDetail['price']} 원',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                backgroundColor: Colors.white,
+                              ),
                             ),
-                          ),
-                        TextSpan(
-                          text: ' ${ProductDetail['price']} 원',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            backgroundColor: Colors.white,
-                          ),
+                          ],
                         ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 15,),
+
+                  Container(
+                    height: 48,
+                    child: TabBar(
+                      labelColor: Colors.black,
+                      tabs: [
+                        Tab(text: '상세정보'),
+                        Tab(text: '상품리뷰'),
                       ],
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 15,),
+                  Container(
+                    height: 480,
+                    child: TabBarView(
+                      children: [
+                        TempChart(productDetail: ProductDetail),
+                        ListView.builder(
+                          itemCount: ProductDetail['comments'].length,
+                          itemBuilder: (context, index) {
+                            final comment = ProductDetail['comments'][index];
 
-              Container(
-                height: 48,
-                child: TabBar(
-                  labelColor: Colors.black,
-                  tabs: [
-                    Tab(text: '상세정보'),
-                    Tab(text: '상품리뷰'),
-                  ],
-                ),
-              ),
-              Container(
-                height: 480,
-                child: TabBarView(
-                  children: [
-                    TempChart(productDetail: ProductDetail),
-                    ListView.builder(
-                      itemCount: ProductDetail['comments'].length,
-                      itemBuilder: (context, index) {
-                        final comment = ProductDetail['comments'][index];
-
-                        return InkWell(
-                          onTap: () {
-
+                            return InkWell(
+                              onTap: () {},
+                              child: ListTile(
+                                title: Text(comment['nickname']),
+                                subtitle: Text('${comment['content']}'),
+                              ),
+                            );
                           },
-                          child: ListTile(
-                            title: Text(comment['nickname']),
-                            subtitle: Text('${comment['content']}'),
-                          ),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
+                        )
+                      ],
+                    ),
+                  ),
 
-              SizedBox(height: 10,),
-              Container(
-                height: 350, // 원하는 높이로 설정
-                child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
-              ),
-              CustomBox(),
-
-
-            ],
-          ),
-          bottomNavigationBar: PlusNavBar(),
+                  SizedBox(height: 10,),
+                  Container(
+                    height: 350, // 원하는 높이로 설정
+                    child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
+                  ),
+                  CustomBox(),
+                ],
+              );
+            }
+          },
         ),
+        bottomNavigationBar: PlusNavBar(),
+      ),
     );
   }
 }
