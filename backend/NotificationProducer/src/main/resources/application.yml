@@ -19,7 +19,7 @@ spring:
 kafka:
   producer:
     bootstrap-servers: ${KAFKA_URL}:9092
-    key-serializer: com.picky.notificationproducer.config.CustomSerializer
+    key-serializer: org.apache.kafka.common.serialization.StringDeserializer
     value-serializer: com.picky.notificationproducer.config.CustomSerializer
 
 server:
