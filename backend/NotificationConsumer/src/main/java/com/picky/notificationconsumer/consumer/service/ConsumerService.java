@@ -5,6 +5,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -18,7 +19,7 @@ public class ConsumerService {
      * 메세지 필터 사용 시 containerFactory = "filterKafkaListenerContainerFactory" 파라미터 추가
      */
     @KafkaListener(topics = "Notification", groupId = "notification", containerFactory = "kafkaListenerContainerFactory")
-    public void listenGroupNotification(Object message) {
+    public void listenGroupNotification(Map<String, Object> message) {
         log.info("[ConsumerService] Received Message in group notification: " + message);
     }
 }
