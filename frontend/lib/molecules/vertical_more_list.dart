@@ -32,7 +32,7 @@ class VerticalMoreList extends StatelessWidget {
               Flexible(
                 child: TextButton(
                     onPressed: () {
-                      context.go('/product_filtered');
+                      context.go('/list/filtered');
 
                     },
                     child: Text(

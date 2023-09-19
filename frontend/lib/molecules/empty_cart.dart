@@ -20,7 +20,7 @@ class EmptyCart extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: FilledButton(
               onPressed: (){
-                context.go('/product_filtered');
+                context.go('/list/filtered');
               },
               child: Text(
                   '상품 담으러 가기' // 목록 페이지로 이동
