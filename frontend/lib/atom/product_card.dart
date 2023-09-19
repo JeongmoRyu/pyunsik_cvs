@@ -9,9 +9,11 @@ import '../models/cart.dart';
 class ProductCard extends StatelessWidget {
   static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
-  const ProductCard({Key? key, required this.product}) : super(key: key);
 
   final Product product;
+
+  const ProductCard({Key? key, required this.product}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,8 @@ class ProductCard extends StatelessWidget {
       width: 200,
       child: InkWell(
         onTap: () {
-          context.go('/product_detail');
+          context.push('/detail');
+          // 특정 상품 디테일 페이지로 넘어가게 수정 필요
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

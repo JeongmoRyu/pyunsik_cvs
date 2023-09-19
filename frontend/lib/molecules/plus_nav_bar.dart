@@ -64,7 +64,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
             child: ElevatedButton(
               onPressed: () {
                 cart.add(new Product(6, '불닭볶음면', '', 1800));
-                context.go('/cart_page');
+                context.go('/cart');
               },
               style: ElevatedButton.styleFrom(
                 primary: Colors.lightBlue,

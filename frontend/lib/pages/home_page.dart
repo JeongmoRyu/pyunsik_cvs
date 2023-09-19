@@ -27,6 +27,7 @@ class HomePage extends StatelessWidget {
       new Product(8, 'test product short', '', 1800),
     ];
     return Scaffold(
+
       appBar: TopBarMain(appBar: AppBar(),),
       body: ListView(
         children: [

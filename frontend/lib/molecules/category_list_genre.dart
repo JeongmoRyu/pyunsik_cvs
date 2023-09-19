@@ -12,64 +12,47 @@ class CategoryGenreList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var filter = context.watch<Filter>();
-    const tagName = '카테고리';
+    const tag = '카테고리';
     return Container(
       height: 90,
       child: ListView(
           itemExtent: 80.0,
           padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
+          children: const <Widget>[
             CategoryButton(
-                onPressed: () {
-                  filter.addChoice(tagName, '간편식사');
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/burger.png',
+                tag: tag,
                 name: '간편식사'
             ),
             CategoryButton(
-                onPressed: () {
-                  filter.addChoice(tagName, '즉석요리');
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/noodles.png',
+                tag: tag,
                 name: '즉석요리'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/cookies.png',
+                tag: tag,
                 name: '과자'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/popsicle.png',
+                tag: tag,
                 name: '아이스크림'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/groceries.png',
+                tag: tag,
                 name: '식품'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/drink.png',
+                tag: tag,
                 name: '음료'
             ),
             CategoryButton(
-                onPressed: () {
-                  context.go('/product_filtered');
-                },
                 imageUrl: 'assets/images/box.png',
+                tag: tag,
                 name: '생활용품'
             ),
           ]

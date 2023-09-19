@@ -113,13 +113,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
         body: ListView(
             children: [
-              Container(
-                width: double.infinity,
-                height: 350,
-                child: Image.asset(
-                  'assets/images/ramen.PNG',
-                  fit: BoxFit.cover,
-                ),
+              Image.asset(
+                'assets/images/ramen.PNG',
+                fit: BoxFit.cover,
               ),
               // CustomBox(),
               SizedBox(height: 20,),

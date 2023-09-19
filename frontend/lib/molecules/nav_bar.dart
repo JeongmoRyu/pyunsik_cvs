@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 
 import '../models/cart.dart';
+
+//not used
 class NavBar extends StatelessWidget {
-  int currentPageIndex;
-  Function? callback;
-  NavBar({super.key, required this.currentPageIndex, this.callback});
+  final int selectedIndex;
+  final ValueChanged<int> onDestinationSelected;
+
+  const NavBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onDestinationSelected
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +21,15 @@ class NavBar extends StatelessWidget {
     return SizedBox(
       height: 60,
       child: NavigationBar(
-        onDestinationSelected: (int index) {
-          callback!(index);
-        },
-        selectedIndex: currentPageIndex,
+        onDestinationSelected: onDestinationSelected,
+        selectedIndex: selectedIndex,
         destinations: <Widget>[
-          NavigationDestination(
+          const NavigationDestination(
             selectedIcon: Icon(Icons.home),
             icon: Icon(Icons.home_outlined),
             label: '홈',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             icon: Icon(Icons.list),
             label: '목록',
           ),
@@ -36,7 +38,7 @@ class NavBar extends StatelessWidget {
             icon: Badge.count(count: cart.numberOfProducts, child: Icon(Icons.interests_outlined)),
             label: '조합',
           ),
-          NavigationDestination(
+          const NavigationDestination(
             selectedIcon: Icon(Icons.person),
             icon: Icon(Icons.person_outlined),
             label: '마이페이지',
