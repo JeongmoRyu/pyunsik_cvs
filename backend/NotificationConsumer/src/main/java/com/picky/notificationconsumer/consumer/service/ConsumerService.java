@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
+
 @Service
 @Slf4j
 public class ConsumerService {
@@ -15,8 +17,8 @@ public class ConsumerService {
      * 지정한 토픽에 메세지가 발생할 경우 이를 수신
      * 메세지 필터 사용 시 containerFactory = "filterKafkaListenerContainerFactory" 파라미터 추가
      */
-    @KafkaListener(topics = "Notification", groupId = "notification")
-    public void listenGroupNotification(String message) {
-        log.info("[ConsumerService] Received Message in group foo: " + message);
+    @KafkaListener(topics = "Notification", groupId = "notification", containerFactory = "kafkaListenerContainerFactory")
+    public void listenGroupNotification(Object message) {
+        log.info("[ConsumerService] Received Message in group notification: " + message);
     }
 }
