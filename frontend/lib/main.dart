@@ -11,6 +11,7 @@ import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/api_temp.dart';
 import 'package:frontend/pages/combination_detail_page.dart';
+import 'package:frontend/pages/search_page.dart';
 
 import 'models/cart.dart';
 import 'models/filter.dart';
@@ -104,7 +105,14 @@ final goRouter = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return CombinationDetailPage();
       },
-    )
+    ),
+    GoRoute(
+      path: '/search',
+      builder: (BuildContext context, GoRouterState state) {
+        return SearchPage();
+      },
+    ),
+
 
   ]
 );
