@@ -18,6 +18,7 @@ public class ProductPreviewResponse {
     private String badge;
     private Boolean isFavorite;
     private int convenienceCode;
+    private Long favoriteCount;
 
     public static ProductPreviewResponse of(Long productId, String productName , int price, String filename, String badge) {
         return ProductPreviewResponse.builder()

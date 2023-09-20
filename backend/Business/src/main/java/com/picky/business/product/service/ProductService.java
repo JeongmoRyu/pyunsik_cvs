@@ -65,6 +65,7 @@ public class ProductService {
                         .price(product.getPrice())
                         .filename(product.getFilename())
                         .badge(product.getBadge())
+                        .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
                         .build())
                 .collect(Collectors.toList());
     }
@@ -88,7 +89,7 @@ public class ProductService {
                 .filename(product.getFilename())
                 .badge(product.getBadge())
                 .category(product.getCategory())
-                .favoriteCount(product.getFavoriteCount())
+                .favoriteCount(productRepository.countActiveFavoritesByProductId(id))
                 .weight(product.getWeight())
                 .kcal(product.getKcal())
                 .carb(product.getCarb())
@@ -108,7 +109,6 @@ public class ProductService {
                         .filename(request.getFilename())
                         .badge(request.getBadge())
                         .category(request.getCategory())
-                        .favoriteCount(0)
                         .weight(request.getWeight())
                         .kcal(request.getKcal())
                         .carb(request.getCarb())
