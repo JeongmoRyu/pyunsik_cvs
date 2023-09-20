@@ -29,7 +29,7 @@ class CategoryList extends StatelessWidget {
                 name: 'CU'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/711_logo2.jpeg',
+                imageUrl: 'assets/images/711_logo.jpeg',
                 tag: tag,
                 name: '세븐일레븐'
             ),
@@ -44,12 +44,12 @@ class CategoryList extends StatelessWidget {
                 name: '이마트24'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/wip.jpg',
+                imageUrl: 'assets/images/11.png',
                 tag: '할인행사',
                 name: '1+1'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/wip.jpg',
+                imageUrl: 'assets/images/21.png',
                 tag: '할인행사',
                 name: '2+1'
             ),

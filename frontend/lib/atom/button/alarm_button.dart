@@ -66,7 +66,7 @@ class _AlarmButtonState extends State<AlarmButton> {
                   backgroundColor: Colors.white,
                 ),
                 _buildPopupMenuItem(
-                  imageAsset: 'assets/images/711_logo2.jpeg',
+                  imageAsset: 'assets/images/711_logo.jpeg',
                   text: 'SevenEleven에서 5개 상품이 할인 중입니다.',
                   route: '/list/filtered',
                   goRouter: goRouter,

@@ -18,7 +18,7 @@ class CategoryGenreList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           children: const <Widget>[
             CategoryButton(
-                imageUrl: 'assets/images/burger.png',
+                imageUrl: 'assets/images/fastfood.jpg',
                 tag: tag,
                 name: '간편식사'
             ),
@@ -28,22 +28,22 @@ class CategoryGenreList extends StatelessWidget {
                 name: '즉석요리'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/cookies.png',
+                imageUrl: 'assets/images/snack.jpg',
                 tag: tag,
                 name: '과자'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/popsicle.png',
+                imageUrl: 'assets/images/icecream.jpg',
                 tag: tag,
                 name: '아이스크림'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/groceries.png',
+                imageUrl: 'assets/images/food.jpg',
                 tag: tag,
                 name: '식품'
             ),
             CategoryButton(
-                imageUrl: 'assets/images/drink.png',
+                imageUrl: 'assets/images/beverage.jpg',
                 tag: tag,
                 name: '음료'
             ),
