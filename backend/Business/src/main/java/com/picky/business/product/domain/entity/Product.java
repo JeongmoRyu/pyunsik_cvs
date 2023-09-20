@@ -31,8 +31,6 @@ public class Product {
     @Column
     private int category;
     @Column
-    private int favoriteCount;
-    @Column
     private int weight;
     @Column
     private int kcal;

@@ -33,5 +33,12 @@ public class Favorite {
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
 
+    public void delete() {
+        this.isDeleted = true;
+    }
+
+    public void add() {
+        this.isDeleted = false;
+    }
 
 }

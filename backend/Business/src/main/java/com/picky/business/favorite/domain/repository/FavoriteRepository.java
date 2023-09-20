@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FavoriteRepository extends JpaRepository<Favorite,Long> {
+public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     List<Favorite> findByUserIdAndIsDeletedFalse(Long userId);
+
+    Favorite findByUserIdAndProductId(Long userId, Long productId);
+
 }
