@@ -10,13 +10,19 @@ class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
+      leading: IconButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        icon: Icon(Icons.arrow_back_ios_new),
+      ),
       actions: <Widget>[
-        IconButton(
-            onPressed: () {
-              context.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios_new)
-        ),
+        // IconButton(
+        //     onPressed: () {
+        //       context.pop(context);
+        //     },
+        //     icon: Icon(Icons.arrow_back_ios_new)
+        // ),
         IconButton(
             onPressed: () {
               context.go('/scrapbook');
