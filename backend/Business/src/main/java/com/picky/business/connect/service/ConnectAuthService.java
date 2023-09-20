@@ -15,7 +15,7 @@ public class ConnectAuthService {
     private static final String BASEURL = "http://localhost:8081/api/auth";
 
     public Long getUserIdByAccessToken(String accessToken) {
-        String url = BASEURL + "/user-id/" + accessToken;
+        String url = BASEURL + "/id/" + accessToken;
         try {
             return Long.parseLong(restTemplate.getForObject(url, String.class));
         } catch (Exception e) {
