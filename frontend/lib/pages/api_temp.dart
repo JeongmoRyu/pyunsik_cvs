@@ -194,7 +194,7 @@ class _ApiTempState extends State<ApiTemp> {
             }
           },
         ),
-        bottomNavigationBar: PlusNavBar(),
+        bottomNavigationBar: PlusNavBar(count: 1),
       ),
     );
   }

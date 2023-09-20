@@ -90,18 +90,21 @@ final goRouter = GoRouter(
     ),
     GoRoute(
       path: '/detail',
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) {
         return ProductDetailPage();
       },
     ),
     GoRoute(
       path: '/tempapi',
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) {
         return ApiTemp();
       },
     ),
     GoRoute(
       path: '/combination_detail',
+      parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) {
         return CombinationDetailPage();
       },

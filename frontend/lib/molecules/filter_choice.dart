@@ -31,7 +31,7 @@ class FilterChoice extends StatelessWidget {
             height: 50,
             child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(width: 20);
+                return SizedBox(width: 10);
               },
               scrollDirection: Axis.horizontal, // 가로 스크롤 설정
               itemCount: options.length,
@@ -47,11 +47,21 @@ class FilterChoice extends StatelessWidget {
     );
   }
   Widget getText(var filter, index) {
+    var buttonStyle = TextButton.styleFrom(
+      minimumSize: Size.zero,
+      padding: EdgeInsets.all(8.0),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+    );
+
     if (filter.doesExists(tag, options[index])) {
-      return InkWell(
-        onTap: () {
+      return TextButton(
+        onPressed: () {
           filter.removeChoice(tag, options[index]);
         },
+        style: buttonStyle,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -69,10 +79,11 @@ class FilterChoice extends StatelessWidget {
         ),
       );
     }
-    return InkWell(
-      onTap: () {
+    return TextButton(
+      onPressed: () {
         filter.addChoice(tag, options[index]);
       },
+      style: buttonStyle,
       child: Text(
         options[index],
         style: TextStyle(

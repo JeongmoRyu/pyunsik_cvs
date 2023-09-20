@@ -1,56 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import '../models/filter.dart';
 import '../util/constants.dart';
 
-class FilterRange extends StatelessWidget {
+class FilterRange extends StatefulWidget {
   final String tag;
   const FilterRange({super.key,
     required this.tag,
   });
 
   @override
+  State<FilterRange> createState() => _FilterRangeState();
+}
+
+class _FilterRangeState extends State<FilterRange> {
+  final textController1 = TextEditingController();
+  final textController2 = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
+    var filter = context.watch<Filter>();
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           width: 100,
-          child: Text(tag,
+          child: Text(widget.tag,
             style: TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
         ),
         Expanded(
-          child: Row(
-
-            children: [
-              RangeTextField(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('~'),
-              ),
-              RangeTextField(),
-              TextButton(
-                  onPressed: (){},
-                  child: Text('적용')
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                RangeTextField(textController1),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('~'),
+                ),
+                RangeTextField(textController2),
+                TextButton(
+                    onPressed: (){
+                      int min = int.parse(textController1.text);
+                      int max = int.parse(textController2.text);
+                      if (min > max) {
+                        print('error: min larger than max');
+                        textController1.clear();
+                        textController2.clear();
+                        return;
+                      }
+                      filter.changeRange(widget.tag, min, max);
+                    },
+                    child: Text('적용')
+                )
+              ],
+            ),
           ),
         ),
       ],
     );
   }
-}
 
-class RangeTextField extends StatelessWidget {
-  const RangeTextField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 100,
+  Widget RangeTextField(var controller) {
+    return SizedBox(
+      width: 70,
       child: TextField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ], // Only numbers can be entered
+        style: TextStyle(
+          fontSize: 13,
+        ),
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           isDense: true,                      // Added this

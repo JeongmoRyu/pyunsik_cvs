@@ -37,6 +37,7 @@ class Filter extends ChangeNotifier {
 
   void changeRange(String tag, int min, int max) {
     _filterRange[tag] = [min, max];
+    print(_filterRange[tag]);
     notifyListeners();
   }
 
