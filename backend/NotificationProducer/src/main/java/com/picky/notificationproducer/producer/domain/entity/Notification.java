@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,10 +21,10 @@ public class Notification {
 
     @Id
     private String date;
-    private String message;
+    private HashMap<String, HashMap<String, List<String>>> message;
 
     @Builder
-    public Notification(String date, String message) {
+    public Notification(String date, HashMap<String, HashMap<String, List<String>>> message) {
         this.date = date;
         this.message = message;
     }

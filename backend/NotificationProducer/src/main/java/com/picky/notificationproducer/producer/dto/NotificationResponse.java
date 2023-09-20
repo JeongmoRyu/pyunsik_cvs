@@ -4,11 +4,14 @@ import com.picky.notificationproducer.producer.domain.entity.Notification;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.List;
+
 @Getter
 @Builder
 public class NotificationResponse {
 
-    private String message;
+    private HashMap<String, HashMap<String, List<String>>> message;
 
     public static NotificationResponse toResponse(Notification notification) {
         return NotificationResponse.builder()

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,14 +22,15 @@ public class FCMNotificationService {
         this.firebaseMessaging = firebaseMessaging;
     }
 
-    public void sendNotificationByFCMToken(Map<String, Object> notificationList) {
-
-        for (Map.Entry<String, Object> userEntry : notificationList.entrySet()) {
-
+    public void sendNotificationByFCMToken(HashMap<String, HashMap<String, List>> notificationList) {
+        System.out.println("received message: " + notificationList);
+        for (HashMap.Entry<String, HashMap<String, List>> userEntry : notificationList.entrySet()) {
+            System.out.println("userEntry: " + userEntry);
             String userFCMToken = userEntry.getKey();
-            Map<String, Object> userNotificationList = (Map<String, Object>) userEntry.getValue();
+            HashMap<String, List> userNotificationList = userEntry.getValue();
 
-            for (Map.Entry<String, Object> brandEntry : userNotificationList.entrySet()) {
+            for (Map.Entry<String, List> brandEntry : userNotificationList.entrySet()) {
+                System.out.println("brandEntry: " + brandEntry);
                 Notification notification = Notification.builder()
                         .setTitle(brandEntry.getKey())
                         .setBody(brandEntry.getValue().toString())

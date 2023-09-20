@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -12,6 +14,11 @@ import java.util.Map;
 public class ConsumerService {
 
     private FCMNotificationService fcmNotificationService;
+
+    public ConsumerService(FCMNotificationService fcmNotificationService) {
+        this.fcmNotificationService = fcmNotificationService;
+    }
+
     /**
      * [listenGroupNotification]
      * config에 @EnableKafka가 붙은 경우 @KafkaListener 정상 작동
@@ -19,8 +26,9 @@ public class ConsumerService {
      * 메세지 필터 사용 시 containerFactory = "filterKafkaListenerContainerFactory" 파라미터 추가
      */
     @KafkaListener(topics = "Notification", groupId = "notification", containerFactory = "kafkaListenerContainerFactory")
-    public void listenGroupNotification(Map<String, Object> notificationList) {
+    public void listenGroupNotification(HashMap<String, HashMap<String, List>> notificationList) {
         log.info("[ConsumerService] Received Message in group notification: " + notificationList);
+        System.out.println("breaking point...");
         fcmNotificationService.sendNotificationByFCMToken(notificationList);
     }
 }
