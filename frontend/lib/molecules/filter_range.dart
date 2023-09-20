@@ -22,20 +22,22 @@ class FilterRange extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Row(
-
-            children: [
-              RangeTextField(),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-                child: Text('~'),
-              ),
-              RangeTextField(),
-              TextButton(
-                  onPressed: (){},
-                  child: Text('적용')
-              )
-            ],
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                RangeTextField(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text('~'),
+                ),
+                RangeTextField(),
+                TextButton(
+                    onPressed: (){},
+                    child: Text('적용')
+                )
+              ],
+            ),
           ),
         ),
       ],
@@ -49,8 +51,11 @@ class RangeTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      width: 100,
+      width: 70,
       child: TextField(
+        style: TextStyle(
+          fontSize: 13,
+        ),
         decoration: InputDecoration(
           border: OutlineInputBorder(),
           isDense: true,                      // Added this
