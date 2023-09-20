@@ -1,4 +1,4 @@
-package com.picky.business.util;
+package com.picky.business.configure;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

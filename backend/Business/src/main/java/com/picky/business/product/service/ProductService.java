@@ -30,6 +30,9 @@ public class ProductService {
         int maxValue = (values.get(1) != null) ? values.get(1) : Integer.MAX_VALUE;
         return new int[]{minValue, maxValue};
     }
+    private int[] getSafeMinMax(List<Integer> values, int[] defaultValues) {
+        return (values != null) ? getMinMax(values) : defaultValues;
+    }
 
     //Query를 통한 검색
     public List<ProductPreviewResponse> searchProductByQuery(
@@ -37,12 +40,14 @@ public class ProductService {
             List<Integer> price, List<Integer> carb,
             List<Integer> protein, List<Integer> fat, List<Integer> sodium
     ) {
-        int[] priceRange = getMinMax(price);
-        int[] carbRange = getMinMax(carb);
-        int[] proteinRange = getMinMax(protein);
-        int[] fatRange = getMinMax(fat);
-        int[] sodiumRange = getMinMax(sodium);
-        productName = productName.replace(" ", "");
+        int[] defaultRange = {0, Integer.MAX_VALUE};
+
+        int[] priceRange = getSafeMinMax(price, defaultRange);
+        int[] carbRange = getSafeMinMax(carb, defaultRange);
+        int[] proteinRange = getSafeMinMax(protein, defaultRange);
+        int[] fatRange = getSafeMinMax(fat, defaultRange);
+        int[] sodiumRange = getSafeMinMax(sodium, defaultRange);
+        productName = (productName != null) ? productName.replace(" ", "") : null;
         Specification<Product> specification = Product.filterProducts(
                 productName, category,
                 priceRange[0], priceRange[1],
@@ -91,6 +96,7 @@ public class ProductService {
                 .fat(product.getFat())
                 .sodium(product.getSodium())
                 .comments(commentResponseList)
+                .convenienceCode(product.getConvenienceCode())
                 .build();
     }
 

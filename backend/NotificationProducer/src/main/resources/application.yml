@@ -1,15 +1,10 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}/auth
+    url: ${DB_URL}/kafka
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 
-  jwt:
-    secret: ${SECRET_KEY}
-    token:
-      access-expire-time: 86400 # 만료시간 하루
-      refresh-expire-time: 2592000 # 만료시간 한 달
 
   jpa:
     hibernate:
@@ -21,12 +16,11 @@ spring:
         format_sql: true
         highlight_sql: true
 
-
-logging:
-  level:
-    org.hibernate:
-      SQL: debug
-      type: trace
+kafka:
+  producer:
+    bootstrap-servers: ${KAFKA_URL}:9092
+    key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+    value-serializer: com.picky.notificationproducer.config.CustomSerializer
 
 server:
-  port: 8081
+  port: 8082

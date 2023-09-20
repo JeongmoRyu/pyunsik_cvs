@@ -35,7 +35,7 @@ public class User {
     private String nickname;
 
     @Column(nullable = false)
-    private boolean isDeleted;
+    private boolean isDeleted = false;
 
     private int height;
 
@@ -55,12 +55,11 @@ public class User {
     }
 
     @Builder
-    public User(long id, String password, String nickname, boolean isDeleted, int height, int weight, int age, int gender, String fcmToken, List<String> roles) {
+    public User(long id, String password, String nickname, int height, int weight, int age, int gender, String fcmToken, List<String> roles) {
         this.id = id;
         this.uuid = java.util.UUID.randomUUID().toString();
         this.password = password;
         this.nickname = nickname;
-        this.isDeleted = isDeleted;
         this.height = height;
         this.weight = weight;
         this.age = age;
@@ -73,7 +72,6 @@ public class User {
         return User.builder()
                 .password(request.getPassword())
                 .nickname(request.getNickname())
-                .isDeleted(request.isDeleted())
                 .height(request.getHeight())
                 .weight(request.getWeight())
                 .age(request.getAge())
