@@ -15,6 +15,9 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              onTap: () {
+                context.push('/search');
+              },
               decoration: InputDecoration(
                   filled: true,
                   fillColor: Color.fromRGBO(241, 241, 241, 1.0),
