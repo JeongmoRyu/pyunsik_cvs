@@ -1,5 +1,6 @@
 package com.picky.business.product.domain.entity;
 
+import com.picky.business.favorite.domain.entity.Favorite;
 import lombok.*;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -46,11 +47,14 @@ public class Product {
     @Column(columnDefinition = "boolean default false")
     private Boolean isDeleted = false;
 
-    @Column
+    @Column(name="convenience_code")
     private int convenienceCode;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Favorite> favorites;
 
         public static Specification<Product> filterProducts(
             String productName,

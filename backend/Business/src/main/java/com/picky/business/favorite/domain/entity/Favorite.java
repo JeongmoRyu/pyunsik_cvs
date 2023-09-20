@@ -1,5 +1,6 @@
 package com.picky.business.favorite.domain.entity;
 
+import com.picky.business.product.domain.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="favorite")
+@Table(name = "favorite")
 @Getter
 @AllArgsConstructor
 @Builder
@@ -19,10 +20,18 @@ public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "product_id")
     private Long productId;
-    private Boolean isDeleted;
+    private Long userId;
+    private boolean isDeleted = false;
+
     @Column
     @CreatedDate
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    private Product product;
+
 
 }
