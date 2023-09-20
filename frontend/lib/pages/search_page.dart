@@ -17,24 +17,40 @@ class _SearchPageState extends State<SearchPage> {
   String keyValue = '';
   List<String> searchDataList = [];
   List<String> relatedDataList = [];
-  int maxSearchDataCount = 10;
-  int maxrelatedDataList = 10;
+  int maxSearchDataCount = 8;
+  int maxrelatedDataList = 8;
 
   @override
   void initState() {
     super.initState();
     keyValue = '';
+    loadSearchData();
   }
 
-  void saveSearchData(String data) {
+  void saveSearchData(String data) async {
     if (searchDataList.length >= maxSearchDataCount) {
       searchDataList.removeAt(0);
     }
     searchDataList.add(data);
+
+    // SharedPreferences에 검색어 데이터 저장
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('keyword', searchDataList);
   }
 
-  Future<Map<String, dynamic>> fetchData() async {
-    final String apiUrl = "http://j9a505.p.ssafy.io:8080/api/product/1";
+  void loadSearchData() async {
+    // SharedPreferences에서 검색어 데이터 불러오기
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    searchDataList = prefs.getStringList('keyword') ?? [];
+
+    // 최대 검색어 개수를 초과하면 삭제
+    if (searchDataList.length > maxSearchDataCount) {
+      searchDataList = searchDataList.sublist(searchDataList.length - maxSearchDataCount);
+    }
+  }
+
+  Future<List<dynamic>> fetchData() async {
+    final String apiUrl = "http://j9a505.p.ssafy.io:8881/api/product/";
 
     final headers = {
       "Access-Control-Allow-Origin": "*",
@@ -46,7 +62,7 @@ class _SearchPageState extends State<SearchPage> {
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
-      final Map<String, dynamic> data = json.decode(body);
+      final List<dynamic> data = json.decode(body);
       return data;
     } else {
       throw Exception('Failed to load data');
@@ -64,7 +80,7 @@ class _SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 inputFormatters: [
-                  LengthLimitingTextInputFormatter(60),
+                  LengthLimitingTextInputFormatter(50),
                 ],
                 onSubmitted: (value) {
                   setState(() {
@@ -113,7 +129,7 @@ class _SearchPageState extends State<SearchPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
-            final AllProduct = snapshot.data as Map<String, dynamic>;
+            final AllProduct = snapshot.data as List<dynamic>;
 
             return ListView(
               children: [
@@ -121,6 +137,8 @@ class _SearchPageState extends State<SearchPage> {
                   height: 30,
                   child: Text('$keyValue'),
                 ),
+                Text('$AllProduct'),
+
                 if (keyValue.isNotEmpty)
                   Container(
                     height: 550,
@@ -139,7 +157,6 @@ class _SearchPageState extends State<SearchPage> {
                         ),
                       ],
                     ),
-                    // Text('$AllProduct'),
                   )
                 else
                   Container(

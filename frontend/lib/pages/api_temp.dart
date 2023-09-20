@@ -28,7 +28,7 @@ class _ApiTempState extends State<ApiTemp> {
   ];
 
   Future<Map<String, dynamic>> fetchData() async {
-    final String apiUrl = "http://j9a505.p.ssafy.io:8080/api/product/1";
+    final String apiUrl = "http://j9a505.p.ssafy.io:8881/api/product/1";
 
     final headers = {
       "Access-Control-Allow-Origin": "*",
@@ -71,10 +71,20 @@ class _ApiTempState extends State<ApiTemp> {
 
               return ListView(
                 children: [
-                  Image.network(
+
+                  if (ProductDetail['filename'] != 'none')
+                    Image.network(
                       '${ProductDetail['filename']}',
                       fit: BoxFit.cover,
-                  ),
+                    )
+
+                  else
+                      Image.asset(
+                      'assets/images/wip.jpg',
+                      fit: BoxFit.fitHeight,
+                      ),
+
+
                   // Container(
                   //   height: 300,
                   //
