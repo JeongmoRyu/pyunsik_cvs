@@ -23,5 +23,6 @@ public class ProductDetailResponse {
     private double fat;
     private double sodium;
     private int convenienceCode;
+    private Boolean isFavorite;
     private List<CommentResponse> comments;
 }

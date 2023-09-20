@@ -19,7 +19,6 @@ public class ProductController {
 
     private final ProductService productService;
     private final CommentService commentService;
-    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZWEzYzIyNC0xMWMzLTRiNjItOTc4OS04ZDYzNmJjOGYyNTMiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NTAxMDAyMywiZXhwIjoxNjk3NjAyMDIzfQ.h6wNgzVTjFYUGnf0HYZFIaOY8caoTEFCPnp7GcZ_hZ8";
 
     @GetMapping
     public ResponseEntity<List<ProductPreviewResponse>> getProductByQuery(
@@ -29,14 +28,15 @@ public class ProductController {
             @RequestParam(required = false) List<Integer> carb,
             @RequestParam(required = false) List<Integer> protein,
             @RequestParam(required = false) List<Integer> fat,
-            @RequestParam(required = false) List<Integer> sodium) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium));
+            @RequestParam(required = false) List<Integer> sodium,
+            @RequestHeader("Authorization") String accessToken) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium, accessToken));
     }
 
     @GetMapping(value = "/{productId}")
     public ResponseEntity<ProductDetailResponse> productDetailsByProductId(
-            @PathVariable Long productId) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductByProductId(productId));
+            @PathVariable Long productId, @RequestHeader("Authorization") String accessToken) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductByProductId(productId,accessToken));
     }
 
     @PostMapping
@@ -58,19 +58,19 @@ public class ProductController {
     }
 
     @PostMapping(value = "/comment/{productId}")
-    public ResponseEntity<String> addComment(@PathVariable Long productId, @RequestBody CommentWriteRequest request) {
+    public ResponseEntity<String> addComment(@PathVariable Long productId, @RequestHeader("Authorization") String accessToken, @RequestBody CommentWriteRequest request) {
         commentService.addComment(productId, request, accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body(productId + ":" + request.getContent() + " 댓글 등록 완료");
     }
 
     @PatchMapping(value = "/comment/{commentId}")
-    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @PathVariable Long commentId, @RequestBody CommentUpdateRequest request) {
+    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @PathVariable Long commentId, @RequestHeader("Authorization") String accessToken, @RequestBody CommentUpdateRequest request) {
         commentService.updateComment(productId, commentId, request, accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body("댓글 수정 완료");
     }
 
     @DeleteMapping(value = "/comment/{commentId}")
-    public ResponseEntity<String> deleteComment(@PathVariable Long commentId) {
+    public ResponseEntity<String> deleteComment(@PathVariable Long commentId, @RequestHeader("Authorization") String accessToken) {
         //TODO 댓글 작성자 userId와 삭제하려는 사람 userID 일치하는지 로직 필요
         commentService.deleteComment(commentId, accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body("댓글 삭제 완료");
