@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -21,6 +20,8 @@ public class FavoriteService {
 
     private final ProductService productService;
 
+
+//유저가 즐겨찾기 한 목록 조회
     public List<FavoriteListResponse> getFavoriteList(String accessToken) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
         List<Favorite> findList = favoriteRepository.findByUserIdAndIsDeletedFalse(userId);
@@ -38,27 +39,19 @@ public class FavoriteService {
                 .collect(Collectors.toList());
     }
 
+    //즐겨찾기에 품목 추가
     public void addFavorite(String accessToken, Long productId) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
-        Optional<Favorite> optionalFavorite = Optional.ofNullable(
-                favoriteRepository.findByUserIdAndProductId(userId, productId)
-        );
-
-        optionalFavorite.ifPresentOrElse(
-                existingFavorite -> {
-                    existingFavorite.add();
-                    favoriteRepository.save(existingFavorite);
-                },
-                () -> favoriteRepository.save(
-                        Favorite.builder()
-                                .userId(userId)
-                                .productId(productId)
-                                .isDeleted(false)
-                                .build()
-                )
+        favoriteRepository.save(
+                Favorite.builder()
+                        .userId(userId)
+                        .productId(productId)
+                        .isDeleted(false)
+                        .build()
         );
     }
 
+    //품목 즐겨찾기 삭제
     public void deleteFavorite(String accessToken, Long productId) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
         Favorite favorite = favoriteRepository.findByUserIdAndProductId(userId, productId);
