@@ -51,6 +51,9 @@ class FilterChoice extends StatelessWidget {
       minimumSize: Size.zero,
       padding: EdgeInsets.all(8.0),
       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
+      ),
     );
 
     if (filter.doesExists(tag, options[index])) {

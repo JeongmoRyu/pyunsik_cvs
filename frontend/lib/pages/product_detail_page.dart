@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/util/constants.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
 import 'package:frontend/molecules/temp_chart.dart';
-import 'package:frontend/molecules/temp_chart_in_all.dart';
-import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
+import '../models/filter.dart';
 import '../models/product.dart';
 
 
@@ -24,23 +24,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
 
   List<Product> testList = [
-    new Product(1, 'test product short', '', 1800),
-    new Product(2, 'test product middle middle', '', 39900),
-    new Product(3, 'test product long long long long long long long', '', 1498000),
-    new Product(4, 'test product short', '', 1800),
-    new Product(5, 'test product short', '', 1800),
-    new Product(6, 'test product short', '', 1800),
-    new Product(7, 'test product short', '', 1800),
-    new Product(8, 'test product short', '', 1800),
+    Product(1, 'test product short', '', 1800),
+    Product(2, 'test product middle middle', '', 39900),
+    Product(3, 'test product long long long long long long long', '', 1498000),
+    Product(4, 'test product short', '', 1800),
+    Product(5, 'test product short', '', 1800),
+    Product(6, 'test product short', '', 1800),
+    Product(7, 'test product short', '', 1800),
+    Product(8, 'test product short', '', 1800),
   ];
 
-  Map<String, dynamic> ProductDetail = {
-    'productName': '불닭볶음면',
+  Map<String, dynamic> productDetail = {
+    'productName': '불닭볶음면불닭볶음면불닭볶음면불닭볶음면불닭볶음면불닭볶음면',
     'price': 1800,
     'filename': 'assets/images/ramen.PNG',
     'badge': '2+1',
     'category': 2,
-    'favoriteCount': 42,
+    'favoriteCount': 42424,
     'weight': 200,
     'kcal': 425,
     'carb': 63,
@@ -87,94 +87,90 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   void initState() {
     super.initState();
-    kcalRatio = ProductDetail['kcal'] / StandardDetail['kcal'];
-    proteinRatio = ProductDetail['protein'] / StandardDetail['protein'];
-    fatRatio = ProductDetail['fat'] / StandardDetail['fat'];
-    sodiumRatio = ProductDetail['sodium'] / StandardDetail['sodium'];
-    carbRatio = ProductDetail['carb'] / StandardDetail['carb'];
+    kcalRatio = productDetail['kcal'] / StandardDetail['kcal'];
+    proteinRatio = productDetail['protein'] / StandardDetail['protein'];
+    fatRatio = productDetail['fat'] / StandardDetail['fat'];
+    sodiumRatio = productDetail['sodium'] / StandardDetail['sodium'];
+    carbRatio = productDetail['carb'] / StandardDetail['carb'];
 
     kcalData = [
-      ChartData('kcal', ProductDetail['kcal'] / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', productDetail['kcal'] / StandardDetail['kcal'], Colors.red)
     ];
-
-
   }
 
   @override
   Widget build(BuildContext context) {
+    const tag = '카테고리';
+    var filter = context.watch<Filter>();
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: TopBarSub(appBar: AppBar()), // AppBar에 표시할 제목
         body: ListView(
           children: [
-            Container(
-              width: double.infinity,
-              height: 350,
-              child: Image.asset(
-                'assets/images/ramen.PNG',
-                fit: BoxFit.cover,
-              ),
+            Image.asset(
+              'assets/images/ramen.PNG',
+              fit: BoxFit.cover,
             ),
             SizedBox(height: 10,),
-            Container(
-              height: ProductDetail['productName'].length > 20 ? 55 : 25,
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  ' ${ProductDetail['productName']}',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    backgroundColor: Colors.white,
-                  ),
-                ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: Constants.horizontalPadding,
               ),
-            ),
-            SizedBox(height: 10,),
-            Container(
-              height: 25,
-              padding: EdgeInsets.only(left: 20),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      if (ProductDetail['badge'] != null)
-                        TextSpan(
-                          text: ' ${ProductDetail['badge']}',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            backgroundColor: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  InkWell(
+                    onTap: (){
+                      filter.addChoice(
+                          tag,
+                          getCategory(productDetail['category'])
+                      );
+                      context.go('/list/filtered');
+                    },
+                    child: Text(
+                      getCategory(productDetail['category']),
+                      style: const TextStyle(
+                          fontSize: 12,
+                          color: Constants.darkGrey
+                      ),
+                    ),
+                  ), //카테고리
+                  const SizedBox(height: 10,),
+                  Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            productDetail['productName'],
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
                           ),
                         ),
-                      TextSpan(
-                        text: format.format(ProductDetail['price']) + '원',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          backgroundColor: Colors.white,
-                        ),
-                      ),
-                    ],
+                        const SizedBox(width: 150,)
+                      ]
                   ),
-                ),
+                  SizedBox(height: 10,),
+                  Text(
+                    '${format.format(productDetail['price'])}원',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 15,),
 
             Container(
               height: 48,
               child: TabBar(
-                labelColor: Colors.black,
                 tabs: [
-                  Tab(text: '상세정보'),
-                  Tab(text: '상품리뷰'),
+                  Tab(text: '영양정보'),
+                  Tab(
+                      text: '리뷰 (${format.format(productDetail['comments'].length)})'
+                  ),
                 ],
               ),
             ),
@@ -182,11 +178,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               height: 480,
               child: TabBarView(
                 children: [
-                  TempChart(productDetail: ProductDetail),
+                  TempChart(productDetail: productDetail),
                   ListView.builder(
-                    itemCount: ProductDetail['comments'].length,
+                    itemCount: productDetail['comments'].length,
                     itemBuilder: (context, index) {
-                      final comment = ProductDetail['comments'][index];
+                      final comment = productDetail['comments'][index];
 
                       return InkWell(
                         onTap: () {
@@ -212,9 +208,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             CustomBox(),
           ],
         ),
-        bottomNavigationBar: PlusNavBar(),
+        bottomNavigationBar: PlusNavBar(count: productDetail['favoriteCount'],),
       ),
     );
+  }
+  String getCategory(int index) {
+    var category = ['간편식사', '즉석요리', '과자', '아이스크림', '식품', '음료', '생활용품'];
+    return category[index - 1];
   }
 }
 
