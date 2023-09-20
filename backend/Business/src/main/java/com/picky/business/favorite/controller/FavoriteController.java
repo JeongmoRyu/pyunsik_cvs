@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/product")
+@RequestMapping(value = "/api/favorite")
 @RequiredArgsConstructor
 @Slf4j
 public class FavoriteController {
     private final FavoriteService favoriteService;
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZWEzYzIyNC0xMWMzLTRiNjItOTc4OS04ZDYzNmJjOGYyNTMiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NTAxMDAyMywiZXhwIjoxNjk3NjAyMDIzfQ.h6wNgzVTjFYUGnf0HYZFIaOY8caoTEFCPnp7GcZ_hZ8";
+    @GetMapping
+    public ResponseEntity<List<FavoriteListResponse>> getFavoriteList(){
+        return ResponseEntity.status(HttpStatus.OK).body(favoriteService.getFavoriteList(accessToken));
+
+    }
     @PostMapping
     public ResponseEntity<String> addFavorite(@RequestBody FavoriteAddRequest request){
         favoriteService.addFavorite(accessToken,request);
