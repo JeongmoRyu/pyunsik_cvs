@@ -19,13 +19,49 @@ class _SearchPageState extends State<SearchPage> {
   List<String> relatedDataList = [];
   int maxSearchDataCount = 8;
   int maxrelatedDataList = 8;
+  List<dynamic> AllProduct = []; // AllProduct 변수를 추가
 
   @override
   void initState() {
     super.initState();
     keyValue = '';
     loadSearchData();
+    fetchAndSetData();
   }
+
+  Future<void> fetchAndSetData() async {
+    try {
+      final data = await fetchData();
+      setState(() {
+        AllProduct = data;
+      });
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+  }
+
+  Future<void> searchRelatedData() async {
+    if (keyValue.isEmpty) {
+      return; // 검색어가 비어있으면 아무 작업도 수행하지 않음
+    }
+    List<String> results = [];
+
+    for (var product in AllProduct) {
+      String productName = product['productName'];
+      if (productName.toLowerCase().contains(keyValue.toLowerCase())) {
+        results.add(productName);
+      }
+      if (results.length >= maxrelatedDataList) {
+        break;
+      }
+    }
+
+    // 찾은 데이터를 relatedDataList에 추가
+    setState(() {
+      relatedDataList = results;
+    });
+  }
+
 
   void saveSearchData(String data) async {
     if (searchDataList.length >= maxSearchDataCount) {
@@ -92,6 +128,8 @@ class _SearchPageState extends State<SearchPage> {
                   setState(() {
                     keyValue = value;
                   });
+                  searchRelatedData();
+
                 },
                 decoration: InputDecoration(
                   filled: true,
@@ -133,11 +171,7 @@ class _SearchPageState extends State<SearchPage> {
 
             return ListView(
               children: [
-                Container(
-                  height: 30,
-                  child: Text('$keyValue'),
-                ),
-                Text('$AllProduct'),
+                // Text('$AllProduct'),
 
                 if (keyValue.isNotEmpty)
                   Container(
@@ -145,7 +179,6 @@ class _SearchPageState extends State<SearchPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('  '+'$keyValue ' + ' 와 관련한 데이터 :'),
                         SizedBox(height: 10,),
                         Column(
                           children: relatedDataList.map((data) {
@@ -164,7 +197,7 @@ class _SearchPageState extends State<SearchPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('  ' + '최근 검색 데이터 :'),
+                        Text('  ' + '최근 검색어'),
                         SizedBox(height: 10,),
                         Column(
                           children: searchDataList.map((data) {

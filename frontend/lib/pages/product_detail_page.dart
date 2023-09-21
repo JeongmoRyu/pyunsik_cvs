@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/util/network.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
@@ -44,15 +45,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   ];
 
   Future<ProductDetail> fetchData() async {
-    final String apiUrl = "http://j9a505.p.ssafy.io:8881/api/product/1";
+    final String apiUrl = "Network.apiUrl" + "product/1";
 
-    final headers = {
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json',
-      'Accept': '*/*'
-    };
-
-    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeader(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
