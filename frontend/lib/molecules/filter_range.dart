@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/models/product_list.dart';
 import 'package:provider/provider.dart';
 
 import '../models/filter.dart';
@@ -22,7 +23,7 @@ class _FilterRangeState extends State<FilterRange> {
   @override
   Widget build(BuildContext context) {
     var filter = context.watch<Filter>();
-
+    var productList = context.watch<ProductList>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -56,6 +57,7 @@ class _FilterRangeState extends State<FilterRange> {
                         return;
                       }
                       filter.changeRange(widget.tag, min, max);
+                      productList.getList();
                     },
                     child: Text('적용')
                 )

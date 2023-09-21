@@ -20,6 +20,7 @@ class Filter extends ChangeNotifier {
       _filterChoice[tag] = [];
     }
     _filterChoice[tag]?.add(option);
+    print(filterChoice);
     notifyListeners();
   }
 
@@ -37,7 +38,7 @@ class Filter extends ChangeNotifier {
 
   void changeRange(String tag, int min, int max) {
     _filterRange[tag] = [min, max];
-    print(_filterRange[tag]);
+    print(_filterRange);
     notifyListeners();
   }
 

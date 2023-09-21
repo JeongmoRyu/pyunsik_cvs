@@ -4,8 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/util/custom_box.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+
+import '../models/product_list.dart';
 
 
 class SearchPage extends StatefulWidget {
