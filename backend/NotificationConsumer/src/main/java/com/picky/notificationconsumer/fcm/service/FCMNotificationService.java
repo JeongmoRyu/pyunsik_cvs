@@ -4,12 +4,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -21,14 +20,12 @@ public class FCMNotificationService {
         this.firebaseMessaging = firebaseMessaging;
     }
 
-    public void sendNotificationByFCMToken(Map<String, Object> notificationList) {
-
-        for (Map.Entry<String, Object> userEntry : notificationList.entrySet()) {
-
+    public void sendNotificationByFCMToken(HashMap<String, HashMap<String, List<String>>> notificationList) {
+        for (HashMap.Entry<String, HashMap<String, List<String>>> userEntry : notificationList.entrySet()) {
             String userFCMToken = userEntry.getKey();
-            Map<String, Object> userNotificationList = (Map<String, Object>) userEntry.getValue();
+            HashMap<String, List<String>> userNotificationList = userEntry.getValue();
 
-            for (Map.Entry<String, Object> brandEntry : userNotificationList.entrySet()) {
+            for (HashMap.Entry<String, List<String>> brandEntry : userNotificationList.entrySet()) {
                 Notification notification = Notification.builder()
                         .setTitle(brandEntry.getKey())
                         .setBody(brandEntry.getValue().toString())

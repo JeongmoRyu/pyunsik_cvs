@@ -22,7 +22,7 @@ kafka:
     group-id: notification
     auto-offset-reset: earliest
     key-serializer: org.apache.kafka.common.serialization.StringDeserializer
-    value-serializer: org.apache.kafka.common.serialization.CustomSerializer
+    value-serializer: com.picky.notificationconsumer.kafka.config.CustomSerializer
 
 server:
   port: 8083
