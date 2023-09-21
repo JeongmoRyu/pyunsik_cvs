@@ -4,6 +4,7 @@ import 'package:frontend/util/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+// import 'package:frontend/models/productdetail.dart';
 
 import '../models/cart.dart';
 

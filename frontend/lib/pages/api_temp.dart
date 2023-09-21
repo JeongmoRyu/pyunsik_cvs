@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/temp_chart.dart';
-
+import 'package:frontend/models/productdetail.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
@@ -27,7 +27,7 @@ class _ApiTempState extends State<ApiTemp> {
     new Product(8, 'test product short', '', 1800),
   ];
 
-  Future<Map<String, dynamic>> fetchData() async {
+  Future<ProductDetail> fetchData() async {
     final String apiUrl = "http://j9a505.p.ssafy.io:8881/api/product/1";
 
     final headers = {
@@ -44,7 +44,7 @@ class _ApiTempState extends State<ApiTemp> {
       if (data['filename'] == null) {
         data['filename'] = 'none';
       }
-      return data;
+      return ProductDetail.fromJson(data);
     } else {
       throw Exception('Failed to load data');
     }
@@ -56,7 +56,7 @@ class _ApiTempState extends State<ApiTemp> {
       length: 2,
       child: Scaffold(
         appBar: TopBarSub(appBar: AppBar()),
-        body: FutureBuilder(
+        body: FutureBuilder<ProductDetail>(
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -67,45 +67,29 @@ class _ApiTempState extends State<ApiTemp> {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               // 데이터 로딩이 완료된 경우 화면에 데이터 표시
-              final ProductDetail = snapshot.data as Map<String, dynamic>;
+              final ProductDetail productDetail = snapshot.data!;
+              // final ProductDetail = productdetail;
 
               return ListView(
                 children: [
-
-                  if (ProductDetail['filename'] != 'none')
+                  if (productDetail.filename != 'none')
                     Image.network(
-                      '${ProductDetail['filename']}',
+                      '${productDetail.filename}',
                       fit: BoxFit.cover,
                     )
-
                   else
-                      Image.asset(
+                    Image.asset(
                       'assets/images/wip.jpg',
                       fit: BoxFit.fitHeight,
-                      ),
-
-
-                  // Container(
-                  //   height: 300,
-                  //
-                  //   child: ProductDetail['filename'] != 'none'
-                  //       ? Image.network(
-                  //     '${ProductDetail['filename']}',
-                  //     fit: BoxFit.fitHeight,
-                  //   )
-                  //       : Image.asset(
-                  //     'assets/images/wip.jpg',
-                  //     fit: BoxFit.fitHeight,
-                  //   ),
-                  // ),
+                    ),
                   SizedBox(height: 10,),
                   Container(
-                    height: ProductDetail['productName'].length > 20 ? 55 : 25,
+                    height: productDetail.productName.length > 20 ? 55 : 25,
                     padding: EdgeInsets.only(left: 20),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        ' ${ProductDetail['productName']}',
+                        ' ${productDetail.productName}',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 20,
@@ -124,9 +108,9 @@ class _ApiTempState extends State<ApiTemp> {
                       child: RichText(
                         text: TextSpan(
                           children: [
-                            if (ProductDetail['badge'] != null)
+                            if (productDetail.badge != null)
                               TextSpan(
-                                text: ' ${ProductDetail['badge']}',
+                                text: ' ${productDetail.badge}',
                                 style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 20,
@@ -135,7 +119,7 @@ class _ApiTempState extends State<ApiTemp> {
                                 ),
                               ),
                             TextSpan(
-                              text: ' ${ProductDetail['price']} 원',
+                              text: ' ${productDetail.price} 원',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -149,7 +133,6 @@ class _ApiTempState extends State<ApiTemp> {
                     ),
                   ),
                   SizedBox(height: 15,),
-
                   Container(
                     height: 48,
                     child: TabBar(
@@ -164,17 +147,17 @@ class _ApiTempState extends State<ApiTemp> {
                     height: 480,
                     child: TabBarView(
                       children: [
-                        TempChart(productDetail: ProductDetail),
+                        TempChart(productDetail: productDetail),
                         ListView.builder(
-                          itemCount: ProductDetail['comments'].length,
+                          itemCount: productDetail.comments.length,
                           itemBuilder: (context, index) {
-                            final comment = ProductDetail['comments'][index];
+                            final Comment comment = productDetail.comments[index];
 
                             return InkWell(
                               onTap: () {},
                               child: ListTile(
-                                title: Text(comment['nickname']),
-                                subtitle: Text('${comment['content']}'),
+                                title: Text(comment.nickname),
+                                subtitle: Text('${comment.content}'),
                               ),
                             );
                           },
@@ -182,7 +165,6 @@ class _ApiTempState extends State<ApiTemp> {
                       ],
                     ),
                   ),
-
                   SizedBox(height: 10,),
                   Container(
                     height: 350, // 원하는 높이로 설정

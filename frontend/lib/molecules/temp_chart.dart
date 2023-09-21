@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:frontend/models/productdetail.dart';
 
 class TempChart extends StatefulWidget {
-  final Map<String, dynamic> productDetail;
+  final ProductDetail productDetail; // ProductDetail 객체로 변경
 
   const TempChart({Key? key, required this.productDetail}) : super(key: key);
-
-  // const TempChart({Key? key}) : super(key: key);
 
   @override
   _TempChartState createState() => _TempChartState();
 }
 
 class _TempChartState extends State<TempChart> {
-  late Map<String, dynamic> productDetail;
-
+  late ProductDetail productDetail; // ProductDetail 객체로 변경
 
   Map<String, dynamic> StandardDetail = {
     'kcal': 2500,
@@ -46,23 +44,23 @@ class _TempChartState extends State<TempChart> {
     productDetail = widget.productDetail;
 
     // 비율 계산
-    proteinRatio = (productDetail['protein']*4) / productDetail['kcal'];
-    fatRatio = (productDetail['fat']*9) / productDetail['kcal'];
-    carbRatio = (productDetail['carb']*4) / productDetail['kcal'];
+    proteinRatio = (productDetail.protein*4) / productDetail.kcal;
+    fatRatio = (productDetail.fat*9) / productDetail.kcal;
+    carbRatio = (productDetail.carb*4) / productDetail.kcal;
 
-    proteinbarRatio = productDetail['protein'] / StandardDetail['protein'];
-    fatbarRatio = productDetail['fat'] / StandardDetail['fat'];
-    carbbarRatio = productDetail['carb'] / StandardDetail['carb'];
+    proteinbarRatio = productDetail.protein / StandardDetail['protein'];
+    fatbarRatio = productDetail.fat / StandardDetail['fat'];
+    carbbarRatio = productDetail.carb / StandardDetail['carb'];
 
 
     chartData = [
-      ChartData('carb', (productDetail['carb']*4) / StandardDetail['kcal'], Colors.grey),
-      ChartData('protein', (productDetail['protein']*4) / StandardDetail['kcal'], Colors.black),
-      ChartData('fat', (productDetail['fat']*9) / StandardDetail['kcal'], Colors.blueGrey),
+      ChartData('carb', (productDetail.carb*4) / StandardDetail['kcal'], Colors.grey),
+      ChartData('protein', (productDetail.protein*4) / StandardDetail['kcal'], Colors.black),
+      ChartData('fat', (productDetail.fat*9) / StandardDetail['kcal'], Colors.blueGrey),
     ];
 
     kcalData = [
-      ChartData('kcal', productDetail['kcal'] / StandardDetail['kcal'], Colors.red)
+      ChartData('kcal', productDetail.kcal / StandardDetail['kcal'], Colors.red)
     ];
   }
 
@@ -107,7 +105,7 @@ class _TempChartState extends State<TempChart> {
                             text: TextSpan(
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: '${productDetail['kcal']}',
+                                  text: '${productDetail.kcal}',
                                   style: TextStyle(
                                     fontSize: 35,
                                     fontWeight: FontWeight.bold,
@@ -198,7 +196,7 @@ class _TempChartState extends State<TempChart> {
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${productDetail['carb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
+                          child: Text('${productDetail.carb}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
                         ),
 
                       ],
@@ -237,7 +235,7 @@ class _TempChartState extends State<TempChart> {
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${productDetail['protein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
+                          child: Text('${productDetail.protein}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
                         ),
                       ],
                     ),
@@ -275,7 +273,7 @@ class _TempChartState extends State<TempChart> {
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${productDetail['fat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
+                          child: Text('${productDetail.fat}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
                         ),
                       ],
                     ),
@@ -302,7 +300,7 @@ class _TempChartState extends State<TempChart> {
                       child: Container(
                         child: Center(
                           child: Text(
-                            ' "${StandardDetail['kcal'] - productDetail['kcal']}kcal를 더 먹을 수 있어요" ',
+                            ' "${StandardDetail['kcal'] - productDetail.kcal}kcal를 더 먹을 수 있어요" ',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
