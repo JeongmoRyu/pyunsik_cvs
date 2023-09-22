@@ -22,7 +22,8 @@ public enum ExceptionCode {
     // 401 UNAUTHORIZED : 인증되지 않은 사용자
     INVALID_TOKEN(UNAUTHORIZED, "잘못된 토큰입니다", 401),
     INVALID_EXPIRED_TOKEN(UNAUTHORIZED, "만료된 토큰입니다", 401),
-    INVALID_DELETED_MEMBER(UNAUTHORIZED, "탈퇴한 회원입니다", 401);
+    INVALID_DELETED_MEMBER(UNAUTHORIZED, "탈퇴한 회원입니다", 401),
+    INVALID_EXPIRED_REFRESHTOKEN(UNAUTHORIZED, "다시 로그인하세요.", 401);
 
     private final HttpStatus httpStatus;
     private final String message;

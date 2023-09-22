@@ -21,6 +21,15 @@ spring:
         format_sql: true
         highlight_sql: true
 
+  redis:
+    master:
+      host: redis-master
+      port: 6382
+    slaves:
+      - host: redis-slave1
+        port: 6383
+      - host: redis-slave2
+        port: 6384
 
 logging:
   level:
