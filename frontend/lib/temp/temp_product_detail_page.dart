@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../models/filter.dart';
 import '../models/product.dart';
+import '../models/product_simple.dart';
 
 
 class TempProductDetailPage extends StatefulWidget {
@@ -23,15 +24,7 @@ class TempProductDetailPage extends StatefulWidget {
 class _TempProductDetailPageState extends State<TempProductDetailPage> {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
 
-  List<Product> testList = [
-    Product(1, 'test product short', '', 1800),
-    Product(2, 'test product middle middle', '', 39900),
-    Product(3, 'test product long long long long long long long', '', 1498000),
-    Product(4, 'test product short', '', 1800),
-    Product(5, 'test product short', '', 1800),
-    Product(6, 'test product short', '', 1800),
-    Product(7, 'test product short', '', 1800),
-    Product(8, 'test product short', '', 1800),
+  List<ProductSimple> testList = [
   ];
 
   Map<String, dynamic> productDetail = {

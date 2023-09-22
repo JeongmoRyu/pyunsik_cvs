@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/cart.dart';
+import '../models/product_simple.dart';
 
 class ProductCard extends StatelessWidget {
   static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
 
-  final Product product;
+  final ProductSimple product;
 
   const ProductCard({Key? key, required this.product}) : super(key: key);
 

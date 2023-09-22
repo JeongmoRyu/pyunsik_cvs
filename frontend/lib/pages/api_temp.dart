@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/temp_chart.dart';
-import 'package:frontend/models/productdetail.dart';
+import 'package:frontend/models/product_detail.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
 import '../models/product.dart';
+import '../models/product_simple.dart';
 
 class ApiTemp extends StatefulWidget {
   @override
@@ -16,15 +17,7 @@ class ApiTemp extends StatefulWidget {
 }
 
 class _ApiTempState extends State<ApiTemp> {
-  List<Product> testList = [
-    new Product(1, 'test product short', '', 1800),
-    new Product(2, 'test product middle middle', '', 39900),
-    new Product(3, 'test product long long long long long long long', '', 1498000),
-    new Product(4, 'test product short', '', 1800),
-    new Product(5, 'test product short', '', 1800),
-    new Product(6, 'test product short', '', 1800),
-    new Product(7, 'test product short', '', 1800),
-    new Product(8, 'test product short', '', 1800),
+  List<ProductSimple> testList = [
   ];
 
   Future<ProductDetail> fetchData() async {
