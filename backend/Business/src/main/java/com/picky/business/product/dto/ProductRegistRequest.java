@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +24,7 @@ public class ProductRegistRequest {
     private double protein;
     private double fat;
     private double sodium;
-    private int convenienceCode;
+    private List<Integer> convenienceCodes;
+    private List<Integer> promotionCodes;
 
 }

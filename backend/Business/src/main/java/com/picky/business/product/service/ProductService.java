@@ -3,7 +3,9 @@ package com.picky.business.product.service;
 import com.picky.business.connect.service.ConnectAuthService;
 import com.picky.business.exception.ProductNotFoundException;
 import com.picky.business.favorite.domain.repository.FavoriteRepository;
+import com.picky.business.product.domain.entity.ConvenienceInfo;
 import com.picky.business.product.domain.entity.Product;
+import com.picky.business.product.domain.repository.ConvenienceRepository;
 import com.picky.business.product.domain.repository.ProductRepository;
 import com.picky.business.product.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 @Slf4j
@@ -25,6 +29,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ConnectAuthService connectAuthService;
     private final FavoriteRepository favoriteRepository;
+    private final ConvenienceRepository convenienceRepository;
     private static final String NOT_FOUND = "값을 가진 제품이 없습니다";
     private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
 
@@ -43,7 +48,9 @@ public class ProductService {
     public List<ProductPreviewResponse> searchProductByQuery(
             String productName, String category,
             List<Integer> price, List<Integer> carb,
-            List<Integer> protein, List<Integer> fat, List<Integer> sodium, String accessToken
+            List<Integer> protein, List<Integer> fat, List<Integer> sodium,
+            List<Integer> promotionCode, List<Integer> convenienceCode,
+            String accessToken
     ) {
         int[] defaultRange = {0, Integer.MAX_VALUE};
 
@@ -59,7 +66,8 @@ public class ProductService {
                 carbRange[0], carbRange[1],
                 proteinRange[0], proteinRange[1],
                 fatRange[0], fatRange[1],
-                sodiumRange[0], sodiumRange[1]
+                sodiumRange[0], sodiumRange[1],
+                convenienceCode, promotionCode
         );
 
         // accessToken이 null이면 null, 아니면 userId 반환
@@ -74,6 +82,8 @@ public class ProductService {
                     Boolean isFavorite = Optional.ofNullable(userId)
                             .map(id -> favoriteRepository.findByUserIdAndProductId(id, product.getId()) != null)
                             .orElse(null);
+                    ConvenienceInfo convenienceInfoEntity = convenienceRepository.findByProductId(product.getId())
+                            .orElseThrow(() -> new ProductNotFoundException("해당하는 편의점 코드를 찾을 수 없습니다"));
 
                     return ProductPreviewResponse.builder()
                             .productId(product.getId())
@@ -82,7 +92,8 @@ public class ProductService {
                             .filename(product.getFilename())
                             .badge(product.getBadge())
                             .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
-                            .convenienceCode(product.getConvenienceCode())
+                            .convenienceCode(convenienceInfoEntity.getConvenienceCode())
+                            .promotionCode(convenienceInfoEntity.getPromotionCode())
                             .isFavorite(isFavorite)
                             .build();
                 })
@@ -111,6 +122,14 @@ public class ProductService {
                         .createdAt(comment.getCreatedAt().toString())
                         .build())
                 .collect(Collectors.toList());
+        // 편의점 코드 불러오기
+        List<Integer> convenienceCodes = product.getConvenienceInfos().stream()
+                .map(ConvenienceInfo::getConvenienceCode)
+                .collect(Collectors.toList());
+
+        List<Integer> promotionCodes = product.getConvenienceInfos().stream()
+                .map(ConvenienceInfo::getPromotionCode)
+                .collect(Collectors.toList());
 
         return ProductDetailResponse.builder()
                 .productName(product.getProductName())
@@ -127,34 +146,59 @@ public class ProductService {
                 .isFavorite(isFavorite)
                 .sodium(product.getSodium())
                 .comments(commentResponseList)
-                .convenienceCode(product.getConvenienceCode())
+                .convenienceCode(convenienceCodes)
+                .promotionCode(promotionCodes)
                 .build();
     }
 
+    @Transactional
     public void addProduct(ProductRegistRequest request) {
-        productRepository.save(
-                Product.builder()
-                        .productName(request.getProductName())
-                        .price(request.getPrice())
-                        .filename(request.getFilename())
-                        .badge(request.getBadge())
-                        .category(request.getCategory())
-                        .weight(request.getWeight())
-                        .kcal(request.getKcal())
-                        .carb(request.getCarb())
-                        .protein(request.getProtein())
-                        .fat(request.getFat())
-                        .sodium(request.getSodium())
-                        .convenienceCode(request.getConvenienceCode())
-                        .isDeleted(false)
-                        .build()
-        );
+        // Product 객체 생성 및 저장
+        Product newProduct = Product.builder()
+                .productName(request.getProductName())
+                .price(request.getPrice())
+                .filename(request.getFilename())
+                .badge(request.getBadge())
+                .category(request.getCategory())
+                .weight(request.getWeight())
+                .kcal(request.getKcal())
+                .carb(request.getCarb())
+                .protein(request.getProtein())
+                .fat(request.getFat())
+                .sodium(request.getSodium())
+                .isDeleted(false)
+                .build();
+        Product savedProduct = productRepository.save(newProduct);
+
+        // ConvenienceCode 객체 생성 및 저장
+        List<Integer> requestConvenienceCodes = request.getConvenienceCodes();
+        List<Integer> requestPromotionCodes = request.getPromotionCodes();
+        List<ConvenienceInfo> list = IntStream.range(0, requestConvenienceCodes.size())
+                .mapToObj(i -> {
+                    Integer convenienceCode = requestConvenienceCodes.get(i);
+                    Integer promotionCode = requestPromotionCodes.get(i);
+                    return ConvenienceInfo.builder()
+                            .productId(savedProduct.getId())
+                            .convenienceCode(convenienceCode)
+                            .promotionCode(promotionCode)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+
+        // 저장한 ConvenienceCode 객체를 DB에 저장
+        convenienceRepository.saveAll(list);
     }
 
     public void updateProduct(Long id, ProductUpdateRequest request) {
         Product product = getProduct(id);
         updateProductFields(product, request);
+
+        ConvenienceInfo convenienceInfo = convenienceRepository.findByProductId(id)
+                .orElseThrow(() -> new ProductNotFoundException("해당하는 제품에 대한 편의점 코드가 없습니다 "));
+        updateConvenienceCodeFields(convenienceInfo, request);
         productRepository.save(product);
+        convenienceRepository.save(convenienceInfo);
     }
 
     public void deleteProduct(Long id) {
@@ -175,7 +219,11 @@ public class ProductService {
         updateIfNotNull(request::getProtein, currentProduct::setProtein);
         updateIfNotNull(request::getFat, currentProduct::setFat);
         updateIfNotNull(request::getSodium, currentProduct::setSodium);
-        updateIfNotNull(request::getConvenienceCode, currentProduct::setConvenienceCode);
+    }
+
+    private void updateConvenienceCodeFields(ConvenienceInfo code, ProductUpdateRequest request) {
+        updateIfNotNull(request::getConvenienceCode, code::setConvenienceCode);
+        updateIfNotNull(request::getPromotionCode, code::setPromotionCode);
     }
 
     private <T> void updateIfNotNull(Supplier<T> getter, Consumer<T> setter) {

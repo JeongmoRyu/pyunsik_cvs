@@ -18,12 +18,13 @@ public class ProductPreviewResponse {
     private String badge;
     private Boolean isFavorite;
     private int convenienceCode;
+    private int promotionCode;
     private Long favoriteCount;
 
-    public static ProductPreviewResponse of(Long productId, String productName , int price, String filename, String badge) {
+    public static ProductPreviewResponse of(Long productId, String productName, int price, String filename, String badge) {
         return ProductPreviewResponse.builder()
                 .productId(productId)
-                .productName (productName )
+                .productName(productName)
                 .price(price)
                 .filename(filename)
                 .badge(badge)

@@ -23,4 +23,5 @@ public class ProductUpdateRequest {
     private Double fat;
     private Double sodium;
     private int convenienceCode;
+    private int promotionCode;
 }
