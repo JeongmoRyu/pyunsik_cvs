@@ -12,6 +12,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
+      
       actions: <Widget>[
         SizedBox(width: 10,),
         Expanded(
@@ -29,7 +30,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
                 child: const Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.all(5.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Icon(Icons.search, color: Constants.lightGrey),
                     ),
                     Text('편식 통합검색', style: TextStyle(
@@ -42,22 +43,22 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
             )
           ),
         ),
-        // action : [
-        //
-        // ],
-        IconButton(
+        IconButton( //아이콘들 오른쪽으로 붙히고 싶다.
+            padding: EdgeInsets.all(0),
             onPressed: () {
               context.go('/scrapbook');
             },
             icon: Icon(Icons.bookmark_outline)
         ),
         IconButton(
+            padding: EdgeInsets.all(0),
             onPressed: () {
               context.go('/cart');
             },
             icon: Icon(Icons.interests_outlined)
         ),
         AlarmButton(),
+
         SizedBox(width: 10,),
       ],
     );

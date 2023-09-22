@@ -28,6 +28,7 @@ class CombinationList extends StatelessWidget {
       itemCount: cart.numberOfProducts,
       itemBuilder: (context, index) {
         return Row( //디자인 수정 필요
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Checkbox(
                 value: cart.isSelected[index],
@@ -35,6 +36,7 @@ class CombinationList extends StatelessWidget {
                   cart.toggleCheckbox(index, value!);
                 },
             ),
+            SizedBox(width: 10,),
             Expanded(
                 child: ProductCardHorizontal(productDetail: cart.products[index],)
             ),
