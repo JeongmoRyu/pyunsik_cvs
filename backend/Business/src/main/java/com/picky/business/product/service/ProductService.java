@@ -100,7 +100,6 @@ public class ProductService {
                             .productName(product.getProductName())
                             .price(product.getPrice())
                             .filename(product.getFilename())
-                            .badge(product.getBadge())
                             .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
                             .convenienceCode(convenienceCodes)
                             .promotionCode(promotionCodes)
@@ -142,7 +141,6 @@ public class ProductService {
                 .productName(product.getProductName())
                 .price(product.getPrice())
                 .filename(product.getFilename())
-                .badge(product.getBadge())
                 .category(product.getCategory())
                 .favoriteCount(productRepository.countActiveFavoritesByProductId(productId))
                 .weight(product.getWeight())
@@ -165,7 +163,6 @@ public class ProductService {
                 .productName(request.getProductName())
                 .price(request.getPrice())
                 .filename(request.getFilename())
-                .badge(request.getBadge())
                 .category(request.getCategory())
                 .weight(request.getWeight())
                 .kcal(request.getKcal())
@@ -219,7 +216,6 @@ public class ProductService {
         updateIfNotNull(request::getProductName, currentProduct::setProductName);
         updateIfNotNull(request::getPrice, currentProduct::setPrice);
         updateIfNotNull(request::getFilename, currentProduct::setFilename);
-        updateIfNotNull(request::getBadge, currentProduct::setBadge);
         updateIfNotNull(request::getCategory, currentProduct::setCategory);
         updateIfNotNull(request::getWeight, currentProduct::setWeight);
         updateIfNotNull(request::getKcal, currentProduct::setKcal);
