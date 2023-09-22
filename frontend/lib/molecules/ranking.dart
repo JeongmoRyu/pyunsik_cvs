@@ -4,61 +4,68 @@ import 'package:frontend/util/constants.dart';
 import '../atom/text_title.dart';
 
 class Ranking extends StatelessWidget {
-  final List<String> rankList = [
-    'product long long long long long long', '상품2', '상품3', '상품4', '상품5',
-    '상품6', '상품7', '상품8', '상품9', '상품10'
+  final List<Map<String, String>> rankList = [
+    {'keyword': '상품 long long long long long long long long 1'},
+    {'keyword': '상품2'},
+    {'keyword': '상품3'},
+    {'keyword': '상품4'},
+    {'keyword': '상품5'},
+    {'keyword': '상품6'},
+    {'keyword': '상품7'},
+    {'keyword': '상품8'},
+    {'keyword': '상품9'},
+    {'keyword': '상품10'}
   ];
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-          horizontal: Constants.horizontalPadding,
-          vertical: Constants.verticalPadding
+        horizontal: Constants.horizontalPadding,
+        vertical: Constants.verticalPadding,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextTitle(title: '실시간 인기 검색어',),
+          TextTitle(
+            title: '실시간 인기 검색어',
+          ),
           SizedBox(height: 10),
           GridView.count(
-            // Create a grid with 2 columns. If you change the scrollDirection to
-            // horizontal, this produces 2 rows.
             crossAxisCount: 2,
-            // Generate 100 widgets that display their index in the List.
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             childAspectRatio: (1 / .15),
-            children: rankList.asMap().entries.map((entry) {
-                final int index = entry.key + 1;
-                final String item = entry.value;
-                return Row(
-                  children: [
-                    SizedBox(
-                      width: 22,
-                      child: Text(
-                        '$index',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold, // index 텍스트 굵게 표시
-                        ),
+            children: rankList.map((item) {
+              final int index = rankList.indexOf(item) + 1;
+              final String itemName = item['keyword'] ?? '';
+              return Row(
+                children: [
+                  SizedBox(
+                    width: 22,
+                    child: Text(
+                      '$index',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 20,),
-                    SizedBox(
-                      width: 120,
-                      child: Text(
-                        '$item',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
+                  ),
+                  SizedBox(width: 20),
+                  SizedBox(
+                    width: 120,
+                    child: Text(
+                      itemName,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
                       ),
-                    )
-                  ],
-                );
-              }).toList(),
+                    ),
+                  ),
+                ],
+              );
+            }).toList(),
           ),
         ],
       ),
