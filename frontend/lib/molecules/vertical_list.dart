@@ -22,6 +22,8 @@ class VerticalList extends StatelessWidget {
         future: Network.fetchProductList('', filter.getQueryParams()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            print('----------data received');
+            print(snapshot.data!);
             final List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
@@ -60,7 +62,7 @@ class VerticalList extends StatelessWidget {
             print(snapshot.toString());
             return Text('${snapshot.error}');
           }
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       ),
     );
