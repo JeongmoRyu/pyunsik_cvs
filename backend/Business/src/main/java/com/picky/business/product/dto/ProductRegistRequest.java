@@ -16,7 +16,6 @@ public class ProductRegistRequest {
     private String productName;
     private int price;
     private String filename;
-    private String badge;
     private int category;
     private int weight;
     private int kcal;

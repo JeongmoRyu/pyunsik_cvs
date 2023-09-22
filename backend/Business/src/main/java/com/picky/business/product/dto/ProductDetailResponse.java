@@ -16,7 +16,6 @@ public class ProductDetailResponse {
     private String productName;
     private int price;
     private String filename;
-    private String badge;
     private int category;
     private long favoriteCount; //좋아요 수
     private int weight;

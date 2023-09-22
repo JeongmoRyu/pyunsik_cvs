@@ -29,8 +29,6 @@ public class Product {
     @Column
     private String filename;
     @Column
-    private String badge;
-    @Column
     private int category;
     @Column
     private int weight;

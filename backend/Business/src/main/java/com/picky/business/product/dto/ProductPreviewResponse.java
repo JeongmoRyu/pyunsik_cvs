@@ -18,7 +18,6 @@ public class ProductPreviewResponse {
     private String productName;
     private int price;
     private String filename;
-    private String badge;
     private Boolean isFavorite;
     private List<Integer> convenienceCode;
     private List<Integer> promotionCode;
