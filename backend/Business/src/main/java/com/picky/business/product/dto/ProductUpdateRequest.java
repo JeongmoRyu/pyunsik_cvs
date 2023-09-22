@@ -14,7 +14,6 @@ public class ProductUpdateRequest {
     private String productName;
     private Integer price;
     private String filename;
-    private String badge;
     private Integer category;
     private Integer weight;
     private Integer kcal;
@@ -23,4 +22,5 @@ public class ProductUpdateRequest {
     private Double fat;
     private Double sodium;
     private int convenienceCode;
+    private int promotionCode;
 }

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -15,18 +17,9 @@ public class ProductPreviewResponse {
     private String productName;
     private int price;
     private String filename;
-    private String badge;
     private Boolean isFavorite;
-    private int convenienceCode;
+    private List<Integer> convenienceCode;
+    private List<Integer> promotionCode;
     private Long favoriteCount;
 
-    public static ProductPreviewResponse of(Long productId, String productName , int price, String filename, String badge) {
-        return ProductPreviewResponse.builder()
-                .productId(productId)
-                .productName (productName )
-                .price(price)
-                .filename(filename)
-                .badge(badge)
-                .build();
-    }
 }

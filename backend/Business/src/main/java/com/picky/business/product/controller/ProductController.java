@@ -30,14 +30,17 @@ public class ProductController {
             @RequestParam(required = false) List<Integer> protein,
             @RequestParam(required = false) List<Integer> fat,
             @RequestParam(required = false) List<Integer> sodium,
+            @RequestParam(required = false) List<Integer> promotionCode,
+            @RequestParam(required = false) List<Integer> convenienceCode,
             @RequestHeader("Authorization") String accessToken) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium, accessToken));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium,
+                promotionCode, convenienceCode, accessToken));
     }
 
     @GetMapping(value = "/{productId}")
     public ResponseEntity<ProductDetailResponse> productDetailsByProductId(
             @PathVariable Long productId, @RequestHeader("Authorization") String accessToken) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductByProductId(productId,accessToken));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductByProductId(productId, accessToken));
     }
 
     @PostMapping
