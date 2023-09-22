@@ -8,7 +8,7 @@ load_dotenv()
 
 # 환경 변수 읽기
 host = os.getenv("DB_HOST")
-port = int(os.getenv("DB_PORT"))  # 정수로 변환
+port = int(os.getenv("DB_PORT"))
 user = os.getenv("DB_USER")
 password = os.getenv("DB_PASSWORD")
 db = os.getenv("DB_NAME")
