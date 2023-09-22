@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/product_image.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 
 import '../models/product_simple.dart';
 
 class ProductCard extends StatelessWidget {
-  static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
 
   final ProductSimple product;
@@ -29,21 +29,7 @@ class ProductCard extends StatelessWidget {
               aspectRatio: 1 / 1,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: FadeInImage(
-                    placeholder: const AssetImage(defaultFileName),
-                    image: NetworkImage(product.filename),
-                    imageErrorBuilder:(context, error, stackTrace) {
-                      return Image.asset(defaultFileName,
-                          fit: BoxFit.cover
-                      );
-                    },
-                      fit: BoxFit.cover
-
-                  ),
-                  // Image.asset(
-                  //     defaultFileName, //임시 이미지
-                  //     fit: BoxFit.cover
-                  // ),
+                  child: ProductImage(filename: product.filename,),
                 ),
             ),
             Text(
@@ -64,12 +50,5 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getImageUrl(String url) {
-    if (url.isNotEmpty) {
-      return url;
-    }
-    return defaultFileName;
   }
 }

@@ -12,6 +12,7 @@ import 'package:frontend/util/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../atom/product_image.dart';
 import '../models/filter.dart';
 import '../models/product_detail.dart';
 
@@ -41,16 +42,11 @@ class ProductDetailPage extends StatelessWidget {
             } else {
               // 데이터 로딩이 완료된 경우 화면에 데이터 표시
               final ProductDetail productDetail = snapshot.data!;
-              // final ProductDetail = productdetail;
-
               return Scaffold(
                 appBar: TopBarSub(appBar: AppBar()),
                 body: ListView(
                   children: [
-                    Image.network(
-                      productDetail.filename,
-                      fit: BoxFit.cover,
-                    ),
+                    ProductImage(filename: productDetail.filename,),
                     SizedBox(
                       height: 10,
                     ),
