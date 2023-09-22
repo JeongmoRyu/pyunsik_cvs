@@ -48,7 +48,7 @@ public class Product {
     private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "product")
-    private List<ConvenienceInfo> convenienceInfos = new ArrayList<>(4);
+    private List<ConvenienceInfo> convenienceInfos;
 
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)

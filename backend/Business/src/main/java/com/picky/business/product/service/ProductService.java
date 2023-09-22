@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +50,7 @@ public class ProductService {
             String productName, String category,
             List<Integer> price, List<Integer> carb,
             List<Integer> protein, List<Integer> fat, List<Integer> sodium,
-            List<Integer> promotionCode, List<Integer> convenienceCode,
+            List<Integer> inputPromotionCode, List<Integer> inputConvenienceCode,
             String accessToken
     ) {
         int[] defaultRange = {0, Integer.MAX_VALUE};
@@ -67,7 +68,7 @@ public class ProductService {
                 proteinRange[0], proteinRange[1],
                 fatRange[0], fatRange[1],
                 sodiumRange[0], sodiumRange[1],
-                convenienceCode, promotionCode
+                inputConvenienceCode, inputPromotionCode
         );
 
         // accessToken이 null이면 null, 아니면 userId 반환
@@ -83,8 +84,16 @@ public class ProductService {
                     Boolean isFavorite = Optional.ofNullable(userId)
                             .map(id -> favoriteRepository.findByUserIdAndProductId(id, product.getId()) != null)
                             .orElse(null);
-                    ConvenienceInfo convenienceInfoEntity = convenienceRepository.findByProductId(product.getId())
-                            .orElseThrow(() -> new ProductNotFoundException("해당하는 편의점 코드를 찾을 수 없습니다"));
+
+                    List<Integer> convenienceCodes = product.getConvenienceInfos()
+                            .stream()
+                            .map(ConvenienceInfo::getConvenienceCode)
+                            .collect(Collectors.toList());
+
+                    List<Integer> promotionCodes = product.getConvenienceInfos()
+                            .stream()
+                            .map(ConvenienceInfo::getPromotionCode)
+                            .collect(Collectors.toList());
 
                     return ProductPreviewResponse.builder()
                             .productId(product.getId())
@@ -93,8 +102,8 @@ public class ProductService {
                             .filename(product.getFilename())
                             .badge(product.getBadge())
                             .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
-                            .convenienceCode(convenienceInfoEntity.getConvenienceCode())
-                            .promotionCode(convenienceInfoEntity.getPromotionCode())
+                            .convenienceCode(convenienceCodes)
+                            .promotionCode(promotionCodes)
                             .isFavorite(isFavorite)
                             .build();
                 })
@@ -125,13 +134,9 @@ public class ProductService {
                         .build())
                 .collect(Collectors.toList());
         // 편의점 코드 불러오기
-        List<Integer> convenienceCodes = product.getConvenienceInfos().stream()
-                .map(ConvenienceInfo::getConvenienceCode)
-                .collect(Collectors.toList());
+        List<Integer> convenienceCodes = getConvenienceCodes(product);
 
-        List<Integer> promotionCodes = product.getConvenienceInfos().stream()
-                .map(ConvenienceInfo::getPromotionCode)
-                .collect(Collectors.toList());
+        List<Integer> promotionCodes = getPromotionCodes(product);
 
         return ProductDetailResponse.builder()
                 .productName(product.getProductName())
@@ -167,6 +172,7 @@ public class ProductService {
                 .carb(request.getCarb())
                 .protein(request.getProtein())
                 .fat(request.getFat())
+                .convenienceInfos(new ArrayList<>())
                 .sodium(request.getSodium())
                 .isDeleted(false)
                 .build();
@@ -244,5 +250,20 @@ public class ProductService {
                     return product;
                 })
                 .orElseThrow(() -> new ProductNotFoundException(id + NOT_FOUND));
+    }
+
+    private List<Integer> getConvenienceCodes(Product product) {
+        return product.getConvenienceInfos()
+                .stream()
+                .map(ConvenienceInfo::getConvenienceCode)
+                .collect(Collectors.toList());
+    }
+
+    private List<Integer> getPromotionCodes(Product product) {
+        return product.getConvenienceInfos()
+                .stream()
+                .map(ConvenienceInfo::getPromotionCode)
+                .collect(Collectors.toList());
+
     }
 }
