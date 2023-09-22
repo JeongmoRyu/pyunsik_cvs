@@ -72,6 +72,7 @@ public class ProductService {
 
         // accessToken이 null이면 null, 아니면 userId 반환
         Long userId = Optional.ofNullable(accessToken)
+                .filter(token -> token != null && !token.trim().isEmpty())
                 .map(connectAuthService::getUserIdByAccessToken)
                 .orElse(null);
 
@@ -104,6 +105,7 @@ public class ProductService {
         Product product = getProduct(productId);
         // accessToken이 null이면 null, 아니면 userId 반환
         Long userId = Optional.ofNullable(accessToken)
+                .filter(token -> token != null && !token.trim().isEmpty())
                 .map(connectAuthService::getUserIdByAccessToken)
                 .orElse(null);
 

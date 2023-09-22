@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping(value = "/api/favorite")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin(origins = "*")
 public class FavoriteController {
     private final FavoriteService favoriteService;
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZWEzYzIyNC0xMWMzLTRiNjItOTc4OS04ZDYzNmJjOGYyNTMiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NTAxMDAyMywiZXhwIjoxNjk3NjAyMDIzfQ.h6wNgzVTjFYUGnf0HYZFIaOY8caoTEFCPnp7GcZ_hZ8";
