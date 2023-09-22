@@ -19,6 +19,7 @@ public class SignUpRequest { // 회원가입 요청 DTO
     private int weight;
     private int age;
     private int gender;
+    @NotBlank
     private String fcmToken;
     private List<String> roles;
 

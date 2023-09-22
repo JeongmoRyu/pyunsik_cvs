@@ -39,6 +39,7 @@ public class AuthService {
             userRepository.save(User.builder()
                     .nickname(request.getNickname())
                     .password(passwordEncoder.encode(request.getPassword()))
+                    .fcmToken(request.getFcmToken())
                     .roles(Collections.singletonList("ROLE_CONSUMER"))
                     .build());
         }
