@@ -85,15 +85,9 @@ public class ProductService {
                             .map(id -> favoriteRepository.findByUserIdAndProductId(id, product.getId()) != null)
                             .orElse(null);
 
-                    List<Integer> convenienceCodes = product.getConvenienceInfos()
-                            .stream()
-                            .map(ConvenienceInfo::getConvenienceCode)
-                            .collect(Collectors.toList());
+                    List<Integer> convenienceCodes = getConvenienceCodes(product);
 
-                    List<Integer> promotionCodes = product.getConvenienceInfos()
-                            .stream()
-                            .map(ConvenienceInfo::getPromotionCode)
-                            .collect(Collectors.toList());
+                    List<Integer> promotionCodes = getPromotionCodes(product);
 
                     return ProductPreviewResponse.builder()
                             .productId(product.getId())
