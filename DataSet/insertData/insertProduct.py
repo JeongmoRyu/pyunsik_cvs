@@ -8,7 +8,7 @@ load_dotenv()
 
 # 환경 변수 읽기
 host = os.getenv("DB_HOST")
-port = int(os.getenv("DB_PORT"))
+port = int(os.getenv("DB_PORT"))  # 정수로 변환
 user = os.getenv("DB_USER")
 password = os.getenv("DB_PASSWORD")
 db = os.getenv("DB_NAME")
@@ -23,6 +23,7 @@ def connect_db():
         db=db,
         charset='utf8mb4'
     )
+
 
 
 # 특정 편의점 코드에 해당하는 데이터만 CSV 파일에서 읽어오는 함수
@@ -63,7 +64,7 @@ def main():
                 existing_product_id = result[0]
                 # 중복 상품명이면 product_info 테이블에 데이터 삽입
                 cursor.execute(
-                    "INSERT INTO product_info (product_id, promotion_id, convenience_code) VALUES (%s, %s, %s)",
+                    "INSERT INTO convenience_info (product_id, promotion_code, convenience_code) VALUES (%s, %s, %s)",
                     (existing_product_id, product.get('행사 정보', None), store_code))
             else:
                 # 중복 상품명이 아니면 product_temp 테이블에 데이터 삽입
@@ -76,7 +77,7 @@ def main():
 
                 # 삽입된 데이터의 ID 값을 사용하여 product_info 테이블에 데이터 삽입
                 cursor.execute(
-                    "INSERT INTO product_info (product_id, promotion_id, convenience_code) VALUES (%s, %s, %s)",
+                    "INSERT INTO convenience_info (product_id, promotion_code, convenience_code) VALUES (%s, %s, %s)",
                     (new_product_id, product.get('행사 정보', None), store_code))
 
             conn.commit()  # 데이터베이스에 변경 사항 반영
