@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cart.dart';
-import '../models/product.dart';
-import '../models/productdetail.dart';
+import '../models/product_detail.dart';
 
 class CartConfirmRemoveDialog extends StatelessWidget {
   final ProductDetail productDetail;

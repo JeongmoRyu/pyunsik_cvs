@@ -92,7 +92,7 @@ final goRouter = GoRouter(
       path: '/detail',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) {
-        return ProductDetailPage();
+        return ProductDetailPage(productId: state.extra as int,);
       },
     ),
     GoRoute(

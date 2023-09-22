@@ -3,8 +3,6 @@ import 'package:frontend/atom/product_card_horizontal.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cart.dart';
-import '../models/product.dart';
-import '../models/productdetail.dart';
 import '../util/constants.dart';
 
 //모바일 저장소에 현재 조합 추가 및 제거 기능 ChangeNotifierProvider 사용

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
-import '../models/cart.dart';
 import '../models/product_simple.dart';
 
 class ProductCard extends StatelessWidget {
@@ -17,12 +15,11 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(product.filename);
     return SizedBox(
       width: 200,
       child: InkWell(
         onTap: () {
-          context.push('/detail');
+          context.push('/detail', extra: product.productId);
           // 특정 상품 디테일 페이지로 넘어가게 수정 필요
         },
         child: Column(
