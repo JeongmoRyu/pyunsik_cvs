@@ -201,7 +201,7 @@ class _TempProductDetailPageState extends State<TempProductDetailPage> {
             CustomBox(),
           ],
         ),
-        bottomNavigationBar: PlusNavBar(count: productDetail['favoriteCount'],),
+        // bottomNavigationBar: PlusNavBar(count: productDetail['favoriteCount'],),
       ),
     );
   }

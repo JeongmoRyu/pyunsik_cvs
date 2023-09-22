@@ -148,7 +148,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                     productMap['filename'],
                     productMap['price'],
                   );
-                  cart.add(product);
+                  // cart.add(product);
                 }
                 context.go('/cart');
               },

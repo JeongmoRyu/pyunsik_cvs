@@ -8,7 +8,7 @@ class Product {
   int price;
   int? kcal;
 
-  Product(this.id, this.productName, this.fileName, this.price);
+  Product(this.id, this.productName, this.fileName, this.price,);
 
   Product.withKcal(this.id, this.productName, this.fileName, this.price, this.kcal);
 
@@ -24,6 +24,9 @@ class Product {
       'productName': productName,
       'fileName': fileName,
       'price': price,
+      // 'carb': carb,
+      // 'protein': protein,
+
     };
 
 

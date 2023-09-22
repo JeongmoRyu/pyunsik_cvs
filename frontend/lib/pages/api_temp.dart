@@ -169,7 +169,7 @@ class _ApiTempState extends State<ApiTemp> {
             }
           },
         ),
-        bottomNavigationBar: PlusNavBar(count: 1),
+        // bottomNavigationBar: PlusNavBar(count: 1, productDetail: productDetail),
       ),
     );
   }

@@ -4,14 +4,15 @@ import 'package:provider/provider.dart';
 
 import '../models/cart.dart';
 import '../models/product.dart';
+import '../models/productdetail.dart';
 import '../util/constants.dart';
 
 //모바일 저장소에 현재 조합 추가 및 제거 기능 ChangeNotifierProvider 사용
   //combination list 에서 조합을 받아와 체크 상태 저장
 class CombinationList extends StatelessWidget {
   const CombinationList({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class CombinationList extends StatelessWidget {
                 },
             ),
             Expanded(
-                child: ProductCardHorizontal(product: cart.products[index],)
+                child: ProductCardHorizontal(productDetail: cart.products[index],)
             ),
           ],
         );

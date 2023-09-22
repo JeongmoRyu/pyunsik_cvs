@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
+import 'package:frontend/models/productdetail.dart';
 
 class Cart extends ChangeNotifier {
-  final List<Product> _products = [];
+  final List<ProductDetail> _products = [];
   // final List<Product> _products = [
   //   new Product(1, 'test product short', '', 1800),
   //   new Product(2, 'test product middle middle', '', 39900),
@@ -13,7 +14,7 @@ class Cart extends ChangeNotifier {
   bool _isSelectedAll = true;
 
 
-  List<Product> get products => _products;
+  List<ProductDetail> get products => _products;
   List<bool> get isSelected => _isSelected;
   bool get isSelectedAll => _isSelectedAll;
 
@@ -33,15 +34,64 @@ class Cart extends ChangeNotifier {
     return totalPrice;
   }
 
-  void add(Product product) {
-    _products.add(product);
+
+
+  int getTotalKcal() {
+    int totalKcal = 0;
+    for (int i = 0; i < _products.length; i++) {
+      if (_isSelected[i]) {
+        totalKcal += _products[i].kcal;
+      }
+    }
+    return totalKcal;
+  }
+  double getTotalCarb() {
+    double totalCarb = 0;
+    for (int i = 0; i < _products.length; i++) {
+      if (_isSelected[i]) {
+        totalCarb += _products[i].carb;
+      }
+    }
+    return totalCarb;
+  }
+  double getTotalProtein() {
+    double totalProtein = 0;
+    for (int i = 0; i < _products.length; i++) {
+      if (_isSelected[i]) {
+        totalProtein += _products[i].protein;
+      }
+    }
+    return totalProtein;
+  }
+  double getTotalSodium() {
+    double totalSodium = 0;
+    for (int i = 0; i < _products.length; i++) {
+      if (_isSelected[i]) {
+        totalSodium += _products[i].sodium;
+      }
+    }
+    return totalSodium;
+  }
+  double getTotalFat() {
+    double totalFat = 0;
+    for (int i = 0; i < _products.length; i++) {
+      if (_isSelected[i]) {
+        totalFat += _products[i].fat;
+      }
+    }
+    return totalFat;
+  }
+
+
+  void add(ProductDetail productDetail) {
+    _products.add(productDetail);
     _isSelected.add(true);
     notifyListeners();
   }
 
-  void remove(Product product) {
-    _isSelected.removeAt(_products.indexOf(product));
-    _products.remove(product);
+  void remove(ProductDetail productDetail) {
+    _isSelected.removeAt(_products.indexOf(productDetail));
+    _products.remove(productDetail);
     notifyListeners();
   }
 
