@@ -29,7 +29,6 @@ public class ProductPreviewResponse {
                 .productName(productName)
                 .price(price)
                 .filename(filename)
-                .badge(badge)
                 .build();
     }
 }

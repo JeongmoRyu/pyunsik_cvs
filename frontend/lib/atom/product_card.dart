@@ -17,7 +17,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cart = context.watch<Cart>();
+    print(product.filename);
     return SizedBox(
       width: 200,
       child: InkWell(
@@ -32,10 +32,21 @@ class ProductCard extends StatelessWidget {
               aspectRatio: 1 / 1,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(
-                      defaultFileName, //임시 이미지
+                  child: FadeInImage(
+                    placeholder: const AssetImage(defaultFileName),
+                    image: NetworkImage(product.filename),
+                    imageErrorBuilder:(context, error, stackTrace) {
+                      return Image.asset(defaultFileName,
+                          fit: BoxFit.cover
+                      );
+                    },
                       fit: BoxFit.cover
+
                   ),
+                  // Image.asset(
+                  //     defaultFileName, //임시 이미지
+                  //     fit: BoxFit.cover
+                  // ),
                 ),
             ),
             Text(
@@ -56,5 +67,12 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getImageUrl(String url) {
+    if (url.isNotEmpty) {
+      return url;
+    }
+    return defaultFileName;
   }
 }

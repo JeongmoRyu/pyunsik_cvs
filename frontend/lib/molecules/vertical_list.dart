@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product_detail.dart';
 import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/util/network.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +26,7 @@ class VerticalList extends StatelessWidget {
             final List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
+            // productList.add(ProductSimple(productId: 1, price: 10000, filename: '', productName: 'test', badge: '1+1'));
             return Column(
               children: [
                 Padding(
@@ -40,21 +40,32 @@ class VerticalList extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (productList.isEmpty)
+                  Container(
+                    height: 300,
+                    child: const Center(
+                      child: Text(
+                        '조건에 맞는 상품이 존재하지 않습니다.'
+                      ),
+                    ),
+                  )
+                else
+                  GridView.count(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    childAspectRatio: 8 / 11,
+                    crossAxisCount: 2,
+                    children: [
+                      for (var product in productList)
+                        ProductCard(
+                          product: product,
+                        )
+                    ],
+                  ),
 
-                GridView.count(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 8 / 11,
-                  crossAxisCount: 2,
-                  children: [
-                    for (var product in productList)
-                      ProductCard(
-                        product: product,
-                      )
-                  ],
-                ),
+
               ],
             );
           }
