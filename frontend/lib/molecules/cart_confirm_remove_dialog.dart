@@ -3,13 +3,14 @@ import 'package:provider/provider.dart';
 
 import '../models/cart.dart';
 import '../models/product.dart';
+import '../models/productdetail.dart';
 
 class CartConfirmRemoveDialog extends StatelessWidget {
-  final Product product;
+  final ProductDetail productDetail;
 
   const CartConfirmRemoveDialog({
     super.key,
-    required this.product,
+    required this.productDetail,
   });
 
   @override
@@ -26,7 +27,7 @@ class CartConfirmRemoveDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            cart.remove(product);
+            cart.remove(productDetail);
             Navigator.pop(context);
           },
           child: const Text('삭제'),

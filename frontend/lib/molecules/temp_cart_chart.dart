@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:frontend/models/productdetail.dart';
+import 'package:frontend/models/cart.dart';
+import 'package:provider/provider.dart';
 
-class TempChart extends StatefulWidget {
-  final ProductDetail productDetail;
+class TempCartChart extends StatefulWidget {
 
-  const TempChart({Key? key, required this.productDetail}) : super(key: key);
+  const TempCartChart({Key? key}) : super(key: key);
 
   @override
-  _TempChartState createState() => _TempChartState();
+  _TempCartChartState createState() => _TempCartChartState();
 }
 
-class _TempChartState extends State<TempChart> {
-  late ProductDetail productDetail;
+class _TempCartChartState extends State<TempCartChart> {
+  // 제품 정보 및 기준 정보 정의
+  Map<String, dynamic> CartTotal = {};
+
 
   Map<String, dynamic> StandardDetail = {
     'kcal': 2500,
@@ -22,53 +24,59 @@ class _TempChartState extends State<TempChart> {
     'sodium': 2000.0,
   };
 
-  // 비율 계산 변수 정의
-  double kcalRatio = 0.0;
-  double proteinRatio = 0.0;
-  double fatRatio = 0.0;
-  double sodiumRatio = 0.0;
-  double carbRatio = 0.0;
-  double proteinbarRatio = 0.0;
-  double fatbarRatio = 0.0;
-  double sodiumbarRatio = 0.0;
-  double carbbarRatio = 0.0;
-  double fullRatio = 1.0;
+  double totalkcalRatio = 0.0;
+  double totalproteinRatio = 0.0;
+  double totalfatRatio = 0.0;
+  double totalsodiumRatio = 0.0;
+  double totalcarbRatio = 0.0;
+  double totalfullRatio = 1.0;
 
-  // 차트 데이터 정의
   List<ChartData> chartData = [];
   List<ChartData> kcalData = [];
+
 
   @override
   void initState() {
     super.initState();
-    productDetail = widget.productDetail;
-
-    // 비율 계산
-    proteinRatio = (productDetail.protein*4) / productDetail.kcal;
-    fatRatio = (productDetail.fat*9) / productDetail.kcal;
-    carbRatio = (productDetail.carb*4) / productDetail.kcal;
-
-    proteinbarRatio = productDetail.protein / StandardDetail['protein'];
-    fatbarRatio = productDetail.fat / StandardDetail['fat'];
-    carbbarRatio = productDetail.carb / StandardDetail['carb'];
-
-
-    chartData = [
-      ChartData('carb', (productDetail.carb*4) / StandardDetail['kcal'], Colors.grey),
-      ChartData('protein', (productDetail.protein*4) / StandardDetail['kcal'], Colors.black),
-      ChartData('fat', (productDetail.fat*9) / StandardDetail['kcal'], Colors.blueGrey),
-    ];
-
-    kcalData = [
-      ChartData('kcal', productDetail.kcal / StandardDetail['kcal'], Colors.red)
-    ];
   }
 
   @override
   Widget build(BuildContext context) {
+    var cart = context.watch<Cart>();
+
+    CartTotal = {
+      'totalKcal': cart.getTotalKcal(),
+      'totalProtein': cart.getTotalProtein(),
+      'totalFat': cart.getTotalFat(),
+      'totalCarb': cart.getTotalCarb(),
+      'totalSodium': cart.getTotalSodium(),
+    };
+
+
+    totalkcalRatio = CartTotal['totalKcal'] / StandardDetail['kcal'];
+    totalproteinRatio = CartTotal['totalProtein'] / StandardDetail['protein'];
+    totalfatRatio = CartTotal['totalFat'] / StandardDetail['fat'];
+    totalsodiumRatio = CartTotal['totalSodium'] / StandardDetail['sodium'];
+    totalcarbRatio = CartTotal['totalCarb'] / StandardDetail['carb'];
+
+    chartData = [
+      ChartData('kcal', CartTotal['totalKcal'] / StandardDetail['kcal'], Colors.grey),
+      ChartData('carb', CartTotal['totalCarb'] / StandardDetail['carb'], Colors.red),
+      ChartData('protein', CartTotal['totalProtein'] / StandardDetail['protein'], Colors.green),
+      ChartData('fat', CartTotal['totalFat'] / StandardDetail['fat'], Colors.blue),
+      ChartData('sodium', CartTotal['totalSodium'] / StandardDetail['sodium'], Colors.orange),
+    ];
+
+    kcalData = [
+      ChartData('kcal', CartTotal['totalKcal'] / CartTotal['totalKcal'], Colors.red)
+    ];
+
+
+
     return Container(
       height: 480,
-      child: Column(
+      child: Scaffold(
+        body: Column(
           children: [
             // 차트 표시 부분
             Container(
@@ -81,22 +89,19 @@ class _TempChartState extends State<TempChart> {
                     child: Container(
                       height: 250,
                       color: Colors.grey[200],
+
                       child: Stack(
                         alignment: Alignment.center, // 텍스트를 중앙에 배치
                         children: [
                           Container(
-                            height: 250,
-                            color: Colors.grey[200],
                             child: SfCircularChart(
                               series: <CircularSeries>[
-                                DoughnutSeries<ChartData, String>(
-                                  // gap: '5%',
+                                RadialBarSeries<ChartData, String>(
+                                  trackColor: Colors.white,
                                   dataSource: chartData,
-                                  pointColorMapper: (ChartData data, _) => data.color,
+                                  pointColorMapper:(ChartData data, _) => data.color,
                                   xValueMapper: (ChartData data, _) => data.x,
                                   yValueMapper: (ChartData data, _) => data.y,
-                                  radius: '90%',
-                                  innerRadius: '85%',
                                 ),
                               ],
                             ),
@@ -105,18 +110,18 @@ class _TempChartState extends State<TempChart> {
                             text: TextSpan(
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: '${productDetail.kcal}',
+                                  text: '${CartTotal['totalKcal']}',
                                   style: TextStyle(
-                                    fontSize: 35,
+                                    fontSize: 25,
                                     fontWeight: FontWeight.bold,
-                                    color: Color.fromRGBO(45, 45, 45, 1.0), // 흰색 텍스트 색상
+                                    color: Colors.black, // 흰색 텍스트 색상
                                   ),
                                 ),
                                 TextSpan(
                                   text: 'kcal',
                                   style: TextStyle(
-                                    fontSize: 15,
-                                    color: Color.fromRGBO(45, 45, 45, 1.0), // 검정색 텍스트 색상
+                                    fontSize: 10,
+                                    color: Colors.black, // 검정색 텍스트 색상
                                   ),
                                 ),
                               ],
@@ -138,16 +143,20 @@ class _TempChartState extends State<TempChart> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.grey),
-                              title: Text('순탄수 : ' + '${(carbRatio*100).toStringAsFixed(0)}%'),
+                              leading: Icon(Icons.circle, color: Colors.red),
+                              title: Text('순탄수 : ' + '${(totalcarbRatio*100).toStringAsFixed(0)}%'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.black),
-                              title: Text('단백질 : ' '${(proteinRatio*100).toStringAsFixed(0)}%'),
+                              leading: Icon(Icons.circle, color: Colors.green),
+                              title: Text('단백질 : ' '${(totalproteinRatio*100).toStringAsFixed(0)}%'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.blueGrey),
-                              title: Text('지방 : '+'${(fatRatio*100).toStringAsFixed(0)}%'),
+                              leading: Icon(Icons.circle, color: Colors.blue),
+                              title: Text('지방 : '+'${(totalfatRatio*100).toStringAsFixed(0)}%'),
+                            ),
+                            ListTile(
+                              leading: Icon(Icons.circle, color: Colors.orange),
+                              title: Text('나트륨 : '+'${(totalsodiumRatio*100).toStringAsFixed(0)}%'),
                             ),
                           ],
                         ),
@@ -177,28 +186,27 @@ class _TempChartState extends State<TempChart> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: carbbarRatio > 1
+                          child: totalcarbRatio > 1
                               ? FractionallySizedBox(
-                                widthFactor: fullRatio,
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  color: Colors.red,
-                                ),
-                              )
+                            widthFactor: totalfullRatio,
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              color: Colors.red,
+                            ),
+                          )
                               : FractionallySizedBox(
-                                widthFactor: carbbarRatio,
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  color: Colors.green,
-                                ),
-                              ),
+                            widthFactor: totalcarbRatio,
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              color: Colors.green,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${productDetail.carb}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
+                          child: Text('${CartTotal['totalCarb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
                         ),
-
                       ],
                     ),
                   ),
@@ -216,26 +224,26 @@ class _TempChartState extends State<TempChart> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: proteinbarRatio > 1
+                          child: totalproteinRatio > 1
                               ? FractionallySizedBox(
-                                widthFactor: fullRatio,
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  color: Colors.red,
-                                ),
-                              )
+                            widthFactor: totalfullRatio,
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              color: Colors.red,
+                            ),
+                          )
                               : FractionallySizedBox(
-                                widthFactor: proteinbarRatio,
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  color: Colors.green,
-                                ),
-                              ),
+                            widthFactor: totalproteinRatio,
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              color: Colors.green,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${productDetail.protein}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
+                          child: Text('${CartTotal['totalProtein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
                         ),
                       ],
                     ),
@@ -254,26 +262,26 @@ class _TempChartState extends State<TempChart> {
                           height: 10,
                           width: 90,
                           color: Colors.grey,
-                          child: fatbarRatio > 1
+                          child: totalfatRatio > 1
                               ? FractionallySizedBox(
-                                widthFactor: fatbarRatio,
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  color: Colors.red,
-                                ),
-                              )
+                            widthFactor: totalfullRatio,
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              color: Colors.red,
+                            ),
+                          )
                               : FractionallySizedBox(
-                                widthFactor: fatbarRatio,
-                                alignment: Alignment.centerLeft,
-                                child: Container(
-                                  color: Colors.green,
-                                ),
-                              ),
+                            widthFactor: totalfatRatio,
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              color: Colors.green,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 10,),
                         Container(
                           height: 20,
-                          child: Text('${productDetail.fat}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
+                          child: Text('${CartTotal['totalFat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
                         ),
                       ],
                     ),
@@ -300,12 +308,17 @@ class _TempChartState extends State<TempChart> {
                       child: Container(
                         child: Center(
                           child: Text(
-                            ' "${StandardDetail['kcal'] - productDetail.kcal}kcal를 더 먹을 수 있어요" ',
+                            StandardDetail['kcal'] > CartTotal['totalKcal']
+                                ? ' "${StandardDetail['kcal'] - CartTotal['totalKcal']}kcal를 더 먹을 수 있어요" '
+                                : ' "${StandardDetail['kcal']}kcal 초과했습니다!!" ',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: StandardDetail['kcal'] > CartTotal['totalKcal']
+                                  ? Colors.white
+                                  : Colors.red,
                               fontSize: 20,
                             ),
-                          ),
+                          )
+                          ,
                         ),
                       ),
                     ),
@@ -315,7 +328,7 @@ class _TempChartState extends State<TempChart> {
             ),
           ],
         ),
-
+      ),
     );
   }
 }

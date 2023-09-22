@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
+import 'package:frontend/models/productdetail.dart';
+
 import 'package:frontend/molecules/cart_confirm_remove_dialog.dart';
 import 'package:intl/intl.dart';
+
 
 class ProductCardHorizontal extends StatelessWidget {
   // static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
-  const ProductCardHorizontal({Key? key, required this.product}) : super(key: key);
+  const ProductCardHorizontal({Key? key, required this.productDetail}) : super(key: key);
 
-  final Product product;
+  final ProductDetail productDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class ProductCardHorizontal extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
-                  product.fileName, //임시 이미지
+                  productDetail.filename,
                   fit: BoxFit.cover
               ),
             ),
@@ -33,7 +36,7 @@ class ProductCardHorizontal extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product.productName,
+                  productDetail.productName,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontSize: 15,
@@ -41,7 +44,7 @@ class ProductCardHorizontal extends StatelessWidget {
                 ),
                 Spacer(),
                 Text(
-                  format.format(product.price) + '원',
+                  format.format(productDetail.price) + '원',
                   overflow: TextOverflow.clip,
                   style: TextStyle(
                       fontSize: 15,
@@ -55,7 +58,7 @@ class ProductCardHorizontal extends StatelessWidget {
             onPressed: () => showDialog<String>(
                 context: context,
                 builder: (BuildContext context) =>
-                    CartConfirmRemoveDialog(product: product)
+                    CartConfirmRemoveDialog(productDetail: productDetail)
             ),
             icon: Icon(Icons.close),
           )

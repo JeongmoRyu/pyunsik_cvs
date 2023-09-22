@@ -6,6 +6,8 @@ import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/util/network.dart';
+
 
 
 class SearchPage extends StatefulWidget {
@@ -86,15 +88,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<List<dynamic>> fetchData() async {
-    final String apiUrl = "http://j9a505.p.ssafy.io:8881/api/product/";
+    final String apiUrl = "${Network.apiUrl}" + "product/";
 
-    final headers = {
-      "Access-Control-Allow-Origin": "*",
-      'Content-Type': 'application/json',
-      'Accept': '*/*'
-    };
-
-    final response = await http.get(Uri.parse(apiUrl), headers: headers);
+    final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeader(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);

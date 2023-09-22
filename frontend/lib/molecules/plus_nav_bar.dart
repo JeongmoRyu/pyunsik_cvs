@@ -4,15 +4,18 @@ import 'package:frontend/util/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
-// import 'package:frontend/models/productdetail.dart';
+import 'package:frontend/models/productdetail.dart';
 
 import '../models/cart.dart';
 
 class PlusNavBar extends StatefulWidget {
   final int count;
+  final ProductDetail productDetail;
+
   const PlusNavBar({
-    super.key,
+    Key? key,
     required this.count,
+    required this.productDetail,
   });
 
   @override
@@ -22,8 +25,14 @@ class PlusNavBar extends StatefulWidget {
 class _PlusNavBarState extends State<PlusNavBar> {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
 
-  int itemCount = 355;
+  int itemCount = 0;
   bool isBookmarked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    itemCount = widget.count;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +83,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                     ),
                   ),
                   Text(
-                    format.format(widget.count),
+                    format.format(itemCount),
                     style: TextStyle(
                       fontSize: 10,
                     ),
@@ -85,7 +94,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  cart.add(new Product(6, '불닭볶음면', '', 1800));
+                  cart.add(widget.productDetail);
                   context.go('/cart');
                 },
                 style: ElevatedButton.styleFrom(
@@ -98,9 +107,9 @@ class _PlusNavBarState extends State<PlusNavBar> {
                 child: Text(
                   '추가하기',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold
                   ),
                 ),
               ),
