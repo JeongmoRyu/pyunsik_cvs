@@ -101,9 +101,10 @@ public class JwtTokenProvider {
         try {
             // redis 저장
             saveTokenInRedis(accessToken, refreshToken);
-            log.info("[createToken] 리프레시 토큰 생성 완료");
+            log.info("[createRefreshToken] 리프레시 토큰 생성 완료");
         } catch (Exception e) {
             // error
+            log.info("[createRefreshToken] 리프레시 토큰 생성 실패 error:" + e);
         }
     }
 
@@ -185,5 +186,6 @@ public class JwtTokenProvider {
         String redisAccessTokenKey = "accessToken:" + accessToken;
         redisTemplate.opsForValue().set(redisAccessTokenKey, refreshToken);
         redisTemplate.expire(redisAccessTokenKey, refreshExpireTime, TimeUnit.SECONDS);
+        log.info("[saveTokenInRedis] savedRefreshToken, {} : {}", redisAccessTokenKey, redisTemplate.opsForValue().get(redisAccessTokenKey));
     }
 }

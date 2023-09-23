@@ -1,13 +1,12 @@
 package com.picky.auth.config.redis;
 
-import io.lettuce.core.ReadFrom;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStaticMasterReplicaConfiguration;
-import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -17,7 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @RequiredArgsConstructor
 public class RedisConfig {
 
-    private final RedisInfo info;
+    private final RedisProperties redisProperties;
     /*
      * [RedisConnectionFactory 인터페이스]
      * Redis 저장소와 연결
@@ -26,14 +25,13 @@ public class RedisConfig {
      */
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
-                .readFrom(ReadFrom.REPLICA_PREFERRED)	// replica에서 우선적으로 읽지만 replica에서 읽어오지 못할 경우 Master에서 읽어옴
-                .build();
-        // replica 설정
-        RedisStaticMasterReplicaConfiguration slaveConfig = new RedisStaticMasterReplicaConfiguration(info.getMaster().getHost(), info.getMaster().getPort());
-        // 설정에 slave 설정 값 추가
-        info.getSlaves().forEach(slave -> slaveConfig.addNode(slave.getHost(), slave.getPort()));
-        return new LettuceConnectionFactory(slaveConfig, clientConfig);
+        RedisSentinelConfiguration sentinelConfig = new RedisSentinelConfiguration()
+                .master(redisProperties.getSentinel().getMaster());
+
+        redisProperties.getSentinel().getNodes().forEach(s -> sentinelConfig.sentinel(s.split(":")[0],
+                Integer.valueOf(s.split(":")[1])));
+
+        return new LettuceConnectionFactory(sentinelConfig);
     }
 
     /*
