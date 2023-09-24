@@ -62,14 +62,17 @@ public class AuthService {
         }
         log.info("[getSignInResponse] 패스워드 일치");
 
+        log.info("[getSignInResponse] 토큰 생성");
+        String accessToken = jwtTokenProvider.createAccessToken(user.getUuid(), user.getRoles());
+        log.info("[getSignInResponse] 토큰 생성 성공 accessToken : " + accessToken);
         log.info("[getSignInResponse] SignInResponse 객체 생성");
         SignInResponse signInResponse = SignInResponse.builder()
                 .uuid(user.getUuid())
                 .nickname(user.getNickname())
                 .fcmToken(user.getFcmToken())
-                .accessToken(jwtTokenProvider.createAccessToken(user.getUuid(), user.getRoles()))
+                .accessToken(accessToken)
                 .build();
-        jwtTokenProvider.createRefreshToken(user.getUuid(), user.getRoles());
+        jwtTokenProvider.createRefreshToken(user, accessToken);
         log.info("[getSignInResponse] SignInResponse 객체에 값 주입");
 
         return signInResponse;

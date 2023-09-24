@@ -21,6 +21,14 @@ spring:
         format_sql: true
         highlight_sql: true
 
+  redis:
+    host: j9a505.p.ssafy.io  # 레디스 호스트
+    port: 6382  # 레디스 포트 (Redis Sentinel 포트로 설정)
+    database: 1
+    sentinel:
+      master: mymaster  # Redis Sentinel의 마스터 이름
+      nodes: j9a505.p.ssafy.io:26382, j9a505.p.ssafy.io:26383, j9a505.p.ssafy.io:26384  # Redis Sentinel 노드 목록
+
 
 logging:
   level:
