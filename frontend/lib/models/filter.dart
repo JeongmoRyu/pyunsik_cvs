@@ -55,9 +55,10 @@ class Filter extends ChangeNotifier {
   }
 
   void addChoice(String tag, String option) {
-    if (_filterChoice[tag] == null) {
+    if (_filterChoice[tag] == null || tag == '카테고리') { //카테고리는 하나만 선택 가능
       _filterChoice[tag] = [];
     }
+    
     _filterChoice[tag]?.add(option);
     notifyListeners();
   }

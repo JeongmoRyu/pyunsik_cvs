@@ -22,7 +22,7 @@ class VerticalList extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print('----------data received');
-            print(snapshot.data!);
+            // print(snapshot.data!);
             final List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
