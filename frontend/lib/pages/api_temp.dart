@@ -101,16 +101,16 @@ class _ApiTempState extends State<ApiTemp> {
                       child: RichText(
                         text: TextSpan(
                           children: [
-                            if (productDetail.badge != null)
-                              TextSpan(
-                                text: ' ${productDetail.badge}',
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  backgroundColor: Colors.white,
-                                ),
-                              ),
+                            // if (productDetail.badge != null)
+                            //   TextSpan(
+                            //     text: ' ${productDetail.badge}',
+                            //     style: TextStyle(
+                            //       color: Colors.red,
+                            //       fontSize: 20,
+                            //       fontWeight: FontWeight.bold,
+                            //       backgroundColor: Colors.white,
+                            //     ),
+                            //   ),
                             TextSpan(
                               text: ' ${productDetail.price} 원',
                               style: TextStyle(
