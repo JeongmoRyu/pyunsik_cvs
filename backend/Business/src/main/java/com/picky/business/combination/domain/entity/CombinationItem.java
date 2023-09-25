@@ -17,6 +17,9 @@ public class CombinationItem {
     private Long id;
     private int amount;
     private Long productId;
+    private String productName;
+    private int price;
+    private String filename;
     private Boolean isDeleted = false;
 
     @Column(name = "combination_id")

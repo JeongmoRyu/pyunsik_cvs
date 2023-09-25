@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//조합 생성, 수정에 들어갈 정보
-public class ProductInfo {
+public class CombinationCreateItem {
     private Long productId;
-    private String productName;
-    private int price;
-    private String filename;
     private int amount;
 }
