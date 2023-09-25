@@ -27,7 +27,6 @@ class ProductDetail {
   final String productName;
   final int price;
   final String filename;
-  final String badge;
   final int category;
   final int favoriteCount;
   final int weight;
@@ -36,7 +35,8 @@ class ProductDetail {
   final double protein;
   final double fat;
   final double sodium;
-  final int convenienceCode;
+  final List<dynamic> convenienceCode;
+  final List<dynamic> promotionCode;
   final List<Comment> comments;
   final bool? isFavorite;
 
@@ -45,7 +45,7 @@ class ProductDetail {
     required this.price,
     required this.filename,
     required this.productName,
-    required this.badge,
+    required this.promotionCode,
     required this.category,
     required this.favoriteCount,
     required this.weight,
@@ -69,7 +69,7 @@ class ProductDetail {
       price: json['price'],
       filename: json['filename'],
       productName: json['productName'],
-      badge: json['badge'],
+      promotionCode: json['promotionCode'],
       category: json['category'],
       favoriteCount: json['favoriteCount'],
       weight: json['weight'],
