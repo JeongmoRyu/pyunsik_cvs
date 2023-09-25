@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 import 'filter.dart';
 //선택된 카테고리 표시,
@@ -55,8 +57,42 @@ class ProductList extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getList() {
+  Future<List<dynamic>> getList() async {
     //필터링 쿼리 적용한 rest api 호출
-    notifyListeners();
+    final String apiUrl = "http://j9a505.p.ssafy.io:8881/api/product/";
+
+    var queryParams = {
+      'price' : ['${filter.filterRange['가격 (원)']?[0]}', '${filter.filterRange['가격 (원)']?[1]}'],
+    };
+    return fetchData(queryParams);
+  }
+
+  Uri getUri() {
+    var queryParams = {
+      'price' : ['${filter.filterRange['가격 (원)']?[0]}', '${filter.filterRange['가격 (원)']?[1]}'],
+    };
+    final uri =
+    Uri.http('j9a505.p.ssafy.io:8881', '/api/product', queryParams);
+    return uri;
+  }
+
+  Future<List<dynamic>> fetchData(var queryParams) async {
+    final uri =
+    Uri.http('j9a505.p.ssafy.io:8881', '/api/product', queryParams);
+    print(uri);
+    final headers = {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': '*/*'
+    };
+    final response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final Future<List<dynamic>> data = json.decode(body);
+      return data;
+    } else {
+      throw Exception('Failed to load data');
+    }
   }
 }

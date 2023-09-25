@@ -6,6 +6,7 @@ import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
+import '../models/product_simple.dart';
 import '../molecules/top_bar_sub.dart';
 import '../models/product.dart';
 import '../util/constants.dart';
@@ -86,19 +87,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
     ))
         .toList();
 
-
-    List<Product> testList = [
-      new Product(1, 'test product short', '', 1800),
-      new Product(2, 'test product middle middle', '', 39900),
-      new Product(3, 'test product long long long long long long long', '', 1498000),
-    ];
-    List<Product> testList2 = [
-      new Product(1, 'test product short', '', 1800),
-      new Product(2, 'test product middle middle', '', 39900),
-      new Product(3, 'test product long long long long long long long', '', 1498000),
-      new Product(1, 'test product short', '', 1800),
-      new Product(1, 'test product short', '', 1800),
-      new Product(1, 'test product short', '', 1800),
+    List<ProductSimple> testList2 = [
     ];
 
     return Scaffold(

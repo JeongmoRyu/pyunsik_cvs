@@ -3,11 +3,11 @@ import 'package:frontend/atom/product_card.dart';
 import 'package:frontend/util/constants.dart';
 
 import '../atom/text_title.dart';
-import '../models/product.dart';
+import '../models/product_simple.dart';
 
 class HorizontalList extends StatelessWidget {
   final String title;
-  final List<Product> productList;
+  final List<ProductSimple> productList;
   const HorizontalList({
     super.key,
     required this.title,
@@ -16,6 +16,10 @@ class HorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int max = 6;
+    if (productList.length < 6) {
+      max = productList.length;
+    }
     return Column(
       children: [
         Padding(
@@ -33,7 +37,7 @@ class HorizontalList extends StatelessWidget {
             },
             padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
             scrollDirection: Axis.horizontal, // 가로 스크롤 설정
-            itemCount: 6,
+            itemCount: max,
             itemBuilder: (context, index) {
               return ProductCard(product: productList[index],);
             },

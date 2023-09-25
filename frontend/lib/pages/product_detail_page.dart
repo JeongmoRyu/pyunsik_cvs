@@ -1,98 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/util/network.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/temp_chart.dart';
-import 'package:frontend/models/productdetail.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
-import '../models/product.dart';
 
 import 'package:frontend/util/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../atom/product_image.dart';
 import '../models/filter.dart';
+import '../models/product_detail.dart';
 
-class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({Key? key}) : super(key: key);
-
-  @override
-  _ProductDetailPageState createState() => _ProductDetailPageState();
-}
-
-class _ProductDetailPageState extends State<ProductDetailPage> {
+class ProductDetailPage extends StatelessWidget {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
-  late ProductDetail productDetail;
 
-  List<Product> testList = [
-    new Product(1, 'test product short', '', 1800),
-    new Product(2, 'test product middle middle', '', 39900),
-    new Product(
-        3, 'test product long long long long long long long', '', 1498000),
-    new Product(4, 'test product short', '', 1800),
-    new Product(5, 'test product short', '', 1800),
-    new Product(6, 'test product short', '', 1800),
-    new Product(7, 'test product short', '', 1800),
-    new Product(8, 'test product short', '', 1800),
-  ];
+  final int productId;
 
-  Future<ProductDetail> fetchData() async {
-    final String apiUrl = "${Network.apiUrl}" + "product/1";
-
-    final response =
-        await http.get(Uri.parse(apiUrl), headers: Network.getHeader(''));
-
-    if (response.statusCode == 200) {
-      String body = utf8.decode(response.bodyBytes);
-      final Map<String, dynamic> data = json.decode(body);
-      // if (data['filename'] == null) {
-      //   data['filename'] = 'none';
-      // }
-      return ProductDetail.fromJson(data);
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
+  const ProductDetailPage({super.key, required this.productId});
 
   @override
   Widget build(BuildContext context) {
     const tag = '카테고리';
     var filter = context.watch<Filter>();
-
+    List<ProductSimple> testList = [];
     return DefaultTabController(
         length: 2,
         child: FutureBuilder<ProductDetail>(
-          future: fetchData(),
+          future: Network.fetchProductDetail('', productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터 로딩 중인 경우 로딩 스피너를 표시
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               // 데이터 로딩 중 오류가 발생한 경우 오류 메시지 표시
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               // 데이터 로딩이 완료된 경우 화면에 데이터 표시
               final ProductDetail productDetail = snapshot.data!;
-              // final ProductDetail = productdetail;
-
               return Scaffold(
                 appBar: TopBarSub(appBar: AppBar()),
                 body: ListView(
                   children: [
-                    if (productDetail.filename != null)
-                      Image.network(
-                        '${productDetail.filename}',
-                        fit: BoxFit.cover,
-                      )
-                    else
-                      Image.asset(
-                        'assets/images/wip.jpg',
-                        fit: BoxFit.fitHeight,
-                      ),
+                    ProductImage(filename: productDetail.filename,),
                     SizedBox(
                       height: 10,
                     ),
@@ -155,7 +109,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           Tab(text: '상세정보'),
                           Tab(
                               text:
-                                  '리뷰 (${format.format(productDetail.comments.length)})'),
+                              '리뷰 (${format.format(productDetail.comments.length)})'),
                         ],
                       ),
                     ),
@@ -168,7 +122,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             itemCount: productDetail.comments.length,
                             itemBuilder: (context, index) {
                               final Comment comment =
-                                  productDetail.comments[index];
+                              productDetail.comments[index];
 
                               return InkWell(
                                 onTap: () {},

@@ -32,6 +32,7 @@ class ProductFilteredPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var filter = context.watch<Filter>();
+
     return WillPopScope(
       onWillPop: () async {
           filter.resetFilter();
@@ -44,7 +45,7 @@ class ProductFilteredPage extends StatelessWidget {
                 CustomBox(),
                 FilterList(),
                 CustomBox(),
-                VerticalList(productList: testList)
+                VerticalList()
               ]
           ),
         ),

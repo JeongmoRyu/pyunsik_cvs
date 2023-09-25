@@ -3,8 +3,6 @@ import 'package:frontend/atom/product_card_horizontal.dart';
 import 'package:provider/provider.dart';
 
 import '../models/cart.dart';
-import '../models/product.dart';
-import '../models/productdetail.dart';
 import '../util/constants.dart';
 
 //모바일 저장소에 현재 조합 추가 및 제거 기능 ChangeNotifierProvider 사용
@@ -30,6 +28,7 @@ class CombinationList extends StatelessWidget {
       itemCount: cart.numberOfProducts,
       itemBuilder: (context, index) {
         return Row( //디자인 수정 필요
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Checkbox(
                 value: cart.isSelected[index],
@@ -37,6 +36,7 @@ class CombinationList extends StatelessWidget {
                   cart.toggleCheckbox(index, value!);
                 },
             ),
+            SizedBox(width: 10,),
             Expanded(
                 child: ProductCardHorizontal(productDetail: cart.products[index],)
             ),

@@ -5,10 +5,11 @@ import 'package:frontend/util/constants.dart';
 import 'package:go_router/go_router.dart';
 
 import '../atom/product_card.dart';
+import '../models/product_simple.dart';
 
 class VerticalMoreList extends StatelessWidget {
   final String title;
-  final List<Product> productList;
+  final List<ProductSimple> productList;
 
   const VerticalMoreList({
     super.key,
@@ -18,6 +19,10 @@ class VerticalMoreList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int max = 4;
+    if (productList.length < 4) {
+      max = productList.length;
+    }
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: Constants.horizontalPadding,
@@ -51,7 +56,7 @@ class VerticalMoreList extends StatelessWidget {
             childAspectRatio: 8 / 11,
             crossAxisCount: 2,
             children: [
-              for (int i = 0; i < 4; i++)
+              for (int i = 0; i < max; i++)
                 ProductCard(
                   product: productList[i],
                 )

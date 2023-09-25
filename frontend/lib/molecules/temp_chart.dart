@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:frontend/models/productdetail.dart';
+import 'package:frontend/models/product_detail.dart';
 
 class TempChart extends StatefulWidget {
   final ProductDetail productDetail;

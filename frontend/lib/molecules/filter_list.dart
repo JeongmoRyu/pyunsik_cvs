@@ -7,6 +7,11 @@ class FilterList extends StatelessWidget {
   const FilterList({super.key});
 
   @override
+  void initState() {
+
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(

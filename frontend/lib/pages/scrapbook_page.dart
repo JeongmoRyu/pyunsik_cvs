@@ -69,7 +69,7 @@ class _ScrapBookState extends State<ScrapBook> {
         body: Column(
           children: [
             Container(
-              height: 150,
+              height: 100,
               child: Center( // 텍스트를 중앙 정렬합니다.
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -78,17 +78,16 @@ class _ScrapBookState extends State<ScrapBook> {
                       '스크랩북',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 30,
-                        backgroundColor: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
                       ),
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'ID : test계정',
+                      'test',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 30,
-                        backgroundColor: Colors.white,
+                        fontSize: 15,
                       ),
                     )
                   ],
@@ -99,8 +98,8 @@ class _ScrapBookState extends State<ScrapBook> {
             TabBar(
               labelColor: Colors.black,
               tabs: [
-                Tab(text: '즐겨찾기' + '(${favorites.length}개)'),
-                Tab(text: '저장된 조합' + '(${combinations.length}개)'),
+                Tab(text: '즐겨찾기' + '(${favorites.length})'),
+                Tab(text: '저장된 조합' + '(${combinations.length})'),
               ],
 
           ),

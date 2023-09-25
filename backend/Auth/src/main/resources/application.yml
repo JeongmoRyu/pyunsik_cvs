@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}/auth
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+  jwt:
+    secret: ${SECRET_KEY}
+    token:
+      access-expire-time: 86400 # 만료시간 하루
+      refresh-expire-time: 2592000 # 만료시간 한 달
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+
+
+logging:
+  level:
+    org.hibernate:
+      SQL: debug
+      type: trace
+
+server:
+  port: 8081

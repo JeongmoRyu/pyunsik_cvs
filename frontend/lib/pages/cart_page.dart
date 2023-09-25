@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/molecules/cart_confirm_remove_selected_dialog.dart';
 import 'package:frontend/molecules/combination_list.dart';
 import 'package:frontend/molecules/empty_cart.dart';
@@ -28,18 +29,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
 
-    List<Product> testList = [
-      new Product(1, 'test product short', '', 1800),
-      new Product(2, 'test product middle middle', '', 39900),
-      new Product(3, 'test product long long long long long long long', '', 1498000),
-    ];
-    List<Product> testList2 = [
-      new Product(1, 'test product short', '', 1800),
-      new Product(2, 'test product middle middle', '', 39900),
-      new Product(3, 'test product long long long long long long long', '', 1498000),
-      new Product(1, 'test product short', '', 1800),
-      new Product(1, 'test product short', '', 1800),
-      new Product(1, 'test product short', '', 1800),
+    List<ProductSimple> testList2 = [
     ];
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),

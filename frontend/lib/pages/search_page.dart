@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/util/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:go_router/go_router.dart';
-import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/util/network.dart';
 
+
+import '../molecules/ranking.dart';
 
 
 class SearchPage extends StatefulWidget {
@@ -76,6 +77,11 @@ class _SearchPageState extends State<SearchPage> {
     prefs.setStringList('keyword', searchDataList);
   }
 
+  void removeSearchData() async {
+    searchDataList.clear();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('keyword', searchDataList);
+  }
   void loadSearchData() async {
     // SharedPreferences에서 검색어 데이터 불러오기
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -107,10 +113,13 @@ class _SearchPageState extends State<SearchPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         actions: <Widget>[
+          SizedBox(width: 50),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                autofocus: true,
+                keyboardType: TextInputType.text,
                 inputFormatters: [
                   LengthLimitingTextInputFormatter(50),
                 ],
@@ -125,86 +134,96 @@ class _SearchPageState extends State<SearchPage> {
                     keyValue = value;
                   });
                   searchRelatedData();
-
                 },
-                decoration: InputDecoration(
+                style: TextStyle(
+                  fontSize: 16,
+                  height: 1,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: const InputDecoration(
+                  isDense: true,
                   filled: true,
                   fillColor: Color.fromRGBO(241, 241, 241, 1.0),
-                  prefixIcon: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Icon(Icons.arrow_back_ios_new),
+                  hintText: '검색어를 입력해주세요',
+                  hintStyle: TextStyle(
+                    color: Constants.lightGrey,
+                    fontWeight: FontWeight.normal,
+                    fontSize: 15
                   ),
-                  border: InputBorder.none,
+                  contentPadding:EdgeInsets.fromLTRB(10,12,10,12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(3)),
+                    borderSide: BorderSide.none
+                  )
                 ),
               ),
             ),
           ),
-          IconButton(
-            onPressed: () {
-              context.go('/scrapbook');
-            },
-            icon: Icon(Icons.bookmark_outline),
-          ),
-          IconButton(
-            onPressed: () {
-              context.go('/cart');
-            },
-            icon: Icon(Icons.interests_outlined),
-          ),
+          SizedBox(width: 30),
         ],
       ),
       body: FutureBuilder(
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else {
             final AllProduct = snapshot.data as List<dynamic>;
-
             return ListView(
               children: [
                 // Text('$AllProduct'),
-
                 if (keyValue.isNotEmpty)
-                  Container(
-                    height: 550,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 10,),
-                        Column(
-                          children: relatedDataList.map((data) {
-                            return ListTile(
-                              leading: Icon(Icons.search),
-                              title: Text(data),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: relatedDataList.map((data) {
+                          return ListTile(
+                            leading: Icon(Icons.search),
+                            title: Text(data),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   )
                 else
-                  Container(
-                    height: 550,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('  ' + '최근 검색어'),
-                        SizedBox(height: 10,),
-                        Column(
-                          children: searchDataList.map((data) {
-                            return ListTile(
-                              leading: Icon(Icons.search),
-                              title: Text(data),
-                            );
-                          }).toList(),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20,),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+                        child: Row(
+                          children: [
+                            Text('최근 검색어', style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Spacer(),
+                            TextButton(
+                                onPressed: () {
+                                  removeSearchData();
+                                },
+                                child: Text('모두 지우기')
+                            )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 10,),
+                      Column(
+                        children: searchDataList.map((data) {
+                          return ListTile(
+                            leading: Icon(Icons.watch_later_outlined),
+                            title: Text(data),
+                          );
+                        }).toList(),
+                      ),
+                      CustomBox(),
+                      Ranking(),
+                    ],
                   ),
               ],
             );

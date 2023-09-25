@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/alarm_button.dart';
 import 'package:go_router/go_router.dart';
 
+import '../util/constants.dart';
+
 class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
   TopBarMain({required this.appBar});
@@ -10,39 +12,54 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
+      
       actions: <Widget>[
+        SizedBox(width: 10,),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
+            child: InkWell(
               onTap: () {
-                context.push('/search');
+               context.push('/search');
               },
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color.fromRGBO(241, 241, 241, 1.0),
-                  prefixIcon: Icon(Icons.search,),
-                  border: InputBorder.none
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(241, 241, 241, 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(3)),
+                ),
+                child: const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.search, color: Constants.lightGrey),
+                    ),
+                    Text('편식 통합검색', style: TextStyle(
+                        color: Constants.lightGrey
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
+            )
           ),
         ),
-        // action : [
-        //
-        // ],
-        IconButton(
+        IconButton( //아이콘들 오른쪽으로 붙히고 싶다.
+            padding: EdgeInsets.all(0),
             onPressed: () {
               context.go('/scrapbook');
             },
             icon: Icon(Icons.bookmark_outline)
         ),
         IconButton(
+            padding: EdgeInsets.all(0),
             onPressed: () {
               context.go('/cart');
             },
             icon: Icon(Icons.interests_outlined)
         ),
         AlarmButton(),
+
+        SizedBox(width: 10,),
       ],
     );
   }
