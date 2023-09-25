@@ -11,7 +11,7 @@ class ProductSimple {
   final String productName;
   final int price;
   final String filename;
-  final String badge;
+  final List<dynamic> promotionCode;
   final bool? isFavorite;
 
   ProductSimple({
@@ -19,7 +19,7 @@ class ProductSimple {
     required this.price,
     required this.filename,
     required this.productName,
-    required this.badge,
+    required this.promotionCode,
     this.isFavorite,
   });
 
@@ -29,7 +29,7 @@ class ProductSimple {
       price: json['price'],
       filename: json['filename'],
       productName: json['productName'],
-      badge: json['badge'],
+      promotionCode: json['promotionCode'],
       isFavorite: json['isFavorite'],
     );
   }
