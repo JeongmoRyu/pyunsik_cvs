@@ -57,7 +57,7 @@ class _FilterRangeState extends State<FilterRange> {
                         return;
                       }
                       filter.changeRange(widget.tag, min, max);
-                      productList.getList();
+                      // productList.getList();
                     },
                     child: Text('적용')
                 )

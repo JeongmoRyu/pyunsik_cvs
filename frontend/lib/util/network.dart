@@ -22,6 +22,7 @@ class Network {
   static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api/";
 
   static Future<List<dynamic>> fetchProductList(String token, Map<String, dynamic> queryParams) async {
+    print('network got ${queryParams}');
     final uri = Uri.parse('${apiUrl}product').replace(queryParameters: queryParams);
     print('fetching data from $uri');
     final response = await http.get(uri, headers: getHeader(token));

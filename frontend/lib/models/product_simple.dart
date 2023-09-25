@@ -24,6 +24,11 @@ class ProductSimple {
   });
 
   factory ProductSimple.fromJson(Map<String, dynamic> json) {
+
+    if (json['productName'] == Null) {
+      print('-==-------------got null');
+      print(json);
+    }
     return ProductSimple(
       productId: json['productId'],
       price: json['price'],
