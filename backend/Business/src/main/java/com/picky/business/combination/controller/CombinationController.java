@@ -37,5 +37,11 @@ public class CombinationController {
         return ResponseEntity.status(HttpStatus.CREATED).body("조합등록 완료");
     }
 
+    @DeleteMapping(value = "/{combinationId}")
+    ResponseEntity<String> deleteCombination(@RequestHeader("Authorization") String accessToken, @PathVariable Long combinationId) {
+        combinationService.deleteCombination(accessToken, combinationId);
+        return ResponseEntity.status(HttpStatus.CREATED).body("조합 삭제 완료");
+    }
+
 
 }

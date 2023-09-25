@@ -1,8 +1,8 @@
 package com.picky.business.product.service;
 
 import com.picky.business.connect.service.ConnectAuthService;
-import com.picky.business.exception.CommentNotFoundException;
 import com.picky.business.exception.InvalidTokenException;
+import com.picky.business.exception.NotFoundException;
 import com.picky.business.product.domain.entity.Comment;
 import com.picky.business.product.domain.repository.CommentRepository;
 import com.picky.business.product.dto.CommentUpdateRequest;
@@ -70,10 +70,10 @@ public class CommentService {
         return commentRepository.findById(id)
                 .map(comment -> {
                     if (comment.getIsDeleted() == null || comment.getIsDeleted()) {
-                        throw new CommentNotFoundException(id + DELETED);
+                        throw new NotFoundException(id + DELETED);
                     }
                     return comment;
                 })
-                .orElseThrow(() -> new CommentNotFoundException(id + NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(id + NOT_FOUND));
     }
 }

@@ -1,7 +1,7 @@
 package com.picky.business.product.service;
 
 import com.picky.business.connect.service.ConnectAuthService;
-import com.picky.business.exception.ProductNotFoundException;
+import com.picky.business.exception.NotFoundException;
 import com.picky.business.favorite.domain.repository.FavoriteRepository;
 import com.picky.business.product.domain.entity.ConvenienceInfo;
 import com.picky.business.product.domain.entity.Product;
@@ -194,7 +194,7 @@ public class ProductService {
         updateProductFields(product, request);
 
         ConvenienceInfo convenienceInfo = convenienceRepository.findByProductId(id)
-                .orElseThrow(() -> new ProductNotFoundException("해당하는 제품에 대한 편의점 코드가 없습니다 "));
+                .orElseThrow(() -> new NotFoundException("해당하는 제품에 대한 편의점 코드가 없습니다 "));
         updateConvenienceCodeFields(convenienceInfo, request);
         productRepository.save(product);
         convenienceRepository.save(convenienceInfo);
@@ -235,11 +235,11 @@ public class ProductService {
         return productRepository.findById(id)
                 .map(product -> {
                     if (product.getIsDeleted() == null || product.getIsDeleted()) {
-                        throw new ProductNotFoundException(id + DELETED);
+                        throw new NotFoundException(id + DELETED);
                     }
                     return product;
                 })
-                .orElseThrow(() -> new ProductNotFoundException(id + NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(id + NOT_FOUND));
     }
 
     private List<Integer> getConvenienceCodes(Product product) {
