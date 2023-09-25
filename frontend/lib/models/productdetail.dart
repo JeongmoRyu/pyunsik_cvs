@@ -38,6 +38,7 @@ class ProductDetail {
   final double sodium;
   final int convenienceCode;
   final List<Comment> comments;
+  final bool? isFavorite;
 
   ProductDetail({
     // required this.id,
@@ -55,6 +56,7 @@ class ProductDetail {
     required this.sodium,
     required this.convenienceCode,
     required this.comments,
+    required this.isFavorite,
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
@@ -77,6 +79,7 @@ class ProductDetail {
       fat: json['fat'],
       sodium: json['sodium'],
       convenienceCode: json['convenienceCode'],
+      isFavorite: json['isFavorite'],
       comments: commentsList,
     );
   }
