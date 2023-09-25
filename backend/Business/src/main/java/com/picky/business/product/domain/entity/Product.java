@@ -67,6 +67,7 @@ public class Product {
             List<Integer> promotionCodes
     ) {
         return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
             List<Predicate> predicates = new ArrayList<>();
 
             if (productName != null) {
@@ -82,8 +83,8 @@ public class Product {
             predicates.add(criteriaBuilder.between(root.get("fat"), minFat, maxFat));
             predicates.add(criteriaBuilder.between(root.get("sodium"), minSodium, maxSodium));
 
-            addListFilter(predicates, root, "convenienceCodes", "convenienceCode", convenienceCodes);
-            addListFilter(predicates, root, "promotionCodes", "promotionCode", promotionCodes);
+            addListFilter(predicates, root, "convenienceInfos", "convenienceCode", convenienceCodes);
+            addListFilter(predicates, root, "convenienceInfos", "promotionCode", promotionCodes);
 
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

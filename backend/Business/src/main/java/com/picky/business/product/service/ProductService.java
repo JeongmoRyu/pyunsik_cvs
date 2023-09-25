@@ -50,7 +50,7 @@ public class ProductService {
             String productName, String category,
             List<Integer> price, List<Integer> carb,
             List<Integer> protein, List<Integer> fat, List<Integer> sodium,
-            List<Integer> inputPromotionCode, List<Integer> inputConvenienceCode,
+            List<Integer> inputConvenienceCode, List<Integer> inputPromotionCode,
             String accessToken
     ) {
         int[] defaultRange = {0, Integer.MAX_VALUE};
