@@ -11,8 +11,8 @@ class Filter extends ChangeNotifier {
   static const Map<String, String> keyMap = {
     '가격 (원)' : 'price',
     '카테고리' : 'category',
-    '편의점' : 'convenienceCode',
-    '할인행사' : 'promotionCode'
+    '편의점' : 'convenienceCodes',
+    '할인행사' : 'promotionCodes'
   };
   static const Map<String, String> valueMap = {
     '간편식사' : '1',
