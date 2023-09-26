@@ -33,7 +33,7 @@ class _VerticalMoreListState extends State<VerticalMoreList> {
   }
 
   Future<List<ProductSimple>> fetchData() async {
-    final String apiUrl = "${Network.apiUrl}" + "product/";
+    final String apiUrl = "${Network.apiUrl}" + "product/?promotionCodes=1&promotionCodes=2";
 
     final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeader(''));
 
