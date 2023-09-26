@@ -1,12 +1,10 @@
 package com.picky.auth.user.controller;
 
-import com.picky.auth.exception.CustomException;
 import com.picky.auth.user.dto.SignInRequest;
 import com.picky.auth.user.dto.SignInResponse;
 import com.picky.auth.user.dto.SignUpRequest;
 import com.picky.auth.user.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,14 +52,9 @@ public class AuthController {
     @DeleteMapping
     public ResponseEntity<Void> signout(HttpServletRequest servletRequest) {
         log.info("[signout] 회원탈퇴를 시도하고 있습니다.");
-        try {
-            authService.signout(servletRequest);
-            log.info("[signout] 정상적으로 탈퇴 되었습니다.");
-            return ResponseEntity.ok().build();
-        } catch (CustomException e) {
-            log.error("[signout] 탈퇴 처리 실패", e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  // GlobalExceptionHandler에서 처리됩니다.
-        }
+        authService.signout(servletRequest);
+        log.info("[signout] 정상적으로 탈퇴 되었습니다.");
+        return ResponseEntity.ok().build();
     }
 
 
