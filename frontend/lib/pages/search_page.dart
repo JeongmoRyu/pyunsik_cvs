@@ -195,7 +195,7 @@ class _SearchPageState extends State<SearchPage> {
                             title: Text(data['productName']),
                             onTap: () {
                               setState(() {
-                                context.go('/detail', extra : data['productId']);
+                                context.push('/detail', extra : data['productId']);
                               });
                               searchRelatedData();
                             },
