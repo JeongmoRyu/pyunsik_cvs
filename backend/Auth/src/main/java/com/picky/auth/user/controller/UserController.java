@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api/user")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class UserController {
 
 
