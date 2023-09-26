@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/util/constants.dart';
 
 
 @immutable
@@ -23,7 +24,7 @@ class Comment {
 }
 
 class ProductDetail {
-  // final int id;
+  // final int productId;
   final String productName;
   final int price;
   final String filename;
@@ -41,7 +42,7 @@ class ProductDetail {
   final bool? isFavorite;
 
   ProductDetail({
-    // required this.id,
+    // required this.productId,
     required this.price,
     required this.filename,
     required this.productName,
@@ -56,7 +57,7 @@ class ProductDetail {
     required this.sodium,
     required this.convenienceCode,
     required this.comments,
-    required this.isFavorite,
+    this.isFavorite,
   });
 
   factory ProductDetail.fromJson(Map<String, dynamic> json) {
@@ -65,7 +66,7 @@ class ProductDetail {
         .toList() ?? [];
 
     return ProductDetail(
-      // id: json['id'],
+      // productId: json['productId'],
       price: json['price'],
       filename: json['filename'],
       productName: json['productName'],

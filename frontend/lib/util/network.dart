@@ -48,4 +48,6 @@ class Network {
       throw Exception('Failed to load data. Status Code: ${response.statusCode}');
     }
   }
+
+
 }
