@@ -3,7 +3,6 @@ import 'package:frontend/models/product.dart';
 import 'package:intl/intl.dart';
 
 class ProductCardHorizontalWithoutButton extends StatelessWidget {
-  // static const String defaultFileName = 'assets/images/wip.jpg';
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
   const ProductCardHorizontalWithoutButton({Key? key, required this.product}) : super(key: key);
 
@@ -21,7 +20,7 @@ class ProductCardHorizontalWithoutButton extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
-                  product.fileName, //임시 이미지
+                  product.fileName,
                   fit: BoxFit.cover
               ),
             ),

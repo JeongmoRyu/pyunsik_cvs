@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
           CommercialCarousel(),
           CategoryList(),
           CustomBox(),
-          VerticalMoreList(title: '오늘의 행사상품', productList: testList,),
+          VerticalMoreList(title: '오늘의 행사상품',),
           CustomBox(),
           Ranking(),
           CustomBox(),

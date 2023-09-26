@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:frontend/util/constants.dart';
+import 'package:frontend/util/network.dart';
 import 'package:go_router/go_router.dart';
 
-import '../atom/text_title.dart';
+class Ranking extends StatefulWidget {
+  @override
+  _RankingState createState() => _RankingState();
+}
 
-class Ranking extends StatelessWidget {
-  final List<Map<String, String>> rankList = [
-    {'keyword': '상품 long long long long long long long long 1'},
-    {'keyword': '상품2'},
-    {'keyword': '상품3'},
-    {'keyword': '상품4'},
-    {'keyword': '상품5'},
-    {'keyword': '상품6'},
-    {'keyword': '상품7'},
-    {'keyword': '상품8'},
-    {'keyword': '상품9'},
-    {'keyword': '상품10'}
-  ];
+class _RankingState extends State<Ranking> {
+  late List<Map<String, dynamic>> rankList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    final response = await http.get(Uri.parse('${Network.apiUrl}product/keyword-ranking'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body) as List;
+      setState(() {
+        rankList = List<Map<String, dynamic>>.from(data.map((item) => item as Map<String, dynamic>));
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +42,12 @@ class Ranking extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextTitle(
-            title: '실시간 인기 검색어',
+          Text(
+            '실시간 인기 검색어',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           SizedBox(height: 10),
           GridView.count(
@@ -56,8 +74,7 @@ class Ranking extends StatelessWidget {
                   SizedBox(width: 20),
                   InkWell(
                     onTap: () {
-                      context.push('/detail', extra: 1); //prodcuctId 필요
-                      // 특정 상품 디테일 페이지로 넘어가게 수정 필요
+                      context.push('/detail', extra: 1);
                     },
                     child: SizedBox(
                       width: 120,
