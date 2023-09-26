@@ -11,6 +11,7 @@ import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/combination_detail_page.dart';
 import 'package:frontend/pages/search_page.dart';
+import 'package:frontend/pages/mypage.dart';
 
 import 'models/cart.dart';
 import 'models/filter.dart';
@@ -122,6 +123,13 @@ final goRouter = GoRouter(
         return SearchPage();
       },
     ),
+    GoRoute(
+      path: '/mypage',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) {
+        return MyPage();
+      },
+    )
 
 
   ]
@@ -305,7 +313,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp.router(
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: true,
