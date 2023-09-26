@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/text_title.dart';
-import 'package:frontend/models/product.dart';
 import 'package:frontend/util/constants.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,7 +7,7 @@ import '../atom/product_card.dart';
 import '../models/product_simple.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../util/network.dart';
+import '../util/product_api.dart';
 import 'dart:math';
 
 class VerticalMoreList extends StatefulWidget {
@@ -33,9 +32,9 @@ class _VerticalMoreListState extends State<VerticalMoreList> {
   }
 
   Future<List<ProductSimple>> fetchData() async {
-    final String apiUrl = "${Network.apiUrl}" + "product/?promotionCodes=1&promotionCodes=2";
+    final String apiUrl = "${ProductApi.apiUrl}" + "product/?promotionCodes=1&promotionCodes=2";
 
-    final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeader(''));
+    final response = await http.get(Uri.parse(apiUrl), headers: ProductApi.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);

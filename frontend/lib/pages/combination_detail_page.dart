@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../util/network.dart';
+import '../util/product_api.dart';
 
-import 'package:frontend/models/product.dart';
 import 'package:frontend/molecules/temp_chart_in_all.dart';
-import 'package:frontend/molecules/horizontal_list.dart';
-import 'package:frontend/molecules/cart_confirm_remove_selected_dialog.dart';
-import 'package:frontend/molecules/combination_list.dart';
-import 'package:frontend/molecules/empty_cart.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
@@ -39,8 +34,8 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
   Future<Map<String, dynamic>> fetchCombinationDetail() async {
     final combinationId = 3;
     final token = 'User-token';
-    final uri = Uri.parse('${Network.apiUrl}combination/$combinationId');
-    final response = await http.get(uri, headers: Network.getHeader(token));
+    final uri = Uri.parse('${ProductApi.apiUrl}combination/$combinationId');
+    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
@@ -83,11 +78,11 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                   itemCount: combinationItems.length,
                   itemBuilder: (context, index) {
                     final productMap = combinationItems[index] as Map<String, dynamic>;
-                    final product = Product(
-                      productMap['productId'],
-                      productMap['productName'],
-                      productMap['filename'],
-                      productMap['price'],
+                    final product = ProductSimple(
+                      productId: productMap['productId'],
+                      productName : productMap['productName'],
+                      filename : productMap['filename'],
+                      price : productMap['price'],
                     );
 
                     return ProductCardHorizontalWithoutButton(
@@ -114,7 +109,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                       for (var i = 0; i < combinationItems.length; i++) {
                         final productMap = combinationItems[i] as Map<String, dynamic>;
                         final productId = productMap['productId'];
-                        final productDetail = await Network.fetchProductDetail('', productId);
+                        final productDetail = await ProductApi.fetchProductDetail('', productId);
                         if (productDetail != null) {
                           cart.add(productDetail);
                         }

@@ -4,11 +4,11 @@ import 'package:http/http.dart' as http;
 import '../models/product_detail.dart';
 void main() {
 
-  Network.fetchProductList('', {'price': ['100', '1000'],}).then((result) {
+  ProductApi.fetchProductList('', {'price': ['100', '1000'],}).then((result) {
     print(result);
   });
 }
-class Network {
+class ProductApi {
   static Map<String, String> getHeaderWithToken(String token) {
     return {
       "Access-Control-Allow-Origin": "*",
@@ -38,7 +38,7 @@ class Network {
   static Future<ProductDetail> fetchProductDetail(String token, int productId) async {
     final uri = Uri.parse('${apiUrl}product/$productId');
     print('fetching data from $uri');
-    final response = await http.get(uri, headers: Network.getHeaderWithToken(token));
+    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);

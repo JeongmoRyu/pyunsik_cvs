@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:frontend/util/constants.dart';
-import 'package:frontend/util/network.dart';
+import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
 
 class Ranking extends StatefulWidget {
@@ -20,7 +20,7 @@ class _RankingState extends State<Ranking> {
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('${Network.apiUrl}product/keyword-ranking'));
+    final response = await http.get(Uri.parse('${ProductApi.apiUrl}product/keyword-ranking'));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;

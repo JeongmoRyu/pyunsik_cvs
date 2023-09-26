@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product_simple.dart';
-import 'package:frontend/util/network.dart';
+import 'package:frontend/util/product_api.dart';
 import 'package:provider/provider.dart';
 import '../atom/product_card.dart';
 import '../models/filter.dart';
@@ -27,7 +27,7 @@ class _VerticalListState extends State<VerticalList> {
           vertical: Constants.verticalPadding
       ),
       child: FutureBuilder(
-        future: Network.fetchProductList('', filter.getQueryParams()),
+        future: ProductApi.fetchProductList('', filter.getQueryParams()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print('----------data received');

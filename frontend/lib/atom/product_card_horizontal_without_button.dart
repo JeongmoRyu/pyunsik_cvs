@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product.dart';
 import 'package:intl/intl.dart';
+
+import '../models/product_simple.dart';
 
 class ProductCardHorizontalWithoutButton extends StatelessWidget {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
   const ProductCardHorizontalWithoutButton({Key? key, required this.product}) : super(key: key);
 
-  final Product product;
+  final ProductSimple product;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ProductCardHorizontalWithoutButton extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
-                  product.fileName,
+                  product.filename,
                   fit: BoxFit.cover
               ),
             ),

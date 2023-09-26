@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/molecules/promotion_badge_list.dart';
-import 'package:frontend/util/network.dart';
+import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/temp_chart.dart';
@@ -32,7 +32,7 @@ class ProductDetailPage extends StatelessWidget {
     return DefaultTabController(
         length: 2,
         child: FutureBuilder<ProductDetail>(
-          future: Network.fetchProductDetail('', productId),
+          future: ProductApi.fetchProductDetail('', productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터 로딩 중인 경우 로딩 스피너를 표시

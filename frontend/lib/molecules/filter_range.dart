@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/models/product_list.dart';
 import 'package:provider/provider.dart';
 
 import '../models/filter.dart';
-import '../util/constants.dart';
 
 class FilterRange extends StatefulWidget {
   final String tag;
@@ -23,7 +21,6 @@ class _FilterRangeState extends State<FilterRange> {
   @override
   Widget build(BuildContext context) {
     var filter = context.watch<Filter>();
-    var productList = context.watch<ProductList>();
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

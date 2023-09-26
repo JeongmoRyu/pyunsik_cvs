@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 class ProductSimple {
   // productId : Long,
@@ -11,8 +10,8 @@ class ProductSimple {
   final String productName;
   final int price;
   final String filename;
-  final List<dynamic> convenienceCode;
-  final List<dynamic> promotionCode;
+  final List<dynamic>? convenienceCode;
+  final List<dynamic>? promotionCode;
   final bool? isFavorite;
 
   ProductSimple({
@@ -20,8 +19,8 @@ class ProductSimple {
     required this.price,
     required this.filename,
     required this.productName,
-    required this.convenienceCode,
-    required this.promotionCode,
+    this.convenienceCode,
+    this.promotionCode,
     this.isFavorite,
   });
 

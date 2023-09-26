@@ -16,13 +16,13 @@ class PromotionBadgeList extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       child: Column(
         children: [
-          for (int i = 0; i < product.promotionCode.length; i++)
-            if (product.promotionCode[i] != 0)
+          for (int i = 0; i < product.promotionCode!.length; i++)
+            if (product.promotionCode![i] != 0)
               Padding(
                 padding: EdgeInsets.symmetric(vertical: verticalPadding),
                 child: PromotionBadge(
-                  convenienceCode: product.convenienceCode[i],
-                  promotionCode: product.promotionCode[i],
+                  convenienceCode: product.convenienceCode![i],
+                  promotionCode: product.promotionCode![i],
                   isLarge: isLarge,
                 ),
               )

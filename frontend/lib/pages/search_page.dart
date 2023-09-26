@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:frontend/util/custom_box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'package:frontend/util/network.dart';
+import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
 
 import '../molecules/ranking.dart';
@@ -104,9 +104,9 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<List<dynamic>> fetchData() async {
-    final String apiUrl = "${Network.apiUrl}" + "product/";
+    final String apiUrl = "${ProductApi.apiUrl}" + "product/";
 
-    final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeaderWithToken(''));
+    final response = await http.get(Uri.parse(apiUrl), headers: ProductApi.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
