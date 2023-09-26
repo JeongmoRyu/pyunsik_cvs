@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../util/network.dart';
 
 import 'package:frontend/models/product.dart';
 import 'package:frontend/molecules/temp_chart_in_all.dart';
@@ -18,7 +19,6 @@ import 'package:frontend/atom/product_card_horizontal_without_button.dart';
 import '../models/cart.dart';
 import '../models/product_simple.dart';
 import '../util/constants.dart';
-import '../util/network.dart'; // Import the network.dart file
 
 class CombinationDetailPage extends StatefulWidget {
   const CombinationDetailPage({Key? key});
@@ -38,9 +38,8 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
 
   Future<Map<String, dynamic>> fetchCombinationDetail() async {
     final combinationId = 3;
-    final token = 'YOUR_API_TOKEN_HERE';
+    final token = 'User-token';
     final uri = Uri.parse('${Network.apiUrl}combination/$combinationId');
-    print('fetching data from $uri');
     final response = await http.get(uri, headers: Network.getHeader(token));
 
     if (response.statusCode == 200) {
