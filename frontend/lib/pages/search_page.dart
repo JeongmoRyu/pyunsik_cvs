@@ -195,8 +195,7 @@ class _SearchPageState extends State<SearchPage> {
                             title: Text(data['productName']),
                             onTap: () {
                               setState(() {
-                                keyValue = data['productName'];
-                                textFieldController.text = keyValue; // 아이템 탭 시 TextField 업데이트
+                                context.go('/detail', extra : data['productId']);
                               });
                               searchRelatedData();
                             },
@@ -240,7 +239,7 @@ class _SearchPageState extends State<SearchPage> {
                             onTap: () {
                               setState(() {
                                 keyValue = data;
-                                textFieldController.text = keyValue; // 아이템 탭 시 TextField 업데이트
+                                textFieldController.text = keyValue;
                               });
                               searchRelatedData();
                             },
