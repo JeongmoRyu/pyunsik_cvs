@@ -1,6 +1,7 @@
 package com.picky.business.combination.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class Combination {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "combination", cascade = CascadeType.ALL)
+    @BatchSize(size = 100)
     private List<CombinationItem> items;
 
 }

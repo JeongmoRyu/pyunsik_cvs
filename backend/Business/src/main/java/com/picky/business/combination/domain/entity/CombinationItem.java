@@ -20,7 +20,6 @@ public class CombinationItem {
     private String productName;
     private int price;
     private String filename;
-    private Boolean isDeleted = false;
 
     @Column(name = "combination_id")
     private Long combinationId;

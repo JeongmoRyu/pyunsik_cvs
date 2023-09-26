@@ -3,12 +3,10 @@ package com.picky.business.combination.service;
 import com.picky.business.combination.domain.entity.Combination;
 import com.picky.business.combination.domain.entity.CombinationItem;
 import com.picky.business.combination.domain.repository.CombinationRepository;
-import com.picky.business.combination.dto.CombinationDetailResponse;
-import com.picky.business.combination.dto.CombinationInputRequest;
-import com.picky.business.combination.dto.CombinationListResponse;
-import com.picky.business.combination.dto.ProductInfo;
+import com.picky.business.combination.dto.*;
 import com.picky.business.connect.service.ConnectAuthService;
-import com.picky.business.exception.CommentNotFoundException;
+import com.picky.business.exception.InvalidTokenException;
+import com.picky.business.exception.NotFoundException;
 import com.picky.business.product.domain.entity.Product;
 import com.picky.business.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +29,7 @@ public class CombinationService {
 
     public List<CombinationListResponse> getPersonalCombinations(String accessToken) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
-        return combinationRepository.findByUserId(userId)
+        return combinationRepository.findByUserIdAndIsDeletedFalse(userId)
                 .stream()
                 .map(combination -> CombinationListResponse.builder()
                         .combinationId(combination.getId())
@@ -48,7 +47,6 @@ public class CombinationService {
         List<CombinationItem> combinationItems = combination.getItems();
 
         List<ProductInfo> productInfos = combinationItems.stream()
-                .filter(item -> !item.getIsDeleted())
                 .map(item -> ProductInfo.builder()
                         .productId(item.getProductId())
                         .amount(item.getAmount())
@@ -76,14 +74,14 @@ public class CombinationService {
         return combinationRepository.findById(combinationId)
                 .map(combination -> {
                     if (combination.getIsDeleted() == null || combination.getIsDeleted()) {
-                        throw new CommentNotFoundException(combinationId + DELETED);
+                        throw new NotFoundException(combinationId + DELETED);
                     }
                     return combination;
                 })
-                .orElseThrow(() -> new CommentNotFoundException(combinationId + NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(combinationId + NOT_FOUND));
     }
 
-    public void addCombination(String accessToken, CombinationInputRequest request) {
+    public Long addCombination(String accessToken, CombinationInputRequest request) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
         Combination combination = Combination.builder()
                 .userId(userId)
@@ -125,5 +123,21 @@ public class CombinationService {
 
         combinationRepository.save(combination);
         log.info("저장된 combination Id:" + combination.getId());
+        return combination.getId();
+    }
+
+    public void deleteCombination(String accessToken, Long combinationId) {
+        Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
+        Combination combination = Optional.ofNullable(getCombinationById(combinationId))
+                .filter(c -> userId.equals(c.getUserId()))
+                .orElseThrow(() -> new InvalidTokenException("조합 생성 유저와 현재 유저가 일치하지 않습니다"));
+
+        combination.setIsDeleted(true);
+        combinationRepository.save(combination);
+    }
+
+    public Long updateCombination(String accessToken, Long combinationId, CombinationInputRequest request){
+        deleteCombination(accessToken,combinationId);
+        return addCombination(accessToken, request);
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CombinationRepository extends JpaRepository<Combination, Long> {
-    List<Combination> findByUserId(Long userId);
+    List<Combination> findByUserIdAndIsDeletedFalse(Long userId);
 }
