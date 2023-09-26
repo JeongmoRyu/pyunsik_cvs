@@ -21,10 +21,10 @@ public class Notification {
 
     @Id
     private String date;
-    private HashMap<String, HashMap<String, List<String>>> message;
+    private List<String> message;
 
     @Builder
-    public Notification(String date, HashMap<String, HashMap<String, List<String>>> message) {
+    public Notification(String date, List<String> message) {
         this.date = date;
         this.message = message;
     }
