@@ -14,6 +14,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthService authService;

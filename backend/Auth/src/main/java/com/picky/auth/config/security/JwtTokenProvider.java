@@ -117,7 +117,7 @@ public class JwtTokenProvider {
         String newAccessToken = "";
 
         // redis에서 accessToken : refreshToken 가져오기
-        String refreshToken = redisTemplate.opsForValue().get(accessToken);
+        String refreshToken = redisTemplate.opsForValue().get("accessToken:" + accessToken);
 
         if (refreshToken != null) { // accessToken 만료, refreshToken 유효
             User user = getUserOfToken(accessToken);
