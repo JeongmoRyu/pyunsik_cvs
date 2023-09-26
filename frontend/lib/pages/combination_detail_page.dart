@@ -111,16 +111,14 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                 Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: FilledButton(
-                    onPressed: () {
+                    onPressed: () async {
                       for (var i = 0; i < combinationItems.length; i++) {
                         final productMap = combinationItems[i] as Map<String, dynamic>;
-                        final product = Product(
-                          productMap['productId'],
-                          productMap['productName'],
-                          productMap['filename'],
-                          productMap['price'],
-                        );
-                        // cart.add(product, extra : productMap['productId']);
+                        final productId = productMap['productId'];
+                        final productDetail = await Network.fetchProductDetail('', productId);
+                        if (productDetail != null) {
+                          cart.add(productDetail);
+                        }
                       }
                       context.go('/cart');
                     },
