@@ -6,10 +6,9 @@ import 'package:frontend/util/custom_box.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/util/network.dart';
-
+import 'package:go_router/go_router.dart';
 
 import '../molecules/ranking.dart';
-
 
 class SearchPage extends StatefulWidget {
   @override
@@ -19,17 +18,26 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String keyValue = '';
   List<String> searchDataList = [];
-  List<String> relatedDataList = [];
+  List<Map<String, dynamic>> relatedDataList = [];
   int maxSearchDataCount = 8;
   int maxrelatedDataList = 8;
   List<dynamic> AllProduct = []; // AllProduct 변수를 추가
 
+  // TextEditingController 선언
+  TextEditingController textFieldController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    keyValue = '';
     loadSearchData();
     fetchAndSetData();
+  }
+
+  @override
+  void dispose() {
+    // 페이지가 dispose될 때 controller도 dispose
+    textFieldController.dispose();
+    super.dispose();
   }
 
   Future<void> fetchAndSetData() async {
@@ -45,26 +53,27 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<void> searchRelatedData() async {
     if (keyValue.isEmpty) {
-      return; // 검색어가 비어있으면 아무 작업도 수행하지 않음
+      return;
     }
-    List<String> results = [];
+    List<Map<String, dynamic>> results = [];
 
     for (var product in AllProduct) {
       String productName = product['productName'];
+      int productId = product['productId'];
       if (productName.toLowerCase().contains(keyValue.toLowerCase())) {
-        results.add(productName);
+        results.add({
+          'productName': productName,
+          'productId': productId,
+        });
       }
       if (results.length >= maxrelatedDataList) {
         break;
       }
     }
-
-    // 찾은 데이터를 relatedDataList에 추가
     setState(() {
       relatedDataList = results;
     });
   }
-
 
   void saveSearchData(String data) async {
     if (searchDataList.length >= maxSearchDataCount) {
@@ -82,6 +91,7 @@ class _SearchPageState extends State<SearchPage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setStringList('keyword', searchDataList);
   }
+
   void loadSearchData() async {
     // SharedPreferences에서 검색어 데이터 불러오기
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -118,6 +128,7 @@ class _SearchPageState extends State<SearchPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: textFieldController, // TextEditingController 할당
                 autofocus: true,
                 keyboardType: TextInputType.text,
                 inputFormatters: [
@@ -148,13 +159,13 @@ class _SearchPageState extends State<SearchPage> {
                   hintStyle: TextStyle(
                     color: Constants.lightGrey,
                     fontWeight: FontWeight.normal,
-                    fontSize: 15
+                    fontSize: 15,
                   ),
-                  contentPadding:EdgeInsets.fromLTRB(10,12,10,12),
+                  contentPadding: EdgeInsets.fromLTRB(10, 12, 10, 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(3)),
-                    borderSide: BorderSide.none
-                  )
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
@@ -173,7 +184,6 @@ class _SearchPageState extends State<SearchPage> {
             final AllProduct = snapshot.data as List<dynamic>;
             return ListView(
               children: [
-                // Text('$AllProduct'),
                 if (keyValue.isNotEmpty)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,7 +192,13 @@ class _SearchPageState extends State<SearchPage> {
                         children: relatedDataList.map((data) {
                           return ListTile(
                             leading: Icon(Icons.search),
-                            title: Text(data),
+                            title: Text(data['productName']),
+                            onTap: () {
+                              setState(() {
+                                context.push('/detail', extra : data['productId']);
+                              });
+                              searchRelatedData();
+                            },
                           );
                         }).toList(),
                       ),
@@ -192,32 +208,41 @@ class _SearchPageState extends State<SearchPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 20,),
+                      SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
                         child: Row(
                           children: [
-                            Text('최근 검색어', style: TextStyle(
+                            Text(
+                              '최근 검색어',
+                              style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Spacer(),
                             TextButton(
-                                onPressed: () {
-                                  removeSearchData();
-                                },
-                                child: Text('모두 지우기')
+                              onPressed: () {
+                                removeSearchData();
+                              },
+                              child: Text('모두 지우기'),
                             )
                           ],
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 10),
                       Column(
                         children: searchDataList.map((data) {
                           return ListTile(
                             leading: Icon(Icons.watch_later_outlined),
                             title: Text(data),
+                            onTap: () {
+                              setState(() {
+                                keyValue = data;
+                                textFieldController.text = keyValue;
+                              });
+                              searchRelatedData();
+                            },
                           );
                         }).toList(),
                       ),

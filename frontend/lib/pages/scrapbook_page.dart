@@ -113,7 +113,7 @@ class _ScrapBookState extends State<ScrapBook> {
                       final item = favorites[index];
                       return InkWell(
                         onTap: () {
-                          context.push('/detail');
+                          context.push('/detail', extra: 1);
                         },
                         child: ListTile(
                           title: Text(item['name']),

@@ -11,6 +11,7 @@ import '../models/cart.dart';
 import '../molecules/top_bar_main.dart';
 import '../models/product.dart';
 import '../util/constants.dart';
+import 'package:go_router/go_router.dart';
 
 
 import 'package:frontend/molecules/temp_chart_in_all.dart';
@@ -85,7 +86,9 @@ class _CartPageState extends State<CartPage> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: FilledButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    context.go('/scrapbook');
+                  },
                   child: Text(
                     '조합 저장'
                   ),
