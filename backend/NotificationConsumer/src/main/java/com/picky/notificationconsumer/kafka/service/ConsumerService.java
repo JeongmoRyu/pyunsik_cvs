@@ -24,11 +24,18 @@ public class ConsumerService {
      * 지정한 토픽에 메세지가 발생할 경우 이를 수신
      * 메세지 필터 사용 시 containerFactory = "filterKafkaListenerContainerFactory" 파라미터 추가
      */
+
+    /** 세부 내용 알람
     @KafkaListener(topics = "Notification", groupId = "notification", containerFactory = "kafkaListenerContainerFactory")
     public void listenGroupNotification(HashMap<String, Object> object) {
         HashMap<String, HashMap<String, List<String>>> notificationList = (HashMap<String, HashMap<String, List<String>>>) object.get("message");
-//        HashMap<String, List<String>> notificationList = message.get("message");
         log.info("[ConsumerService] Received Message in group notification: " + notificationList);
         fcmNotificationService.sendNotificationByFCMToken(notificationList);
+    }
+     */
+    @KafkaListener(topics = "Notification", groupId = "notification", containerFactory = "kafkaListenerContainerFactory")
+    public void listenGroupNotification(List<String> userFCMTokenList) {
+        log.info("[ConsumerService] Received Message in group notification: " + userFCMTokenList);
+        fcmNotificationService.sendNotificationByFCMToken(userFCMTokenList);
     }
 }

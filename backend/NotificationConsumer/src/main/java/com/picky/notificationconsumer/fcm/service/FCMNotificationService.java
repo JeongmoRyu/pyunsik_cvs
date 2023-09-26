@@ -20,6 +20,7 @@ public class FCMNotificationService {
         this.firebaseMessaging = firebaseMessaging;
     }
 
+    /** 세부 내용 알람
     public void sendNotificationByFCMToken(HashMap<String, HashMap<String, List<String>>> notificationList) {
         for (HashMap.Entry<String, HashMap<String, List<String>>> userEntry : notificationList.entrySet()) {
             String userFCMToken = userEntry.getKey();
@@ -45,6 +46,31 @@ public class FCMNotificationService {
                 }
 
             }
+        }
+    }
+     */
+
+    public void sendNotificationByFCMToken(List<String> userFCMTokenList) {
+
+        for (String userFCMToken : userFCMTokenList) {
+            Notification notification = Notification.builder()
+                    .setTitle("Notification")
+                    .setBody("이달의 할인 목록을 확인해보세요.")
+                    .build();
+
+            Message message = Message.builder()
+                    .setToken(userFCMToken)
+                    .setNotification(notification)
+                    .build();
+
+            try {
+                firebaseMessaging.send(message);
+                log.info("[sendNotificationByFCMToken] 알림을 성공적으로 전송했습니다. targetUserFCMToken: " + userFCMToken);
+            } catch (FirebaseMessagingException e) {
+                e.printStackTrace();
+                log.info("[sendNotificationByFCMToken] 알림 전송에 실패했습니다. targetUserFCMToken: " + userFCMToken);
+            }
+
         }
     }
 }
