@@ -1,245 +1,130 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:frontend/molecules/appbar.dart';
+import 'package:frontend/util/auth_api.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
+import 'package:go_router/go_router.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({Key? key}) : super(key: key);
 
+
+class SignupPage extends StatefulWidget {
+  const SignupPage({Key? key}) : super(key: key);
   @override
-  _SignupState createState() => _SignupState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _SignupState extends State<Signup> {
-  String emailValue = '';
-  String keyValue = '';
-  String keyValueCheck = '';
-  String nickName = '';
+class _SignupPageState extends State<SignupPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _idController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    emailValue = '';
-  }
+  Future<dynamic>? _futureResponse;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
       body: Center(
-        child: Container(
-          padding: EdgeInsets.only(top: 150.0),
-          child: ListView( // ListView로 감싸서 스크롤 가능하도록 수정
-            padding: EdgeInsets.all(16.0),
-            children: [
-              Center(
-                child: Text(
-                  '회원가입',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+        child: (_futureResponse == null) ? buildForm() : buildFuture()
+      ),
+    );
+  }
+
+  Widget buildForm() {
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextFormField(
+              controller: _idController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '아이디를 입력해주세요.';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: '아이디',
               ),
-              SizedBox(height: 20),
-              Column(
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          emailValue = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.account_circle,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        hintText: '이메일',
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                        ),
-                        contentPadding: EdgeInsets.all(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (emailValue.isEmpty || !emailValue.contains('@')) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Please enter a valid email address.'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Confirmed'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.grey, // 원하는 색상으로 변경
-                      ),
-                      child: Text('이메일 확인'),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          keyValue = value;
-                        });
-                      },
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.key,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          hintText: '비밀번호',
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                          ),
-                          contentPadding: EdgeInsets.all(10)),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          keyValueCheck = value;
-                        });
-                      },
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.key,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          hintText: '비밀번호 확인',
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                          ),
-                          contentPadding: EdgeInsets.all(10)),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          nickName = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.adb,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10.0),
-                            ),
-                          ),
-                          hintText: '닉네임',
-                          hintStyle: TextStyle(
-                            fontSize: 14,
-                          ),
-                          contentPadding: EdgeInsets.all(10)),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (keyValue!.isEmpty || keyValue.length < 7) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Please enter a valid password'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        } else if (keyValue != keyValueCheck) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('password and password confirm is not correct'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Confirmed'),
-                              duration: Duration(milliseconds: 1000),
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.grey, // 원하는 색상으로 변경
-                      ),
-                      child: Text('회원가입'),
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  TextButton(
-                    onPressed: () {
-                      context.go('/login');
-                    },
-                    child: Text('로그인으로 돌아가기'), // '회원가입' 텍스트 추가
-                  ),
-                ],
+            ),
+            TextFormField(
+              controller: _passwordController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return '비밀번호를 입력해주세요.';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: '비밀번호',
               ),
-            ],
-          ),
+            ),
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty
+                    || value != _passwordController.text) {
+                  return '비밀번호가 일치하지 않습니다.';
+                }
+                return null;
+              },
+              decoration: InputDecoration(
+                hintText: '비밀번호 확인',
+              ),
+            ),
+            SizedBox(height: 10,),
+            FilledButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    setState(() {
+                      _futureResponse = AuthApi.createUser(
+                          _idController.text,
+                          _passwordController.text
+                      );
+                    });
+                  }
+                },
+                child: Text('회원가입')
+            )
+          ],
         ),
       ),
+    );
+  }
+
+  FutureBuilder<dynamic> buildFuture() {
+    return FutureBuilder<dynamic>(
+      future: _futureResponse,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Column(
+            children: [
+              Text('회원가입이 완료되었습니다.'),
+              TextButton(
+                  onPressed: () {
+                    context.pop();
+                  },
+                  child: Text('로그인')
+              )
+            ],
+          );
+            //로그인 페이지로 이동
+        } else if (snapshot.hasError) {
+          return Column(
+            children: [
+              Text('사용 중인 아이디입니다.'),
+              TextButton(
+                  onPressed: () {
+                    context.push('/signup');
+                  },
+                  child: Text('회원가입')
+              )
+            ],
+          );
+        }
+        return const CircularProgressIndicator();
+      },
     );
   }
 }

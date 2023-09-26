@@ -9,22 +9,22 @@ void main() {
   });
 }
 class Network {
-
-  static Map<String, String> getHeader(String token) {
+  static Map<String, String> getHeaderWithToken(String token) {
     return {
       "Access-Control-Allow-Origin": "*",
       'Content-Type': 'application/json',
       'Accept': '*/*',
-      'Authorization': '$token',
+      'Authorization': token,
     };
   }
 
   static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api/";
 
   static Future<List<dynamic>> fetchProductList(String token, Map<String, dynamic> queryParams) async {
+    print('network got ${queryParams}');
     final uri = Uri.parse('${apiUrl}product').replace(queryParameters: queryParams);
     print('fetching data from $uri');
-    final response = await http.get(uri, headers: getHeader(token));
+    final response = await http.get(uri, headers: getHeaderWithToken(token));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
@@ -38,7 +38,7 @@ class Network {
   static Future<ProductDetail> fetchProductDetail(String token, int productId) async {
     final uri = Uri.parse('${apiUrl}product/$productId');
     print('fetching data from $uri');
-    final response = await http.get(uri, headers: Network.getHeader(token));
+    final response = await http.get(uri, headers: Network.getHeaderWithToken(token));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);

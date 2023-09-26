@@ -6,8 +6,17 @@ import '../atom/product_card.dart';
 import '../models/filter.dart';
 import '../util/constants.dart';
 
-class VerticalList extends StatelessWidget {
+class VerticalList extends StatefulWidget {
   const VerticalList({super.key,});
+
+  @override
+  State<VerticalList> createState() => _VerticalListState();
+}
+
+class _VerticalListState extends State<VerticalList> {
+  static const List<String> sortOptions = <String>['기본', '인기순', '낮은 가격순', '높은 가격순', '리뷰 많은순'];
+  final List<bool> _toggleButtonsSelection = [false];
+  String dropdownValue = sortOptions.first;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +31,21 @@ class VerticalList extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print('----------data received');
-            print(snapshot.data!);
-            final List<ProductSimple> productList = snapshot.data!
+            // print(snapshot.data!);
+            List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
+            print(_toggleButtonsSelection[0]);
+            if (_toggleButtonsSelection[0]) {
+              productList = productList.where((product) {
+                if (product.isFavorite == null) {
+                  print('null');
+                  return false;
+                }
+                return product.isFavorite!;
+              }).toList();
+            }
+
             // productList.add(ProductSimple(productId: 1, price: 10000, filename: '', productName: 'test', badge: '1+1'));
             return Column(
               children: [
@@ -36,7 +56,42 @@ class VerticalList extends StatelessWidget {
                     children: [
                       Text('전체 ${productList.length}'),
                       Spacer(),
-                      Text('인기순')
+                      ToggleButtons(
+                        // ToggleButtons uses a List<bool> to track its selection state.
+                        isSelected: _toggleButtonsSelection,
+                        // This callback return the index of the child that was pressed.
+                        onPressed: (int index) {
+                          setState(() {
+                            _toggleButtonsSelection[index] =
+                            !_toggleButtonsSelection[index];
+                          });
+                        },
+                        // Constraints are used to determine the size of each child widget.
+                        constraints: const BoxConstraints(
+                          minHeight: 32.0,
+                          minWidth: 56.0,
+                        ),
+                        // ToggleButtons uses a List<Widget> to build its children.
+                        children: [
+                          Text('즐겨찾기'),
+                        ],
+                      ),
+                      SizedBox(width: 20,),
+                      DropdownButton(
+                        value: dropdownValue,
+                        items: sortOptions.map((String items) {
+                          return DropdownMenuItem(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            dropdownValue = value!;
+                          });
+                        },
+                      )
                     ],
                   ),
                 ),

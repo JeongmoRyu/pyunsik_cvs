@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/product_image.dart';
+import 'package:frontend/atom/promotion_badge.dart';
+import 'package:frontend/molecules/promotion_badge_list.dart';
 import 'package:intl/intl.dart';
 import 'package:go_router/go_router.dart';
 
@@ -25,12 +27,20 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AspectRatio(
-              aspectRatio: 1 / 1,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: ProductImage(filename: product.filename,),
+            Stack(
+              children: [
+                AspectRatio(
+                  aspectRatio: 1 / 1,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: ProductImage(filename: product.filename,),
+                    ),
                 ),
+                PromotionBadgeList(
+                  product: product,
+                  isLarge: false,
+                )
+              ]
             ),
             Text(
               product.productName,

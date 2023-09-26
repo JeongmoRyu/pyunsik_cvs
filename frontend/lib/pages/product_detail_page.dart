@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product_simple.dart';
+import 'package:frontend/molecules/promotion_badge_list.dart';
 import 'package:frontend/util/network.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
@@ -46,7 +47,24 @@ class ProductDetailPage extends StatelessWidget {
                 appBar: TopBarSub(appBar: AppBar()),
                 body: ListView(
                   children: [
-                    ProductImage(filename: productDetail.filename,),
+                    Stack(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: ProductImage(filename: productDetail.filename,)),
+                        PromotionBadgeList(
+                          product: ProductSimple(
+                              productId: productId,
+                              price: productDetail.price,
+                              filename: productDetail.filename,
+                              productName: productDetail.productName,
+                              convenienceCode: productDetail.convenienceCode,
+                              promotionCode: productDetail.promotionCode
+                          ),
+                          isLarge: true
+                        )
+                      ]
+                    ),
                     SizedBox(
                       height: 10,
                     ),

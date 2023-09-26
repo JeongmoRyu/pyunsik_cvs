@@ -11,8 +11,8 @@ class Filter extends ChangeNotifier {
   static const Map<String, String> keyMap = {
     '가격 (원)' : 'price',
     '카테고리' : 'category',
-    '편의점' : 'convenienceCode',
-    '할인행사' : 'promotion'
+    '편의점' : 'convenienceCodes',
+    '할인행사' : 'promotionCodes'
   };
   static const Map<String, String> valueMap = {
     '간편식사' : '1',
@@ -36,27 +36,29 @@ class Filter extends ChangeNotifier {
   Map<String, List<int>> get filterRange => _filterRange;
 
   Map<String, dynamic> getQueryParams() {
-    print(filterChoice);
     Map<String, dynamic> result = {};
 
     _filterChoice.forEach((key, valueList) {
+      result[keyMap[key]!] = [];
       for (String value in valueList) {
-        result[keyMap[key]!] = valueMap[value];
+        result[keyMap[key]!].add(valueMap[value]);
       }
     });
     _filterRange.forEach((key, valueList) {
+      result[keyMap[key]!] = [];
       for (int value in valueList) {
-        result[keyMap[key]!] = valueMap[value];
+        result[keyMap[key]!].add('$value');
       }
     });
-    print(result);
+    print('result = ${result}');
     return result;
   }
 
   void addChoice(String tag, String option) {
-    if (_filterChoice[tag] == null) {
+    if (_filterChoice[tag] == null || tag == '카테고리') { //카테고리는 하나만 선택 가능
       _filterChoice[tag] = [];
     }
+    
     _filterChoice[tag]?.add(option);
     notifyListeners();
   }
@@ -75,7 +77,7 @@ class Filter extends ChangeNotifier {
 
   void changeRange(String tag, int min, int max) {
     _filterRange[tag] = [min, max];
-    print(_filterRange);
+    print('change range ${_filterRange}');
     notifyListeners();
   }
 

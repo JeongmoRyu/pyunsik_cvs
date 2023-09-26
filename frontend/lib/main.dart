@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:frontend/models/product_list.dart';
+import 'package:frontend/pages/login_page.dart';
+import 'package:frontend/pages/signup_page.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/pages/cart_page.dart';
 import 'package:go_router/go_router.dart';
@@ -9,12 +9,12 @@ import 'package:frontend/pages/home_page.dart';
 import 'package:frontend/pages/scrapbook_page.dart';
 import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
-import 'package:frontend/pages/api_temp.dart';
 import 'package:frontend/pages/combination_detail_page.dart';
 import 'package:frontend/pages/search_page.dart';
 
 import 'models/cart.dart';
 import 'models/filter.dart';
+import 'models/user.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
@@ -96,10 +96,17 @@ final goRouter = GoRouter(
       },
     ),
     GoRoute(
-      path: '/tempapi',
+      path: '/login',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) {
-        return ApiTemp();
+        return LoginPage();
+      },
+    ),
+    GoRoute(
+      path: '/signup',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) {
+        return SignupPage();
       },
     ),
     GoRoute(
@@ -285,15 +292,16 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Cart()),
+        ChangeNotifierProvider(create: (context) => User()),
         ChangeNotifierProvider(create: (context) => Filter()),
-        ChangeNotifierProxyProvider<Filter, ProductList>(
-          create: (context) => ProductList(),
-          update: (context, filter, productList) {
-            if (productList == null) throw ArgumentError.notNull('productList');
-            productList.filter = filter;
-            return productList;
-          },
-        )
+        // ChangeNotifierProxyProvider<Filter, ProductList>(
+        //   create: (context) => ProductList(),
+        //   update: (context, filter, productList) {
+        //     if (productList == null) throw ArgumentError.notNull('productList');
+        //     productList.filter = filter;
+        //     return productList;
+        //   },
+        // )
       ],
       child: MaterialApp.router(
         theme: ThemeData(

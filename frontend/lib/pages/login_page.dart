@@ -1,109 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/user.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/molecules/appbar.dart';
-import 'package:frontend/pages/signup_page.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
+import 'package:provider/provider.dart';
+
+import '../util/auth_api.dart';
 
 
-class Login extends StatelessWidget {
-  const Login({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  final _idController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  bool loginFailed = false;
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<User>();
     return Scaffold(
       appBar: TopBarSub(appBar: AppBar(),),// AppBar에 표시할 제목
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '로그인',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 20),
-
-            Column(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.account_circle,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        hintText: '이메일',
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                        ),
-                        contentPadding: EdgeInsets.all(10)),
+                TextFormField(
+                  controller: _idController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '아이디를 입력해주세요.';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: '아이디',
                   ),
                 ),
-                SizedBox(height: 5,),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.key,
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10.0),
-                          ),
-                        ),
-                        hintText: '비밀번호',
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                        ),
-                        contentPadding: EdgeInsets.all(10)),
+                TextFormField(
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '비밀번호를 입력해주세요.';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    hintText: '비밀번호',
                   ),
                 ),
                 SizedBox(height: 10,),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: ElevatedButton(
+                FilledButton(
                     onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        AuthApi.login(
+                            _idController.text,
+                            _passwordController.text
+                        ).then((userModel) {
+                          user.setFromUserModel(userModel);
+                          context.go('/');
+                        }).onError((error, stackTrace) {
+                          setState(() {
+                            loginFailed = true;
+                            print('아이디 또는 비밀번호가 잘못되었습니다.');
+                          });
+                        });
+                      }
                     },
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.grey, // 원하는 색상으로 변경
-                    ),
-                    child: Text('로그인'),
-                  ),
+                    child: Text('로그인')
                 ),
-                SizedBox(height: 20,),
                 TextButton(
                   onPressed: () {
-                    context.go('/signup');
+                    context.push('/signup');
                   },
-                  child: Text('회원가입'), // '회원가입' 텍스트 추가
+                  child: Text('회원가입')
                 ),
               ],
-
             ),
-
-          ],
+          ),
         ),
-      ),
-    );
+      )
+    );//'아이디 또는 비밀번호가 잘못되었습니다.'
   }
 }

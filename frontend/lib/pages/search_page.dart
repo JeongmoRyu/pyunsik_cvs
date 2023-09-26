@@ -106,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
   Future<List<dynamic>> fetchData() async {
     final String apiUrl = "${Network.apiUrl}" + "product/";
 
-    final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeader(''));
+    final response = await http.get(Uri.parse(apiUrl), headers: Network.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
