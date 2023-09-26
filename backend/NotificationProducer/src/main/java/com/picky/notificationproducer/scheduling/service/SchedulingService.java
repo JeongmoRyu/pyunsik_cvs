@@ -3,8 +3,8 @@ package com.picky.notificationproducer.scheduling.service;
 import com.picky.notificationproducer.producer.service.ProducerService;
 import com.picky.notificationproducer.scheduling.domain.entiity.User;
 import com.picky.notificationproducer.scheduling.domain.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@EnableScheduling
 public class SchedulingService {
 
     private final UserRepository userRepository;
@@ -24,7 +25,7 @@ public class SchedulingService {
         this.producerService = producerService;
     }
 
-    @Scheduled(cron = "0/10 * * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?") // Test용 1분에 1번씩
     public void getFCMTokenOfAll() {
 
         log.info("[getFCMTokenOfAll] 활성화 유저 목록 불러오기");
