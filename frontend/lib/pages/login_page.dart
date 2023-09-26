@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
                           user.setFromUserModel(userModel);
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('Confirmed'),
+                              content: Text('로그인에 성공했습니다.'),
                               duration: Duration(milliseconds: 1500),
                             ),
                           );
