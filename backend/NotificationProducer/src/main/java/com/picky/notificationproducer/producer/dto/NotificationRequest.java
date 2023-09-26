@@ -4,18 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @NoArgsConstructor
 public class NotificationRequest {
 
-    private HashMap<String, HashMap<String, List<String>>> message;
+    private List<String> message;
 
     @Builder
-    public NotificationRequest(HashMap<String, HashMap<String, List<String>>> message) {
+    public NotificationRequest(List<String> message) {
         this.message = message;
     }
 }

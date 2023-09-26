@@ -22,7 +22,7 @@ public class ProducerController {
 
     @PostMapping("/send")
     public ResponseEntity<Void> sendMessage(@RequestBody NotificationRequest request) {
-        producerService.sendMessage(request, "Notification");
+        producerService.sendMessage(request.getMessage(), "Notification");
         return ResponseEntity.ok().build();
     }
 }
