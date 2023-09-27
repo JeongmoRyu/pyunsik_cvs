@@ -2,16 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 
 
 class CommercialCarousel extends StatelessWidget {
   const CommercialCarousel({Key? key});
 
-  static const List<String> imageList = [
-    'assets/images/event1.png',
-    'assets/images/event2.png',
+  static const List<Map<String, String>> imageList = [
+    {
+      'image':'assets/images/event1.png',
+      'url':'https://cu.bgfretail.com/brand_info/news_view.do?category=brand_info&depth2=5&idx=948'
+    },
+    {
+      'image':'assets/images/event2.png',
+      'url':'https://cu.bgfretail.com/brand_info/news_view.do?category=brand_info&depth2=5&idx=952'
+    },
   ];
 
 
@@ -30,17 +36,26 @@ class CommercialCarousel extends StatelessWidget {
           items: imageList.map((item) {
             return Builder(
               builder: (BuildContext context) {
-                return Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
+                return InkWell(
+                  onTap: () {_launchUrl(item['url']!);},
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Image.asset(item['image']!, fit: BoxFit.cover),
                   ),
-                  child: Image.asset(item, fit: BoxFit.cover),
                 );
               },
             );
           }).toList(),
         )
     );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication,)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

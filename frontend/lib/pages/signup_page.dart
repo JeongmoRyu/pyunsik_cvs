@@ -31,6 +31,11 @@ class _SignupPageState extends State<SignupPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text('회원가입', style: TextStyle(
+                    fontSize: 25
+                  ),
+                ),
+                SizedBox(height: 20,),
                 TextFormField(
                   controller: _idController,
                   validator: (value) {

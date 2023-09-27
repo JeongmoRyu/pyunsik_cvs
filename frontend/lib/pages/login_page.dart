@@ -35,6 +35,11 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text('로그인', style: TextStyle(
+                    fontSize: 25
+                  ),
+                ),
+                SizedBox(height: 20,),
                 TextFormField(
                   controller: _idController,
                   validator: (value) {
