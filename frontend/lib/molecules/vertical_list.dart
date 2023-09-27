@@ -39,7 +39,6 @@ class _VerticalListState extends State<VerticalList> {
             if (_toggleButtonsSelection[0]) {
               productList = productList.where((product) {
                 if (product.isFavorite == null) {
-                  print('null');
                   return false;
                 }
                 return product.isFavorite!;

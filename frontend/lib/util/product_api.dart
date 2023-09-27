@@ -49,5 +49,55 @@ class ProductApi {
     }
   }
 
+  static Future<dynamic> addFavorite(int productId, String token) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/favorite/$productId'),
+      headers: getHeaderWithToken(token),
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to add favorite: ${jsonDecode(response.body)}');
+    }
+  }
+
+  static Future<dynamic> getFavorites(int productId, String token) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/favorite/$productId'),
+      headers: getHeaderWithToken(token),
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to add favorite: ${jsonDecode(response.body)}');
+    }
+  }
+
+  static Future<dynamic> removeFavorite(int productId, String token) async {
+    final response = await http.delete(
+      Uri.parse('$apiUrl/favorite/$productId'),
+      headers: getHeaderWithToken(token),
+    );
+
+    if (response.statusCode == 201) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      return response;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to delete favorite: ${jsonDecode(response.body)}');
+    }
+  }
 
 }

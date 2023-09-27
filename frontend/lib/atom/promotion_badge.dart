@@ -35,41 +35,63 @@ class PromotionBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     TextStyle smallStyle = TextStyle(
       color: Colors.white,
+      fontSize: 12,
+    );
+
+    TextStyle largeStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 20,
     );
     if (isLarge) {
-      return Container(
-        child: Row(
-          children: [
-            Text(convenienceMap[convenienceCode]!,
-                style: TextStyle(
-                  fontSize: 20,
-                  backgroundColor: colorMap[convenienceCode]!,
-                )
+      return Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(2)),
+            color: colorMap[convenienceCode]!,
+          ),
+          padding: EdgeInsets.all(2),
+
+          child: RichText(
+            text: TextSpan(
+                text: '${convenienceMap[convenienceCode]!} ',
+                style: largeStyle,
+                children: [
+                  TextSpan(
+                      text: promotionMap[promotionCode]!,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      )
+                  )
+                ]
             ),
-            SizedBox(width: 5,),
-            Text(promotionMap[promotionCode]!),
-          ],
+          ),
         ),
       );
     }
-    return Container(
-      decoration: BoxDecoration(
-        color: colorMap[convenienceCode]!,
-        borderRadius: BorderRadius.all(Radius.circular(3))
-      ),
-      child: Row(
-        children: [
-          Flexible(
-            child: Text(convenienceMap[convenienceCode]!,
-              style: smallStyle
-            ),
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(2)),
+          color: colorMap[convenienceCode]!,
+        ),
+        padding: EdgeInsets.all(2),
+
+        child: RichText(
+          text: TextSpan(
+            text: '${convenienceMap[convenienceCode]!} ',
+            style: smallStyle,
+            children: [
+              TextSpan(
+                text: promotionMap[promotionCode]!,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                )
+              )
+            ]
           ),
-          Flexible(
-            child: Text(promotionMap[promotionCode]!,
-              style: smallStyle
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

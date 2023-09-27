@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/user.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
-import 'package:provider/provider.dart';
+import  'package:provider/provider.dart';
 
 import '../util/auth_api.dart';
 
@@ -19,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _idController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool loginFailed = false;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +35,11 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text('로그인', style: TextStyle(
+                    fontSize: 25
+                  ),
+                ),
+                SizedBox(height: 20,),
                 TextFormField(
                   controller: _idController,
                   validator: (value) {
@@ -49,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 TextFormField(
                   controller: _passwordController,
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '비밀번호를 입력해주세요.';
@@ -62,18 +68,35 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 10,),
                 FilledButton(
                     onPressed: () {
+                      if (isLoading) {
+                        return;
+                      }
                       if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isLoading = true;
+                        });
                         AuthApi.login(
                             _idController.text,
                             _passwordController.text
                         ).then((userModel) {
                           user.setFromUserModel(userModel);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('로그인에 성공했습니다.'),
+                              duration: Duration(milliseconds: 1500),
+                            ),
+                          );
                           context.go('/');
                         }).onError((error, stackTrace) {
                           setState(() {
-                            loginFailed = true;
-                            print('아이디 또는 비밀번호가 잘못되었습니다.');
+                            isLoading = false;
                           });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('아이디 또는 비밀번호가 잘못되었습니다.'),
+                              duration: Duration(milliseconds: 1500),
+                            ),
+                          );
                         });
                       }
                     },
@@ -85,6 +108,17 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: Text('회원가입')
                 ),
+                SizedBox(height: 10,),
+                Visibility( //나중에 dialog로 바꾸고 싶다.
+                  visible: isLoading,
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(height: 10,),
+                      Text('로그인 중...'),
+                    ],
+                  )
+                )
               ],
             ),
           ),

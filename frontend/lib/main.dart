@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:frontend/pages/login_page.dart';
 import 'package:frontend/pages/signup_page.dart';
 import 'package:provider/provider.dart';
@@ -14,9 +17,17 @@ import 'package:frontend/pages/search_page.dart';
 import 'package:frontend/pages/mypage.dart';
 import 'package:frontend/util/auth_api.dart';
 
+import 'firebase_options.dart';
 import 'models/cart.dart';
 import 'models/filter.dart';
 import 'models/user.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print('Handling a background message ${message.messageId}');
+}
+
+late AndroidNotificationChannel channel;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorHomeKey = GlobalKey<NavigatorState>(debugLabel: 'shellHome');
@@ -215,16 +226,86 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   }
 }
 
-void main() {
+void main() async {
   // turn off the # in the URLs on the web
   // usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  channel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+    'This channel is used for important notifications.', // description
+    importance: Importance.high,
+  );
+
+  var initialzationSettingsAndroid =
+  AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  var initializationSettings = InitializationSettings(
+      android: initialzationSettingsAndroid);
+
+  await flutterLocalNotificationsPlugin.initialize(
+    initializationSettings,
+  );
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  // var token = await FirebaseMessaging.instance.getToken();
+  //
+  // print("token : ${token ?? 'token NULL!'}");
   runApp(const MyApp());
 }
 
 /// The main app.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   /// Constructs a [MyApp]
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      var androidNotiDetails = AndroidNotificationDetails(
+        channel.id,
+        channel.name,
+        channelDescription: channel.description,
+      );
+      var details =
+      NotificationDetails(android: androidNotiDetails);
+      if (notification != null) {
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          details,
+        );
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      print(message);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,3 +334,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
