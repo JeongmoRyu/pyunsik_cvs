@@ -24,7 +24,7 @@ class Comment {
 }
 
 class ProductDetail {
-  // final int productId;
+  late int _productId;
   final String productName;
   final int price;
   final String filename;
@@ -41,8 +41,13 @@ class ProductDetail {
   final List<Comment> comments;
   final bool? isFavorite;
 
+  set productId(int value) {
+    _productId = value;
+  }
+
+  int get productId => _productId;
+
   ProductDetail({
-    // required this.productId,
     required this.price,
     required this.filename,
     required this.productName,
@@ -66,7 +71,6 @@ class ProductDetail {
         .toList() ?? [];
 
     return ProductDetail(
-      // productId: json['productId'],
       price: json['price'],
       filename: json['filename'],
       productName: json['productName'],

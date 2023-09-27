@@ -14,6 +14,8 @@ import 'package:frontend/pages/product_list_page.dart';
 import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/combination_detail_page.dart';
 import 'package:frontend/pages/search_page.dart';
+import 'package:frontend/pages/mypage.dart';
+import 'package:frontend/util/auth_api.dart';
 
 import 'firebase_options.dart';
 import 'models/cart.dart';
@@ -133,6 +135,13 @@ final goRouter = GoRouter(
         return SearchPage();
       },
     ),
+    GoRoute(
+      path: '/mypage',
+      parentNavigatorKey: _rootNavigatorKey,
+      builder: (BuildContext context, GoRouterState state) {
+        return MyPage();
+      },
+    )
 
 
   ]
@@ -181,6 +190,8 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
+    var user = context.watch<User>();
+
     return Scaffold(
       body: body,
       bottomNavigationBar: SizedBox(
@@ -314,7 +325,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp.router(
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
           useMaterial3: true,
         ),
         debugShowCheckedModeBanner: true,

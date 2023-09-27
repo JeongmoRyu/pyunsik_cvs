@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/alarm_button.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/util/auth_api.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/models/user.dart';
 
 class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
@@ -8,12 +11,15 @@ class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<User>();
+
     return AppBar(
       backgroundColor: Colors.white,
       actions: <Widget>[
         IconButton(
             onPressed: () {
-              context.go('/scrapbook');
+                context.go('/scrapbook');
+
             },
             icon: Icon(Icons.bookmark_outline)
         ),

@@ -5,7 +5,7 @@ class User extends ChangeNotifier {
   late String _uuid;
   late String _nickname;
   late String _fcmToken;
-  late String _accessToken;
+  String _accessToken = '';
 
   String get uuid => _uuid;
 
