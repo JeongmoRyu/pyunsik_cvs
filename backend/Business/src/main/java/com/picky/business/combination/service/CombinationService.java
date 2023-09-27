@@ -7,12 +7,14 @@ import com.picky.business.combination.dto.*;
 import com.picky.business.connect.service.ConnectAuthService;
 import com.picky.business.exception.InvalidTokenException;
 import com.picky.business.exception.NotFoundException;
+import com.picky.business.log.service.LogService;
 import com.picky.business.product.domain.entity.Product;
 import com.picky.business.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ public class CombinationService {
     private final ConnectAuthService connectAuthService;
     private final CombinationRepository combinationRepository;
     private final ProductService productService;
+    private final LogService logService;
     private static final String NOT_FOUND = "를 찾을 수 없습니다";
     private static final String DELETED = "가 삭제되었습니다";
 
@@ -83,6 +86,7 @@ public class CombinationService {
 
     public Long addCombination(String accessToken, CombinationInputRequest request) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
+        List<Long> logList = new ArrayList<>();
         Combination combination = Combination.builder()
                 .userId(userId)
                 .combinationName(request.getCombinationName())
@@ -97,6 +101,7 @@ public class CombinationService {
         List<CombinationItem> combinationItems = request.getProducts().stream()
                 .map(createItem -> {
                     Long productId = createItem.getProductId();
+                    logList.add(productId);
                     Product product = productService.getProduct(productId);
                     CombinationItem combinationItem = CombinationItem.builder()
                             .productId(productId)
@@ -121,6 +126,7 @@ public class CombinationService {
 
         combination.setItems(combinationItems);
 
+        logService.saveLogCombination(userId, logList);
         combinationRepository.save(combination);
         log.info("저장된 combination Id:" + combination.getId());
         return combination.getId();

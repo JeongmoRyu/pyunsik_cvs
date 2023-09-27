@@ -3,6 +3,7 @@ package com.picky.business.product.service;
 import com.picky.business.connect.service.ConnectAuthService;
 import com.picky.business.exception.NotFoundException;
 import com.picky.business.favorite.domain.repository.FavoriteRepository;
+import com.picky.business.log.service.LogService;
 import com.picky.business.product.domain.entity.ConvenienceInfo;
 import com.picky.business.product.domain.entity.Product;
 import com.picky.business.product.domain.repository.ConvenienceRepository;
@@ -31,6 +32,7 @@ public class ProductService {
     private final ConnectAuthService connectAuthService;
     private final FavoriteRepository favoriteRepository;
     private final ConvenienceRepository convenienceRepository;
+    private final LogService logService;
     private static final String NOT_FOUND = "값을 가진 제품이 없습니다";
     private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
 
@@ -49,12 +51,12 @@ public class ProductService {
                 price, carb, protein, fat, sodium,
                 inputConvenienceCode, inputPromotionCode
         );
+        if (productName != null && !productName.isEmpty()) {
+            logService.saveLogSearch(productName);
+        }
 
         // accessToken이 null이면 null, 아니면 userId 반환
-        Long userId = Optional.ofNullable(accessToken)
-                .filter(token -> token != null && !token.trim().isEmpty())
-                .map(connectAuthService::getUserIdByAccessToken)
-                .orElse(null);
+        Long userId = getUserId(accessToken);
 
         return productRepository.findAll(specification)
                 .stream()
@@ -85,15 +87,13 @@ public class ProductService {
     public ProductDetailResponse findProductByProductId(Long productId, String accessToken) {
         Product product = getProduct(productId);
         // accessToken이 null이면 null, 아니면 userId 반환
-        Long userId = Optional.ofNullable(accessToken)
-                .filter(token -> token != null && !token.trim().isEmpty())
-                .map(connectAuthService::getUserIdByAccessToken)
-                .orElse(null);
+        Long userId = getUserId(accessToken);
 
         // accessToken이 null이 아니면 favorite 확인
         Boolean isFavorite = Optional.ofNullable(userId)
                 .map(id -> favoriteRepository.findByUserIdAndProductId(id, productId) != null)
                 .orElse(null);
+        logService.saveLogProduct(userId, productId);
 
         // 댓글 불러오기
         List<CommentResponse> commentResponseList = Optional.ofNullable(product.getComments())
@@ -234,5 +234,11 @@ public class ProductService {
                 .map(ConvenienceInfo::getPromotionCode)
                 .collect(Collectors.toList());
 
+    }
+    private Long getUserId(String accessToken){
+        return Optional.ofNullable(accessToken)
+                .filter(token -> token != null && !token.trim().isEmpty())
+                .map(connectAuthService::getUserIdByAccessToken)
+                .orElse(null);
     }
 }

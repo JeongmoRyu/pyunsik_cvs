@@ -4,10 +4,10 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="log_search")
+@Table(name = "log_search")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class LogSearch {
     @Column
     private String keyword;
 
-    @Column
+    @Column(name = "created_at")
     @CreatedDate
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }
