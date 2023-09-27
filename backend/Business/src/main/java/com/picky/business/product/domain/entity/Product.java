@@ -27,7 +27,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(name = "product_name")
     private String productName;
     @Column
     private int price;
@@ -47,7 +47,7 @@ public class Product {
     private double fat;
     @Column
     private double sodium;
-    @Column(columnDefinition = "boolean default false")
+    @Column(columnDefinition = "boolean default false", name = "is_deleted")
     private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "product")

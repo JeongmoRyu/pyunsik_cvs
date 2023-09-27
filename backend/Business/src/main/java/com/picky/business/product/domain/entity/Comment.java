@@ -20,9 +20,9 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(name = "user_id")
     private Long userId;
-    @Column
+    @Column(name = "user_nickname")
     private String userNickname;
     @Column
     private String content;
@@ -37,10 +37,10 @@ public class Comment {
     @Column(name = "product_id")
     private Long productId;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column(columnDefinition = "boolean default false", name = "is_deleted")
     private Boolean isDeleted = false;
 
-    @Column
+    @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
 
