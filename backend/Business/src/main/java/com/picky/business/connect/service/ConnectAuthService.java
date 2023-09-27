@@ -12,13 +12,14 @@ import org.springframework.web.client.RestTemplate;
 public class ConnectAuthService {
     private final RestTemplate restTemplate;
     //TODO 서버에 배포시 localhost -> auth server docker image name으로 변경 필요
-    private static final String BASEURL = "http://localhost:8081/api/auth";
+    private static final String BASEURL = "http://j9a505.p.ssafy.io:8882/api/auth";
 
     public Long getUserIdByAccessToken(String accessToken) {
         String url = BASEURL + "/id/" + accessToken;
         try {
             return Long.parseLong(restTemplate.getForObject(url, String.class));
         } catch (Exception e) {
+            e.printStackTrace();
             throw new InvalidTokenException("유효하지 않은 토큰입니다");
         }
     }
