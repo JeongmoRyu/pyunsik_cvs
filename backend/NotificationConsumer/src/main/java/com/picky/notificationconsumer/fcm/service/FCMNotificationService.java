@@ -7,7 +7,6 @@ import com.google.firebase.messaging.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -68,7 +67,6 @@ public class FCMNotificationService {
                     firebaseMessaging.send(message);
                     log.info("[sendNotificationByFCMToken] 알림을 성공적으로 전송했습니다. targetUserFCMToken: " + userFCMToken);
                 } catch (FirebaseMessagingException e) {
-                    e.printStackTrace();
                     log.info("[sendNotificationByFCMToken] 알림 전송에 실패했습니다. targetUserFCMToken: " + userFCMToken);
                 }
             } else {
