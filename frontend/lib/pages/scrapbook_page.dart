@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
+import 'package:frontend/util/auth_api.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/models/user.dart';
 
 import '../molecules/top_bar_main.dart';
 
@@ -62,6 +65,9 @@ class _ScrapBookState extends State<ScrapBook> {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<User>();
+
+    if (user.accessToken.isNotEmpty)
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -84,7 +90,7 @@ class _ScrapBookState extends State<ScrapBook> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'test',
+                      user.accessToken.isNotEmpty ? '${user.nickname}' : '',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -101,8 +107,7 @@ class _ScrapBookState extends State<ScrapBook> {
                 Tab(text: '즐겨찾기' + '(${favorites.length})'),
                 Tab(text: '저장된 조합' + '(${combinations.length})'),
               ],
-
-          ),
+            ),
             Expanded(
               child: TabBarView(
                 children: [
@@ -151,5 +156,50 @@ class _ScrapBookState extends State<ScrapBook> {
             ),
 
     );
+    else
+      return Scaffold(
+        appBar: TopBarMain(appBar: AppBar(),),// AppBar에 표시할 제목
+        body: Column(
+        children: [
+          Container(
+            height: 100,
+            child: Center( // 텍스트를 중앙 정렬합니다.
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '스크랩북',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    user.accessToken.isNotEmpty ? '${user.nickname}' : '',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: FilledButton(
+              onPressed: () {
+                context.go('/login');
+              },
+              child: Text(
+                '로그인 하러가기',
+              ),
+            ),
+          ),
+        ]
+      )
+    );
+
   }
 }

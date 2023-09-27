@@ -20,8 +20,8 @@ class _RankingState extends State<Ranking> {
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('${ProductApi.apiUrl}product/keyword-ranking'));
-
+    // final response = await http.get(Uri.parse('${ProductApi.apiUrl}product/keyword-ranking'));
+    final response = null;
     if (response.statusCode == 200) {
       final data = json.decode(response.body) as List;
       setState(() {
