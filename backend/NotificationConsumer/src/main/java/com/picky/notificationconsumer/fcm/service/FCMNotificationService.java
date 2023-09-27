@@ -7,7 +7,6 @@ import com.google.firebase.messaging.Notification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -53,24 +52,26 @@ public class FCMNotificationService {
     public void sendNotificationByFCMToken(List<String> userFCMTokenList) {
 
         for (String userFCMToken : userFCMTokenList) {
-            Notification notification = Notification.builder()
-                    .setTitle("Notification")
-                    .setBody("이달의 할인 목록을 확인해보세요.")
-                    .build();
+            if (userFCMToken != null) {
+                Notification notification = Notification.builder()
+                        .setTitle("Notification")
+                        .setBody("이달의 할인 목록을 확인해보세요.")
+                        .build();
 
-            Message message = Message.builder()
-                    .setToken(userFCMToken)
-                    .setNotification(notification)
-                    .build();
+                Message message = Message.builder()
+                        .setToken(userFCMToken)
+                        .setNotification(notification)
+                        .build();
 
-            try {
-                firebaseMessaging.send(message);
-                log.info("[sendNotificationByFCMToken] 알림을 성공적으로 전송했습니다. targetUserFCMToken: " + userFCMToken);
-            } catch (FirebaseMessagingException e) {
-                e.printStackTrace();
-                log.info("[sendNotificationByFCMToken] 알림 전송에 실패했습니다. targetUserFCMToken: " + userFCMToken);
+                try {
+                    firebaseMessaging.send(message);
+                    log.info("[sendNotificationByFCMToken] 알림을 성공적으로 전송했습니다. targetUserFCMToken: " + userFCMToken);
+                } catch (FirebaseMessagingException e) {
+                    log.info("[sendNotificationByFCMToken] 알림 전송에 실패했습니다. targetUserFCMToken: " + userFCMToken);
+                }
+            } else {
+                log.info("[sendNotificationByFCMToken] 유저의 FCMToken이 없습니다.");
             }
-
         }
     }
 }
