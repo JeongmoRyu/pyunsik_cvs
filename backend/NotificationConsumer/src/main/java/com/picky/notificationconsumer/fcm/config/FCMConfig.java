@@ -25,7 +25,7 @@ public class FCMConfig {
     @Bean
     FirebaseMessaging firebaseMessaging() throws IOException {
         // firebase admin sdk 비공개 키 읽어오기
-        ClassPathResource resource = new ClassPathResource("firebase/picky-c7383-firebase-adminsdk-dfu39-6b9d9837b6.json");
+        ClassPathResource resource = new ClassPathResource("firebase/a505-ca3ca-firebase-adminsdk-3vl1j-78c859485f.json");
         InputStream refreshToken = resource.getInputStream();
 
         FirebaseApp firebaseApp = null;
