@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
 class AlarmButton extends StatefulWidget {
   const AlarmButton({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class AlarmButton extends StatefulWidget {
 
 class _AlarmButtonState extends State<AlarmButton> {
   bool _isPopupOpen = false;
+
 
   void _togglePopup() {
     setState(() {
@@ -22,11 +24,15 @@ class _AlarmButtonState extends State<AlarmButton> {
   Widget build(BuildContext context) {
     final GoRouter goRouter = GoRouter.of(context);
 
+
     return GestureDetector(
+
       onTap: () {
         if (_isPopupOpen) {
           _togglePopup();
         }
+
+
       },
       child: Stack(
         children: [

@@ -26,7 +26,7 @@ class MyPage extends StatelessWidget {
               TextFormField(
                 controller: _idController,
                 decoration: InputDecoration(
-                  labelText: '아이디',
+                  labelText: '${user.nickname}',
                   hintText: user.nickname,
                 ),
               ),

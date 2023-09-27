@@ -51,12 +51,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
         IconButton( //아이콘들 오른쪽으로 붙히고 싶다.
             padding: EdgeInsets.all(0),
             onPressed: () {
-              if (user.accessToken.isNotEmpty) {
                 context.go('/scrapbook');
-              } else {
-                context.push('/login');
-              }
-              // context.go('/scrapbook');
             },
             icon: Icon(Icons.bookmark_outline)
         ),
@@ -71,7 +66,9 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: Icon(Icons.person_outline)
         ),
-        AlarmButton(),
+        Visibility(
+          visible: user.accessToken != '',
+            child: AlarmButton()),
 
         SizedBox(width: 10,),
       ],

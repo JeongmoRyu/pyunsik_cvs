@@ -12,6 +12,8 @@ import '../molecules/top_bar_main.dart';
 import '../models/product.dart';
 import '../util/constants.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/util/auth_api.dart';
+import 'package:frontend/models/user.dart';
 
 
 import 'package:frontend/molecules/temp_chart_in_all.dart';
@@ -29,6 +31,8 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
+    var user = context.watch<User>();
+
 
     List<ProductSimple> testList2 = [
     ];
@@ -86,9 +90,13 @@ class _CartPageState extends State<CartPage> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: FilledButton(
-                  onPressed: (){
+                onPressed: () {
+                  if (user.accessToken.isNotEmpty) {
                     context.go('/scrapbook');
-                  },
+                  } else {
+                    context.push('/login');
+                  }
+                },
                   child: Text(
                     '조합 저장'
                   ),
