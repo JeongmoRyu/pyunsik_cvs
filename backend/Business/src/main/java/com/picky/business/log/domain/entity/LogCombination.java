@@ -20,13 +20,14 @@ public class LogCombination {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id")
     private Long userId;
-    @Column
+    @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
     //Combination Item 리스트
-    @Column(name="log_combination_item")
+    @Column(name = "log_combination_item")
     @ElementCollection
-    @CollectionTable(name="log_combination_item")
+    @CollectionTable(name = "log_combination_item")
     private List<Long> logCombinationItem = new ArrayList<>();
 }
