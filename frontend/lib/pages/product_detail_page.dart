@@ -43,6 +43,7 @@ class ProductDetailPage extends StatelessWidget {
             } else {
               // 데이터 로딩이 완료된 경우 화면에 데이터 표시
               final ProductDetail productDetail = snapshot.data!;
+              productDetail.productId = productId;
               return Scaffold(
                 appBar: TopBarSub(appBar: AppBar()),
                 body: ListView(
