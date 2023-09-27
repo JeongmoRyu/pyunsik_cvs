@@ -67,6 +67,7 @@ class _ScrapBookState extends State<ScrapBook> {
   Widget build(BuildContext context) {
     var user = context.watch<User>();
 
+    if (user.accessToken.isNotEmpty)
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -89,7 +90,7 @@ class _ScrapBookState extends State<ScrapBook> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      user.accessToken.isNotEmpty ? '${user.nickname}' : 'make your own Id',
+                      user.accessToken.isNotEmpty ? '${user.nickname}' : '',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
@@ -155,5 +156,50 @@ class _ScrapBookState extends State<ScrapBook> {
             ),
 
     );
+    else
+      return Scaffold(
+        appBar: TopBarMain(appBar: AppBar(),),// AppBar에 표시할 제목
+        body: Column(
+        children: [
+          Container(
+            height: 100,
+            child: Center( // 텍스트를 중앙 정렬합니다.
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '스크랩북',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    user.accessToken.isNotEmpty ? '${user.nickname}' : '',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: FilledButton(
+              onPressed: () {
+                context.go('/login');
+              },
+              child: Text(
+                '로그인 하러가기',
+              ),
+            ),
+          ),
+        ]
+      )
+    );
+
   }
 }
