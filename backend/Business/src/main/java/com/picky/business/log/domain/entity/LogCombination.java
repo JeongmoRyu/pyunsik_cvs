@@ -1,16 +1,17 @@
 package com.picky.business.log.domain.entity;
 
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "log_combination")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -26,8 +27,8 @@ public class LogCombination {
     @CreatedDate
     private LocalDateTime createdAt;
     //Combination Item 리스트
-    @Column(name = "log_combination_item")
-    @ElementCollection
-    @CollectionTable(name = "log_combination_item")
-    private List<Long> logCombinationItem = new ArrayList<>();
+    @OneToMany(mappedBy = "logCombination", cascade = CascadeType.ALL)
+    @BatchSize(size = 100)
+    private List<LogCombinationItem> items;
+
 }
