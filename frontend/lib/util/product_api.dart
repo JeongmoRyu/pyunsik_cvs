@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../models/product_detail.dart';
+import '../models/product_simple.dart';
 void main() {
 
   ProductApi.fetchProductList('', {'price': ['100', '1000'],}).then((result) {
@@ -18,11 +19,27 @@ class ProductApi {
     };
   }
 
-  static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api/";
+  static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api";
+
+  static Future<List<ProductSimple>> fetchProductListOnPromotion() async {
+    const String url = "${apiUrl}/product/?promotionCodes=1&promotionCodes=2";
+
+    final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final List<ProductSimple> data = (json.decode(body) as List<dynamic>)
+          .map((item) => ProductSimple.fromJson(item))
+          .toList();
+      return data;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
 
   static Future<List<dynamic>> fetchProductList(String token, Map<String, dynamic> queryParams) async {
-    print('network got ${queryParams}');
-    final uri = Uri.parse('${apiUrl}product').replace(queryParameters: queryParams);
+    print('network got $queryParams');
+    final uri = Uri.parse('${apiUrl}/product').replace(queryParameters: queryParams);
     print('fetching data from $uri');
     final response = await http.get(uri, headers: getHeaderWithToken(token));
 
@@ -36,8 +53,8 @@ class ProductApi {
   }
 
   static Future<ProductDetail> fetchProductDetail(String token, int productId) async {
-    final uri = Uri.parse('${apiUrl}product/$productId');
-    print('fetching data from $uri');
+    final uri = Uri.parse('${apiUrl}/product/$productId');
+    print('fetching data from $uri, token: $token');
     final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
 
     if (response.statusCode == 200) {
@@ -50,8 +67,9 @@ class ProductApi {
   }
 
   static Future<dynamic> addFavorite(int productId, String token) async {
+    print('add favorite from product id : $productId, token: $token');
     final response = await http.post(
-      Uri.parse('$apiUrl/favorite/$productId'),
+      Uri.parse('${apiUrl}/favorite/$productId'),
       headers: getHeaderWithToken(token),
     );
 
@@ -67,6 +85,7 @@ class ProductApi {
   }
 
   static Future<dynamic> getFavorites(int productId, String token) async {
+
     final response = await http.post(
       Uri.parse('$apiUrl/favorite/$productId'),
       headers: getHeaderWithToken(token),
@@ -84,6 +103,7 @@ class ProductApi {
   }
 
   static Future<dynamic> removeFavorite(int productId, String token) async {
+    print('remove favorite from product id : $productId, token: $token');
     final response = await http.delete(
       Uri.parse('$apiUrl/favorite/$productId'),
       headers: getHeaderWithToken(token),

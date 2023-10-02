@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/loading.dart';
 import 'package:frontend/atom/text_title.dart';
 import 'package:frontend/util/constants.dart';
 import 'package:go_router/go_router.dart';
@@ -28,24 +29,10 @@ class _VerticalMoreListState extends State<VerticalMoreList> {
   @override
   void initState() {
     super.initState();
-    productList = fetchData();
+    productList = ProductApi.fetchProductListOnPromotion();
   }
 
-  Future<List<ProductSimple>> fetchData() async {
-    final String apiUrl = "${ProductApi.apiUrl}" + "product/?promotionCodes=1&promotionCodes=2";
 
-    final response = await http.get(Uri.parse(apiUrl), headers: ProductApi.getHeaderWithToken(''));
-
-    if (response.statusCode == 200) {
-      String body = utf8.decode(response.bodyBytes);
-      final List<ProductSimple> data = (json.decode(body) as List<dynamic>)
-          .map((item) => ProductSimple.fromJson(item))
-          .toList();
-      return data;
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +65,7 @@ class _VerticalMoreListState extends State<VerticalMoreList> {
             future: productList, // Future 형식의 데이터 전달
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Loading();
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else {

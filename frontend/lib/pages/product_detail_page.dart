@@ -16,6 +16,7 @@ import 'package:provider/provider.dart';
 import '../atom/product_image.dart';
 import '../models/filter.dart';
 import '../models/product_detail.dart';
+import '../models/user.dart';
 
 class ProductDetailPage extends StatelessWidget {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
@@ -28,11 +29,12 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const tag = '카테고리';
     var filter = context.watch<Filter>();
+    var user = context.watch<User>();
     List<ProductSimple> testList = [];
     return DefaultTabController(
         length: 2,
         child: FutureBuilder<ProductDetail>(
-          future: ProductApi.fetchProductDetail('', productId),
+          future: ProductApi.fetchProductDetail(user.accessToken, productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터 로딩 중인 경우 로딩 스피너를 표시

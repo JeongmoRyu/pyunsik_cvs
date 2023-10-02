@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/util/product_api.dart';
 import 'package:provider/provider.dart';
+import '../atom/loading.dart';
 import '../atom/product_card.dart';
 import '../models/filter.dart';
 import '../util/constants.dart';
@@ -125,7 +126,7 @@ class _VerticalListState extends State<VerticalList> {
             print(snapshot.toString());
             return Text('${snapshot.error}');
           }
-          return const Center(child: CircularProgressIndicator());
+          return Loading();
         }
       ),
     );

@@ -104,7 +104,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<List<dynamic>> fetchData() async {
-    final String apiUrl = "${ProductApi.apiUrl}" + "product/";
+    final String apiUrl = "${ProductApi.apiUrl}" + "/product/";
 
     final response = await http.get(Uri.parse(apiUrl), headers: ProductApi.getHeaderWithToken(''));
 

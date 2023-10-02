@@ -29,6 +29,17 @@ class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: Icon(Icons.interests_outlined)
         ),
+        IconButton(
+            padding: EdgeInsets.all(0),
+            onPressed: () {
+              if (user.accessToken.isNotEmpty) {
+                context.push('/mypage');
+              } else {
+                context.push('/login');
+              }
+            },
+            icon: Icon(Icons.person_outline)
+        ),
       ],
     );
   }
