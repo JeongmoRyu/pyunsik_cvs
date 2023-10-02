@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/alarm_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/util/auth_api.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/models/user.dart';
 
@@ -17,7 +16,7 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
     var user = context.watch<User>();
     return AppBar(
       backgroundColor: Colors.white,
-
+      surfaceTintColor: Colors.transparent,
       actions: <Widget>[
         SizedBox(width: 10,),
         Expanded(
