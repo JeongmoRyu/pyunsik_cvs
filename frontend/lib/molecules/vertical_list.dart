@@ -35,7 +35,6 @@ class _VerticalListState extends State<VerticalList> {
             List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
-            print(_toggleButtonsSelection[0]);
             if (_toggleButtonsSelection[0]) {
               productList = productList.where((product) {
                 if (product.isFavorite == null) {
@@ -45,7 +44,6 @@ class _VerticalListState extends State<VerticalList> {
               }).toList();
             }
 
-            // productList.add(ProductSimple(productId: 1, price: 10000, filename: '', productName: 'test', badge: '1+1'));
             return Column(
               children: [
                 Padding(
