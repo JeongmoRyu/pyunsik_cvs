@@ -8,12 +8,13 @@ class CategoryButton extends StatelessWidget {
   final String imageUrl;
   final String tag;
   final String name;
+  final bool showName;
 
   const CategoryButton({Key? key,
     required this.imageUrl,
     required this.tag,
     required this.name,
-
+    required this.showName,
   }) : super(key: key);
 
   @override
@@ -46,14 +47,14 @@ class CategoryButton extends StatelessWidget {
               fit: BoxFit.fitWidth,
             ),
           ),
-          SizedBox(height: 4),
-          Text(
-            name,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 13,
+          if (showName)
+            Text(
+              name,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+              ),
             ),
-          ),
         ],
       ),
     );
