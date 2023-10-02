@@ -22,7 +22,6 @@ class ProductCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           context.push('/detail', extra: product.productId);
-          // 특정 상품 디테일 페이지로 넘어가게 수정 필요
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -50,80 +50,80 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
 
-    return FutureBuilder<Map<String, dynamic>>(
-      future: futureCombinationDetail,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          final combinationDetail = snapshot.data!;
-          final List<dynamic> combinationItems = combinationDetail['combinationItems'];
+    return Scaffold(
+        appBar: TopBarSub(appBar: AppBar()),
+        body: FutureBuilder<Map<String, dynamic>>(
+            future: futureCombinationDetail,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+              } else {
+              final combinationDetail = snapshot.data!;
+              final List<dynamic> combinationItems = combinationDetail['combinationItems'];
 
-          return Scaffold(
-            appBar: TopBarSub(appBar: AppBar()),
-            body: ListView(
-              children: [
-                ListView.separated(
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(height: 10);
-                  },
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: Constants.horizontalPadding,
-                    vertical: Constants.verticalPadding,
-                  ),
-                  itemCount: combinationItems.length,
-                  itemBuilder: (context, index) {
-                    final productMap = combinationItems[index] as Map<String, dynamic>;
-                    final product = ProductSimple(
-                      productId: productMap['productId'],
-                      productName : productMap['productName'],
-                      filename : productMap['filename'],
-                      price : productMap['price'],
-                    );
-
-                    return ProductCardHorizontalWithoutButton(
-                      product: product, // 수정된 부분
-                    );
-                  },
-                ),
-                CustomBox(),
-                Column(
-                  children: [
-                    PriceText(
-                      content: '총 상품금액',
-                      price: combinationDetail['totalPrice'],
-                    ),
-                  ],
-                ),
-                TempChartInAll(),
-                CustomBox(),
-                CustomBox(),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: FilledButton(
-                    onPressed: () async {
-                      for (var i = 0; i < combinationItems.length; i++) {
-                        final productMap = combinationItems[i] as Map<String, dynamic>;
-                        final productId = productMap['productId'];
-                        final productDetail = await ProductApi.fetchProductDetail('', productId);
-                        if (productDetail != null) {
-                          cart.add(productDetail);
-                        }
-                      }
-                      context.go('/cart');
+              return ListView(
+                children: [
+                  ListView.separated(
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: 10);
                     },
-                    child: Text('Cart에 추가'),
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.horizontalPadding,
+                      vertical: Constants.verticalPadding,
+                    ),
+                    itemCount: combinationItems.length,
+                    itemBuilder: (context, index) {
+                      final productMap = combinationItems[index] as Map<String, dynamic>;
+                      final product = ProductSimple(
+                        productId: productMap['productId'],
+                        productName : productMap['productName'],
+                        filename : productMap['filename'],
+                        price : productMap['price'],
+                      );
+
+                      return ProductCardHorizontalWithoutButton(
+                        product: product, // 수정된 부분
+                      );
+                    },
                   ),
-                )
-              ],
-            ),
-          );
-        }
-      },
+                  CustomBox(),
+                  Column(
+                    children: [
+                      PriceText(
+                        content: '총 상품금액',
+                        price: combinationDetail['totalPrice'],
+                      ),
+                    ],
+                  ),
+                  TempChartInAll(),
+                  CustomBox(),
+                  CustomBox(),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: FilledButton(
+                      onPressed: () async {
+                        for (var i = 0; i < combinationItems.length; i++) {
+                          final productMap = combinationItems[i] as Map<String, dynamic>;
+                          final productId = productMap['productId'];
+                          final productDetail = await ProductApi.fetchProductDetail('', productId);
+                          if (productDetail != null) {
+                            cart.add(productDetail);
+                          }
+                        }
+                        context.go('/cart');
+                      },
+                      child: Text('현재 조합에 추가'),
+                    ),
+                  )
+                ],
+              );
+          }
+        },
+      )
     );
   }
 }

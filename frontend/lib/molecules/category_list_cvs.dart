@@ -12,7 +12,7 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     const tag = '편의점';
     return Container(
-        height: 70,
+        height: 80,
         child: ListView(
           itemExtent: 70.0,
           padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
