@@ -15,7 +15,7 @@ class VerticalList extends StatefulWidget {
 }
 
 class _VerticalListState extends State<VerticalList> {
-  static const List<String> sortOptions = <String>['기본', '인기순', '낮은 가격순', '높은 가격순', '리뷰 많은순'];
+  static const List<String> sortOptions = <String>['기본', '낮은 가격순', '높은 가격순'];
   final List<bool> _toggleButtonsSelection = [false];
   String dropdownValue = sortOptions.first;
 
@@ -44,6 +44,16 @@ class _VerticalListState extends State<VerticalList> {
                 return product.isFavorite!;
               }).toList();
             }
+            if (dropdownValue == '낮은 가격순') {
+              productList.sort((a, b) =>
+                a.price.compareTo(b.price)
+              );
+            }
+            if (dropdownValue == '높은 가격순') {
+              productList.sort((a, b) =>
+                  b.price.compareTo(a.price)
+              );
+            }
 
             return Column(
               children: [
@@ -69,6 +79,8 @@ class _VerticalListState extends State<VerticalList> {
                           minHeight: 32.0,
                           minWidth: 56.0,
                         ),
+                        borderColor: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                         // ToggleButtons uses a List<Widget> to build its children.
                         children: [
                           Text('즐겨찾기'),
@@ -79,8 +91,11 @@ class _VerticalListState extends State<VerticalList> {
                         value: dropdownValue,
                         items: sortOptions.map((String items) {
                           return DropdownMenuItem(
+
                             value: items,
-                            child: Text(items),
+                            child: Text(items, style: TextStyle(
+                              fontSize: 14
+                            )),
                           );
                         }).toList(),
                         onChanged: (String? value) {

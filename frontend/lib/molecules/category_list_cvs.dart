@@ -33,13 +33,13 @@ class CategoryList extends StatelessWidget {
             CategoryButton(
               imageUrl: 'assets/images/711_logo.jpeg',
               tag: tag,
-              name: '세븐일레븐',
+              name: '7-ELEVEN',
               showName: false,
             ),
             CategoryButton(
               imageUrl: 'assets/images/emart24_logo.png',
               tag: tag,
-              name: '이마트24',
+              name: 'emart24',
               showName: false,
             ),
             CategoryButton(
