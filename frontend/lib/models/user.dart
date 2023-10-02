@@ -23,4 +23,12 @@ class User extends ChangeNotifier {
     print('로그인 성공: $_nickname, $_accessToken');
     notifyListeners();
   }
+
+  void logout() {
+    _nickname = '';
+    _uuid = '';
+    _accessToken = '';
+    _fcmToken = '';
+    print('로그아웃 성공');
+  }
 }

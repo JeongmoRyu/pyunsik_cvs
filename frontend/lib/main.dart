@@ -15,7 +15,6 @@ import 'package:frontend/pages/product_detail_page.dart';
 import 'package:frontend/pages/combination_detail_page.dart';
 import 'package:frontend/pages/search_page.dart';
 import 'package:frontend/pages/mypage.dart';
-import 'package:frontend/util/auth_api.dart';
 
 import 'firebase_options.dart';
 import 'models/cart.dart';
@@ -191,7 +190,7 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
     var user = context.watch<User>();
-
+    Color themeColor = Theme.of(context).primaryColor;
     return Scaffold(
       body: body,
       bottomNavigationBar: SizedBox(
@@ -200,9 +199,9 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
           onDestinationSelected: onDestinationSelected,
           selectedIndex: selectedIndex,
           destinations: <Widget>[
-            const NavigationDestination(
-              selectedIcon: Icon(Icons.home),
-              icon: Icon(Icons.home_outlined),
+            NavigationDestination(
+              selectedIcon: Icon(Icons.home, color: themeColor),
+              icon: const Icon(Icons.home_outlined),
               label: '홈',
             ),
             const NavigationDestination(
@@ -210,13 +209,16 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
               label: '목록',
             ),
             NavigationDestination(
-              selectedIcon: const Icon(Icons.interests),
-              icon: Badge.count(count: cart.numberOfProducts, child: Icon(Icons.interests_outlined)),
+              selectedIcon: Icon(Icons.interests, color: themeColor),
+              icon: cart.isEmpty ?
+                const Icon(Icons.interests_outlined)
+              :
+                Badge.count(count: cart.numberOfProducts, child: Icon(Icons.interests_outlined)),
               label: '조합',
             ),
-            const NavigationDestination(
-              selectedIcon: Icon(Icons.bookmark),
-              icon: Icon(Icons.bookmark_outline),
+            NavigationDestination(
+              selectedIcon: Icon(Icons.bookmark, color: themeColor),
+              icon: const Icon(Icons.bookmark_outline),
               label: '스크랩북',
             ),
           ],

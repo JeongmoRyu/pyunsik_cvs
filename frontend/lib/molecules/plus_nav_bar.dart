@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/user.dart';
 import 'package:frontend/util/constants.dart';
+import 'package:frontend/util/product_api.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +38,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
   @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
-
+    var user = context.watch<User>();
     return Container(
       height: 60,
       child: Padding(
@@ -63,10 +65,25 @@ class _PlusNavBarState extends State<PlusNavBar> {
                     onPressed: () {
                       setState(() {
                         // 아이콘 클릭 시 상태를 변경합니다.
+                        if (user.accessToken.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('로그인이 필요한 기능입니다.'),
+                              duration: Duration(milliseconds: 1500),
+                            ),
+                          );
+                          return;
+                        }
                         isBookmarked = !isBookmarked;
                         if (isBookmarked) {
+                          ProductApi.addFavorite(
+                              widget.productDetail.productId, user.accessToken
+                          );
                           itemCount++;
                         } else {
+                          ProductApi.removeFavorite(
+                              widget.productDetail.productId, user.accessToken
+                          );
                           itemCount--;
                         }
                       });
@@ -76,7 +93,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                           ? Icons.bookmark
                           : Icons.bookmark_outline,
                       color: isBookmarked
-                          ? Colors.blue
+                          ? Theme.of(context).primaryColor
                           : Colors.grey,
                       size: 30,
                     ),
@@ -97,7 +114,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                   context.go('/cart');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
+                  backgroundColor: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),

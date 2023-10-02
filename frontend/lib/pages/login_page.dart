@@ -32,9 +32,8 @@ class _LoginPageState extends State<LoginPage> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 100,),
                 Text('로그인', style: TextStyle(
                     fontSize: 25
                   ),

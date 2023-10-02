@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/util/product_api.dart';
 import 'package:provider/provider.dart';
+import '../atom/loading.dart';
 import '../atom/product_card.dart';
 import '../models/filter.dart';
 import '../util/constants.dart';
@@ -14,7 +15,7 @@ class VerticalList extends StatefulWidget {
 }
 
 class _VerticalListState extends State<VerticalList> {
-  static const List<String> sortOptions = <String>['기본', '인기순', '낮은 가격순', '높은 가격순', '리뷰 많은순'];
+  static const List<String> sortOptions = <String>['기본', '낮은 가격순', '높은 가격순'];
   final List<bool> _toggleButtonsSelection = [false];
   String dropdownValue = sortOptions.first;
 
@@ -35,7 +36,6 @@ class _VerticalListState extends State<VerticalList> {
             List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
-            print(_toggleButtonsSelection[0]);
             if (_toggleButtonsSelection[0]) {
               productList = productList.where((product) {
                 if (product.isFavorite == null) {
@@ -44,8 +44,17 @@ class _VerticalListState extends State<VerticalList> {
                 return product.isFavorite!;
               }).toList();
             }
+            if (dropdownValue == '낮은 가격순') {
+              productList.sort((a, b) =>
+                a.price.compareTo(b.price)
+              );
+            }
+            if (dropdownValue == '높은 가격순') {
+              productList.sort((a, b) =>
+                  b.price.compareTo(a.price)
+              );
+            }
 
-            // productList.add(ProductSimple(productId: 1, price: 10000, filename: '', productName: 'test', badge: '1+1'));
             return Column(
               children: [
                 Padding(
@@ -70,6 +79,8 @@ class _VerticalListState extends State<VerticalList> {
                           minHeight: 32.0,
                           minWidth: 56.0,
                         ),
+                        borderColor: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
                         // ToggleButtons uses a List<Widget> to build its children.
                         children: [
                           Text('즐겨찾기'),
@@ -80,8 +91,11 @@ class _VerticalListState extends State<VerticalList> {
                         value: dropdownValue,
                         items: sortOptions.map((String items) {
                           return DropdownMenuItem(
+
                             value: items,
-                            child: Text(items),
+                            child: Text(items, style: TextStyle(
+                              fontSize: 14
+                            )),
                           );
                         }).toList(),
                         onChanged: (String? value) {
@@ -127,7 +141,7 @@ class _VerticalListState extends State<VerticalList> {
             print(snapshot.toString());
             return Text('${snapshot.error}');
           }
-          return const Center(child: CircularProgressIndicator());
+          return Loading();
         }
       ),
     );

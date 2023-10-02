@@ -12,46 +12,47 @@ class CategoryList extends StatelessWidget {
   Widget build(BuildContext context) {
     const tag = '편의점';
     return Container(
-        height: 90,
+        height: 80,
         child: ListView(
           itemExtent: 70.0,
           padding: EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
           scrollDirection: Axis.horizontal,
           children: const <Widget>[
             CategoryButton(
-                imageUrl: 'assets/images/gs_logo.png',
-                tag: tag,
-                name: 'GS25'
+              imageUrl: 'assets/images/gs_logo.png',
+              tag: tag,
+              name: 'GS25',
+              showName: false,
             ),
             CategoryButton(
-                imageUrl: 'assets/images/cu_logo.png',
-                tag: tag,
-                name: 'CU'
+              imageUrl: 'assets/images/cu_logo.png',
+              tag: tag,
+              name: 'CU',
+              showName: false,
             ),
             CategoryButton(
-                imageUrl: 'assets/images/711_logo.jpeg',
-                tag: tag,
-                name: '세븐일레븐'
+              imageUrl: 'assets/images/711_logo.jpeg',
+              tag: tag,
+              name: '7-ELEVEN',
+              showName: false,
             ),
             CategoryButton(
-                imageUrl: 'assets/images/ministop_logo.png',
-                tag: tag,
-                name: '미니스톱'
+              imageUrl: 'assets/images/emart24_logo.png',
+              tag: tag,
+              name: 'emart24',
+              showName: false,
             ),
             CategoryButton(
-                imageUrl: 'assets/images/emart24_logo.png',
-                tag: tag,
-                name: '이마트24'
+              imageUrl: 'assets/images/11.png',
+              tag: '할인행사',
+              name: '1+1',
+              showName: false,
             ),
             CategoryButton(
-                imageUrl: 'assets/images/11.png',
-                tag: '할인행사',
-                name: '1+1'
-            ),
-            CategoryButton(
-                imageUrl: 'assets/images/21.png',
-                tag: '할인행사',
-                name: '2+1'
+              imageUrl: 'assets/images/21.png',
+              tag: '할인행사',
+              name: '2+1',
+              showName: false,
             ),
           ]
         ),

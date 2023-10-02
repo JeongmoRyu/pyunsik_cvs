@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/loading.dart';
 import 'package:frontend/util/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -21,7 +22,7 @@ class _SearchPageState extends State<SearchPage> {
   List<Map<String, dynamic>> relatedDataList = [];
   int maxSearchDataCount = 8;
   int maxrelatedDataList = 8;
-  List<dynamic> AllProduct = []; // AllProduct 변수를 추가
+  List<dynamic> allProduct = []; // AllProduct 변수를 추가
 
   // TextEditingController 선언
   TextEditingController textFieldController = TextEditingController();
@@ -41,10 +42,11 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<void> fetchAndSetData() async {
+    print('called fsd');
     try {
       final data = await fetchData();
       setState(() {
-        AllProduct = data;
+        allProduct = data;
       });
     } catch (error) {
       print('Error fetching data: $error');
@@ -57,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
     }
     List<Map<String, dynamic>> results = [];
 
-    for (var product in AllProduct) {
+    for (var product in allProduct) {
       String productName = product['productName'];
       int productId = product['productId'];
       if (productName.toLowerCase().contains(keyValue.toLowerCase())) {
@@ -104,13 +106,18 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Future<List<dynamic>> fetchData() async {
-    final String apiUrl = "${ProductApi.apiUrl}" + "product/";
+    print('called fd');
+
+    final String apiUrl = "${ProductApi.apiUrl}" + "/product/";
 
     final response = await http.get(Uri.parse(apiUrl), headers: ProductApi.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
       final List<dynamic> data = json.decode(body);
+      setState(() {
+        allProduct = data;
+      });
       return data;
     } else {
       throw Exception('Failed to load data');
@@ -173,16 +180,12 @@ class _SearchPageState extends State<SearchPage> {
           SizedBox(width: 30),
         ],
       ),
-      body: FutureBuilder(
-        future: fetchData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final AllProduct = snapshot.data as List<dynamic>;
-            return ListView(
+      body: Container(
+        child:
+          allProduct.isEmpty ?
+            Loading()
+          :
+            ListView(
               children: [
                 if (keyValue.isNotEmpty)
                   Column(
@@ -251,10 +254,9 @@ class _SearchPageState extends State<SearchPage> {
                     ],
                   ),
               ],
-            );
-          }
-        },
-      ),
+            )
+      )
     );
   }
 }
+

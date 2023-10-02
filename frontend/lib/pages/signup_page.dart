@@ -28,9 +28,8 @@ class _SignupPageState extends State<SignupPage> {
           child: Form(
             key: _formKey,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(height: 100,),
                 Text('회원가입', style: TextStyle(
                     fontSize: 25
                   ),
