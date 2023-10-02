@@ -93,7 +93,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                           ? Icons.bookmark
                           : Icons.bookmark_outline,
                       color: isBookmarked
-                          ? Colors.blue
+                          ? Theme.of(context).primaryColor
                           : Colors.grey,
                       size: 30,
                     ),
@@ -114,7 +114,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                   context.go('/cart');
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightBlue,
+                  backgroundColor: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
