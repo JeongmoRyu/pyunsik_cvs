@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/product_image.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/molecules/appbar.dart';
-import 'package:frontend/molecules/top_bar_sub.dart';
-import 'package:frontend/util/auth_api.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/models/user.dart';
 
@@ -206,13 +203,15 @@ class _ScrapBookState extends State<ScrapBook> {
               ),
             ),
           ),
+          Text('로그인이 필요한 기능입니다.'),
+          SizedBox(height: 10,),
           Center(
             child: FilledButton(
               onPressed: () {
                 context.go('/login');
               },
               child: Text(
-                '로그인 하러가기',
+                '로그인',
               ),
             ),
           ),

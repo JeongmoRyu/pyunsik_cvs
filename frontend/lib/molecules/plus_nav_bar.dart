@@ -67,7 +67,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                         // 아이콘 클릭 시 상태를 변경합니다.
                         if (user.accessToken.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text('로그인이 필요한 기능입니다.'),
                               duration: Duration(milliseconds: 1500),
                             ),
