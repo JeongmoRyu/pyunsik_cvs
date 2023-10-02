@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/product_image.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/appbar.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
@@ -6,7 +7,10 @@ import 'package:frontend/util/auth_api.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/models/user.dart';
 
+import '../atom/loading.dart';
+import '../models/product_simple.dart';
 import '../molecules/top_bar_main.dart';
+import '../util/product_api.dart';
 
 
 class ScrapBook extends StatefulWidget {
@@ -67,20 +71,20 @@ class _ScrapBookState extends State<ScrapBook> {
   Widget build(BuildContext context) {
     var user = context.watch<User>();
 
-    if (user.accessToken.isNotEmpty)
-    return DefaultTabController(
+    if (user.accessToken.isNotEmpty) {
+      return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: TopBarMain(appBar: AppBar(),),// AppBar에 표시할 제목
         body: Column(
           children: [
-            Container(
+            SizedBox(
               height: 100,
               child: Center( // 텍스트를 중앙 정렬합니다.
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       '스크랩북',
                       style: TextStyle(
                         color: Colors.black,
@@ -112,22 +116,37 @@ class _ScrapBookState extends State<ScrapBook> {
               child: TabBarView(
                 children: [
                   // Favorites 탭의 내용
-                  ListView.builder(
-                    itemCount: favorites.length,
-                    itemBuilder: (context, index) {
-                      final item = favorites[index];
-                      return InkWell(
-                        onTap: () {
-                          context.push('/detail', extra: 1);
-                        },
-                        child: ListTile(
-                          title: Text(item['name']),
-                          subtitle: Text('${item['price']}' + '원'),
-                          leading: Image.asset(item['imagePath']),
-                          // 원하는 정보를 표시
-                        ),
-                      );
-                    },
+                  FutureBuilder(
+                    future: ProductApi.getFavorites(user.accessToken),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<ProductSimple> favoriteList = snapshot.data!
+                            .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
+                            .toList();
+                        return ListView.builder(
+                          itemCount: favoriteList.length,
+                          itemBuilder: (context, index) {
+                            final item = favoriteList[index];
+                            return InkWell(
+                              onTap: () {
+                                context.push('/detail', extra: 1);
+                              },
+                              child: ListTile(
+                                title: Text(item.productName),
+                                subtitle: Text('${item.price}원'),
+                                leading: ProductImage(filename: item.filename),
+                                // 원하는 정보를 표시
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        print(snapshot.toString());
+                        return Text('${snapshot.error}');
+                      }
+                      return Loading();
+                    }
                   ),
 
                   // Combinations 탭의 내용
@@ -156,7 +175,7 @@ class _ScrapBookState extends State<ScrapBook> {
             ),
 
     );
-    else
+    } else
       return Scaffold(
         appBar: TopBarMain(appBar: AppBar(),),// AppBar에 표시할 제목
         body: Column(

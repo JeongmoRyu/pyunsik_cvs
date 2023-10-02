@@ -84,21 +84,20 @@ class ProductApi {
     }
   }
 
-  static Future<dynamic> getFavorites(int productId, String token) async {
-
-    final response = await http.post(
-      Uri.parse('$apiUrl/favorite/$productId'),
+  static Future<dynamic> getFavorites(String token) async {
+    final response = await http.get(
+      Uri.parse('$apiUrl/favorite'),
       headers: getHeaderWithToken(token),
     );
 
-    if (response.statusCode == 201) {
-      // If the server did return a 201 CREATED response,
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
       // then parse the JSON.
       return response;
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception('Failed to add favorite: ${jsonDecode(response.body)}');
+      throw Exception('Failed to get favorite: ${jsonDecode(response.body)}');
     }
   }
 
