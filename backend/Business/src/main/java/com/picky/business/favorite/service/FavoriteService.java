@@ -28,7 +28,7 @@ public class FavoriteService {
 
         return findList.stream()
                 .map(favorite -> {
-                    Product product = productService.getProduct(favorite.getId());
+                    Product product = productService.getProduct(favorite.getProductId());
                     return FavoriteListResponse.builder()
                             .productId(favorite.getProductId())
                             .productName(product.getProductName())
