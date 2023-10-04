@@ -10,16 +10,13 @@ import 'package:frontend/util/product_api.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
 import '../molecules/top_bar_main.dart';
-import '../models/product.dart';
 import '../util/constants.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/util/auth_api.dart';
 import 'package:frontend/models/user.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 
-import 'package:frontend/molecules/temp_chart_in_all.dart';
 import 'package:frontend/molecules/temp_cart_chart.dart';
 
 
@@ -161,7 +158,7 @@ class _CartPageState extends State<CartPage> {
                         headers: ProductApi.getHeaderWithToken('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZDcyYmZjMC1lZjk3LTQ5MWItYmFlZi1mZWI4NGQ1ZjczZDEiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NTI4NDQ3NCwiZXhwIjoxNjk3ODc2NDc0fQ.oLJqbdk5RplL8TQXK0jU4TwsWADWIjxCoup-Gxh5R-I'),
                       );
 
-                      if (response.statusCode == 200) {
+                      if (response.statusCode == 201) {
 
                         print('조합 저장 완료');
                         context.go('/scrapbook');
