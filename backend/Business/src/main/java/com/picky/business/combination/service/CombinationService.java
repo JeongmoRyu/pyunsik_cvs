@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class CombinationService {
 
     public List<CombinationListResponse> getPersonalCombinations(String accessToken) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
+        log.info("personal Combination List 불러오기 : userId:" + userId);
         return combinationRepository.findByUserIdAndIsDeletedFalse(userId)
                 .stream()
                 .map(combination -> CombinationListResponse.builder()
@@ -91,6 +93,7 @@ public class CombinationService {
                 .userId(userId)
                 .combinationName(request.getCombinationName())
                 .isDeleted(false)
+                .createdAt(LocalDateTime.now())
                 .totalKcal(0)
                 .totalPrice(0)
                 .totalCarb(0.0)
@@ -142,8 +145,8 @@ public class CombinationService {
         combinationRepository.save(combination);
     }
 
-    public Long updateCombination(String accessToken, Long combinationId, CombinationInputRequest request){
-        deleteCombination(accessToken,combinationId);
+    public Long updateCombination(String accessToken, Long combinationId, CombinationInputRequest request) {
+        deleteCombination(accessToken, combinationId);
         return addCombination(accessToken, request);
     }
 }

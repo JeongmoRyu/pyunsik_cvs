@@ -23,7 +23,7 @@ public class CombinationController {
 
     @GetMapping
     ResponseEntity<List<CombinationListResponse>> getPersonalCombinations(@RequestHeader("Authorization") String accessToken) {
-        log.info("------------token:" + accessToken);
+        log.info("-Personal Combination 목록-----------token:" + accessToken);
         return ResponseEntity.status(HttpStatus.OK).body(combinationService.getPersonalCombinations(accessToken));
     }
 
