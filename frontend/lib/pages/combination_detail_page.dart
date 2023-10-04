@@ -16,7 +16,9 @@ import '../models/product_simple.dart';
 import '../util/constants.dart';
 
 class CombinationDetailPage extends StatefulWidget {
-  const CombinationDetailPage({Key? key});
+  final int combinationId;
+
+  const CombinationDetailPage({super.key, required this.combinationId});
 
   @override
   State<CombinationDetailPage> createState() => _CombinationDetailPageState();

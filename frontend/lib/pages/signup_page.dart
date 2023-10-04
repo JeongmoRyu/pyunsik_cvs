@@ -95,6 +95,7 @@ class _SignupPageState extends State<SignupPage> {
                           );
                           context.pop();
                         }).onError((error, stackTrace) {
+                          print(error);
                           setState(() {
                             isLoading = false;
                           });
