@@ -57,11 +57,11 @@ class _CombinationChartState extends State<CombinationChart> {
     // Color carbColor = Color.fromRGBO(51, 86, 183, 1.0);
     // Color sodiumColor = Color.fromRGBO(82, 38, 147, 1.0);
 
-    Color kcalColor = Color.fromRGBO(238, 123, 46, 1.0);
-    Color proteinColor = Color.fromRGBO(101, 171, 246, 1.0);
-    Color fatColor = Color.fromRGBO(138, 120, 203, 1.0);
-    Color carbColor = Color.fromRGBO(51, 86, 183, 1.0);
-    Color sodiumColor = Color.fromRGBO(82, 38, 147, 1.0);
+    Color kcalColor = Color.fromRGBO(253, 104, 105, 1.0);
+    Color carbColor = Color.fromRGBO(29, 92, 155, 1.0);
+    Color proteinColor = Color.fromRGBO(116, 192, 245, 1.0);
+    Color fatColor = Color.fromRGBO(242, 207, 96, 1.0);
+    Color sodiumColor = Color.fromRGBO(249, 236, 172, 1.0);
 
     Color barBackgroundColor = Color.fromRGBO(236, 236, 236, 1.0);
     Color barGoodColor = Theme.of(context).primaryColor;
@@ -83,15 +83,15 @@ class _CombinationChartState extends State<CombinationChart> {
     totalcarbRatio = CartTotal['totalCarb'] / StandardDetail['carb'];
 
     chartData = [
-      ChartData('kcal', CartTotal['totalKcal'] / StandardDetail['kcal'], kcalColor),
-      ChartData('carb', CartTotal['totalCarb'] / StandardDetail['carb'], carbColor),
-      ChartData('protein', CartTotal['totalProtein'] / StandardDetail['protein'], proteinColor),
-      ChartData('fat', CartTotal['totalFat'] / StandardDetail['fat'], fatColor),
+      // ChartData('kcal', CartTotal['totalKcal'] / StandardDetail['kcal'], kcalColor),
       ChartData('sodium', CartTotal['totalSodium'] / StandardDetail['sodium'], sodiumColor),
+      ChartData('fat', CartTotal['totalFat'] / StandardDetail['fat'], fatColor),
+      ChartData('protein', CartTotal['totalProtein'] / StandardDetail['protein'], proteinColor),
+      ChartData('carb', CartTotal['totalCarb'] / StandardDetail['carb'], carbColor),
     ];
 
     return Container(
-      height: 480,
+      height: 350,
       child: Scaffold(
         body: Column(
           children: [
@@ -102,24 +102,21 @@ class _CombinationChartState extends State<CombinationChart> {
                   // RadialBar 차트
                   Expanded(
                     flex: 4,
-                    child: Container(
+                    child: SizedBox(
                       height: 250,
-
                       child: Stack(
                         alignment: Alignment.center, // 텍스트를 중앙에 배치
                         children: [
-                          Container(
-                            child: SfCircularChart(
-                              series: <CircularSeries>[
-                                RadialBarSeries<ChartData, String>(
-                                  trackColor: Colors.white,
-                                  dataSource: chartData,
-                                  pointColorMapper:(ChartData data, _) => data.color,
-                                  xValueMapper: (ChartData data, _) => data.x,
-                                  yValueMapper: (ChartData data, _) => data.y,
-                                ),
-                              ],
-                            ),
+                          SfCircularChart(
+                            series: <CircularSeries>[
+                              RadialBarSeries<ChartData, String>(
+                                trackColor: Color.fromRGBO(253, 253, 253, 1.0),
+                                dataSource: chartData,
+                                pointColorMapper:(ChartData data, _) => data.color,
+                                xValueMapper: (ChartData data, _) => data.x,
+                                yValueMapper: (ChartData data, _) => data.y,
+                              ),
+                            ],
                           ),
                           RichText(
                             text: TextSpan(
@@ -129,6 +126,7 @@ class _CombinationChartState extends State<CombinationChart> {
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
+                                    color: Color.fromRGBO(26, 26, 26, 1.0),
                                   ),
                                 ),
                                 TextSpan(
@@ -147,28 +145,120 @@ class _CombinationChartState extends State<CombinationChart> {
                   // 비율 정보 표시
                   Expanded(
                     flex: 4,
-                    child: Container(
+                    child: SizedBox(
                       height: 250,
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            Text('1일영양성분', style: TextStyle(
+                              fontSize: 12
+                            )),
+                            Text('기준치에 대한 비율', style: TextStyle(
+                                fontSize: 12
+                            )),
                             ListTile(
                               leading: Icon(Icons.circle, color: carbColor),
-                              title: Text('순탄수 : ' + '${(totalcarbRatio*100).toStringAsFixed(0)}%'),
+                              title: Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: '탄수화물 ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold, // Make this part bold
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '${widget.totalCarb}g',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text('${(totalcarbRatio*100).toStringAsFixed(0)}%'),
+                                ],
+                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.circle, color: proteinColor),
-                              title: Text('단백질 : ' '${(totalproteinRatio*100).toStringAsFixed(0)}%'),
+                              title: Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: '단백질 ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold, // Make this part bold
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '${widget.totalProtein}g',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text('${(totalproteinRatio*100).toStringAsFixed(0)}%')
+                                ],
+                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.circle, color: fatColor),
-                              title: Text('지방 : '+'${(totalfatRatio*100).toStringAsFixed(0)}%'),
+                              title: Row(
+                                children: [
+                                  RichText(
+                                    text: TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: '지방 ',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold, // Make this part bold
+                                          ),
+                                        ),
+                                        TextSpan(
+                                          text: '${widget.totalFat}g',
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Text('${(totalfatRatio*100).toStringAsFixed(0)}%'),
+                                ],
+                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.circle, color: sodiumColor),
-                              title: Text('나트륨 : '+'${(totalsodiumRatio*100).toStringAsFixed(0)}%'),
+                              title: SingleChildScrollView(
+                                child: Row(
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          const TextSpan(
+                                            text: '나트륨 ',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold, // Make this part bold
+                                            ),
+                                          ),
+                                          TextSpan(
+                                            text: '${widget.totalSodium}mg',
+                                            style: TextStyle(
+                                              fontSize: 13
+                                            )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Text('${(totalsodiumRatio*100).toStringAsFixed(0)}%',
+                                      overflow: TextOverflow.ellipsis,),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -179,140 +269,140 @@ class _CombinationChartState extends State<CombinationChart> {
               ),
             ),
             // 기타 정보 표시 부분
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  // 순탄수 정보
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 20,
-                          child: Text('순탄수'),
-                        ),
-                        SizedBox(height: 15,),
-                        Container(
-                          height: 10,
-                          width: 90,
-                          color: barBackgroundColor,
-                          child: totalcarbRatio > 1
-                              ? FractionallySizedBox(
-                            widthFactor: totalfullRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: barBadColor,
-                            ),
-                          )
-                              : FractionallySizedBox(
-                            widthFactor: totalcarbRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: barGoodColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          height: 20,
-                          child: Text('${CartTotal['totalCarb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // 단백질 정보
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 20,
-                          child: Text('단백질'),
-                        ),
-                        SizedBox(height: 15,),
-                        Container(
-                          height: 10,
-                          width: 90,
-                          color: barBackgroundColor,
-                          child: totalproteinRatio > 1
-                              ? FractionallySizedBox(
-                            widthFactor: totalfullRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: barBadColor,
-                            ),
-                          )
-                              : FractionallySizedBox(
-                            widthFactor: totalproteinRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: barGoodColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          height: 20,
-                          child: Text('${CartTotal['totalProtein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  // 지방 정보
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 20,
-                          child: Text('지방'),
-                        ),
-                        SizedBox(height: 15,),
-                        Container(
-                          height: 10,
-                          width: 90,
-                          color: barBackgroundColor,
-                          child: totalfatRatio > 1
-                              ? FractionallySizedBox(
-                            widthFactor: totalfullRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: barBadColor,
-                            ),
-                          )
-                              : FractionallySizedBox(
-                            widthFactor: totalfatRatio,
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              color: barGoodColor,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          height: 20,
-                          child: Text('${CartTotal['totalFat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //     children: [
+            //       // 탄수화물 정보
+            //       Expanded(
+            //         flex: 4,
+            //         child: Column(
+            //           children: [
+            //             Container(
+            //               height: 20,
+            //               child: Text('탄수화물'),
+            //             ),
+            //             SizedBox(height: 15,),
+            //             Container(
+            //               height: 10,
+            //               width: 90,
+            //               color: barBackgroundColor,
+            //               child: totalcarbRatio > 1
+            //                   ? FractionallySizedBox(
+            //                 widthFactor: totalfullRatio,
+            //                 alignment: Alignment.centerLeft,
+            //                 child: Container(
+            //                   color: barBadColor,
+            //                 ),
+            //               )
+            //                   : FractionallySizedBox(
+            //                 widthFactor: totalcarbRatio,
+            //                 alignment: Alignment.centerLeft,
+            //                 child: Container(
+            //                   color: barGoodColor,
+            //                 ),
+            //               ),
+            //             ),
+            //             SizedBox(height: 10,),
+            //             Container(
+            //               height: 20,
+            //               child: Text('${CartTotal['totalCarb']}' + ' / ' + '${StandardDetail['carb']}' + 'g'),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //       // 단백질 정보
+            //       Expanded(
+            //         flex: 4,
+            //         child: Column(
+            //           children: [
+            //             Container(
+            //               height: 20,
+            //               child: Text('단백질'),
+            //             ),
+            //             SizedBox(height: 15,),
+            //             Container(
+            //               height: 10,
+            //               width: 90,
+            //               color: barBackgroundColor,
+            //               child: totalproteinRatio > 1
+            //                   ? FractionallySizedBox(
+            //                 widthFactor: totalfullRatio,
+            //                 alignment: Alignment.centerLeft,
+            //                 child: Container(
+            //                   color: barBadColor,
+            //                 ),
+            //               )
+            //                   : FractionallySizedBox(
+            //                 widthFactor: totalproteinRatio,
+            //                 alignment: Alignment.centerLeft,
+            //                 child: Container(
+            //                   color: barGoodColor,
+            //                 ),
+            //               ),
+            //             ),
+            //             SizedBox(height: 10,),
+            //             Container(
+            //               height: 20,
+            //               child: Text('${CartTotal['totalProtein']}' + ' / ' + '${StandardDetail['protein']}' + 'g'),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //       // 지방 정보
+            //       Expanded(
+            //         flex: 4,
+            //         child: Column(
+            //           children: [
+            //             Container(
+            //               height: 20,
+            //               child: Text('지방'),
+            //             ),
+            //             SizedBox(height: 15,),
+            //             Container(
+            //               height: 10,
+            //               width: 90,
+            //               color: barBackgroundColor,
+            //               child: totalfatRatio > 1
+            //                   ? FractionallySizedBox(
+            //                 widthFactor: totalfullRatio,
+            //                 alignment: Alignment.centerLeft,
+            //                 child: Container(
+            //                   color: barBadColor,
+            //                 ),
+            //               )
+            //                   : FractionallySizedBox(
+            //                 widthFactor: totalfatRatio,
+            //                 alignment: Alignment.centerLeft,
+            //                 child: Container(
+            //                   color: barGoodColor,
+            //                 ),
+            //               ),
+            //             ),
+            //             SizedBox(height: 10,),
+            //             Container(
+            //               height: 20,
+            //               child: Text('${CartTotal['totalFat']}' + ' / ' + '${StandardDetail['fat']}' + 'g'),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             // 칼로리 정보 표시 부분
             Container(
-              height: 155,
+              height: 100,
               child: Center(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
-                      height: 100,
+                      height: 80,
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
-                        color: Color.fromRGBO(88, 113, 215, 1.0),
+                        color: Theme.of(context).primaryColor,
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Container(

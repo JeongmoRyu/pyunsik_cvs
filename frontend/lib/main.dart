@@ -266,7 +266,6 @@ void main() async {
     sound: true,
   );
   // var token = await FirebaseMessaging.instance.getToken();
-  // //
   // print("token : ${token ?? 'token NULL!'}");
   runApp(const MyApp());
 }

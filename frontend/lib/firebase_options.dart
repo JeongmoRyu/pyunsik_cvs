@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBcmgry0XgUhDfv8vrenClQdmJoX98kcCg',
-    appId: '1:781710249511:web:e9a0744362240b59cd8802',
-    messagingSenderId: '781710249511',
-    projectId: 'a505-ca3ca',
-    authDomain: 'a505-ca3ca.firebaseapp.com',
-    storageBucket: 'a505-ca3ca.appspot.com',
-    measurementId: 'G-DPJGZJLNJE',
+    apiKey: 'AIzaSyCn6ygqXTyKLNU4dKiWN8QKXvy92-a_SJw',
+    appId: '1:1076853604243:web:efc5beb3631c96380e3266',
+    messagingSenderId: '1076853604243',
+    projectId: 'a5052-59303',
+    authDomain: 'a5052-59303.firebaseapp.com',
+    storageBucket: 'a5052-59303.appspot.com',
+    measurementId: 'G-Z0V172CR75',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAziV_PUzLp0_1HgkyTWtftP8SM9mRxP08',
-    appId: '1:781710249511:android:96dc27a35f912e43cd8802',
-    messagingSenderId: '781710249511',
-    projectId: 'a505-ca3ca',
-    storageBucket: 'a505-ca3ca.appspot.com',
+    apiKey: 'AIzaSyCWUolE3oMp5hshCHWv_fob15zrnLmMuUE',
+    appId: '1:1076853604243:android:76a85f323ea614160e3266',
+    messagingSenderId: '1076853604243',
+    projectId: 'a5052-59303',
+    storageBucket: 'a5052-59303.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAjHT-21mhz5ge-XspPRcTnGCANl8av5F4',
-    appId: '1:781710249511:ios:2b0c14465ef0dbd7cd8802',
-    messagingSenderId: '781710249511',
-    projectId: 'a505-ca3ca',
-    storageBucket: 'a505-ca3ca.appspot.com',
-    iosBundleId: 'com.ssafy.picky',
+    apiKey: 'AIzaSyAY-Nb9wQPc09vyJmsGRPquXLL4VWZ-m-c',
+    appId: '1:1076853604243:ios:b23008253222f4760e3266',
+    messagingSenderId: '1076853604243',
+    projectId: 'a5052-59303',
+    storageBucket: 'a5052-59303.appspot.com',
+    iosBundleId: 'com.ssafy.frontend',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAjHT-21mhz5ge-XspPRcTnGCANl8av5F4',
-    appId: '1:781710249511:ios:1117320e235ab214cd8802',
-    messagingSenderId: '781710249511',
-    projectId: 'a505-ca3ca',
-    storageBucket: 'a505-ca3ca.appspot.com',
-    iosBundleId: 'com.ssafy.picky.RunnerTests',
+    apiKey: 'AIzaSyAY-Nb9wQPc09vyJmsGRPquXLL4VWZ-m-c',
+    appId: '1:1076853604243:ios:a1815446c6d6ce1d0e3266',
+    messagingSenderId: '1076853604243',
+    projectId: 'a5052-59303',
+    storageBucket: 'a5052-59303.appspot.com',
+    iosBundleId: 'com.ssafy.frontend.RunnerTests',
   );
 }
