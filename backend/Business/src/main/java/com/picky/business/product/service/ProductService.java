@@ -63,7 +63,7 @@ public class ProductService {
                 .map(product -> {
                     // accessToken이 null이 아니면 favorite 확인
                     Boolean isFavorite = Optional.ofNullable(userId)
-                            .map(id -> favoriteRepository.findByUserIdAndProductId(id, product.getId()) != null)
+                            .map(id -> favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(id, product.getId()) != null)
                             .orElse(null);
 
                     List<Integer> convenienceCodes = getConvenienceCodes(product);
@@ -91,7 +91,7 @@ public class ProductService {
 
         // accessToken이 null이 아니면 favorite 확인
         Boolean isFavorite = Optional.ofNullable(userId)
-                .map(id -> favoriteRepository.findByUserIdAndProductId(id, productId) != null)
+                .map(id -> favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(id, productId) != null)
                 .orElse(null);
         logService.saveLogProduct(userId, productId);
 
