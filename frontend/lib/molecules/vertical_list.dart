@@ -8,7 +8,11 @@ import '../models/filter.dart';
 import '../util/constants.dart';
 
 class VerticalList extends StatefulWidget {
-  const VerticalList({super.key,});
+  final int pageNumber;
+  final Function reset;
+
+  const VerticalList({super.key,
+    required this.pageNumber, required this.reset,});
 
   @override
   State<VerticalList> createState() => _VerticalListState();
@@ -18,17 +22,19 @@ class _VerticalListState extends State<VerticalList> {
   static const List<String> sortOptions = <String>['기본', '낮은 가격순', '높은 가격순'];
   final List<bool> _toggleButtonsSelection = [false];
   String dropdownValue = sortOptions.first;
+  int prevCount = 0;
 
   @override
   Widget build(BuildContext context) {
     var filter = context.watch<Filter>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(
           horizontal: Constants.horizontalPadding,
           vertical: Constants.verticalPadding
       ),
       child: FutureBuilder(
-        future: ProductApi.fetchProductList('', filter.getQueryParams()),
+        future: ProductApi.getProductList('', filter.getQueryParams()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print('----------data received');
@@ -36,6 +42,7 @@ class _VerticalListState extends State<VerticalList> {
             List<ProductSimple> productList = snapshot.data!
                 .map((data) => ProductSimple.fromJson(data as Map<String, dynamic>))
                 .toList();
+
             if (_toggleButtonsSelection[0]) {
               productList = productList.where((product) {
                 if (product.isFavorite == null) {
@@ -54,7 +61,10 @@ class _VerticalListState extends State<VerticalList> {
                   b.price.compareTo(a.price)
               );
             }
-
+            int productCount = widget.pageNumber * 24;
+            if (productCount > productList.length) {
+              productCount = productList.length;
+            }
             return Column(
               children: [
                 Padding(
@@ -126,10 +136,15 @@ class _VerticalListState extends State<VerticalList> {
                     childAspectRatio: 8 / 11,
                     crossAxisCount: 2,
                     children: [
-                      for (var product in productList)
+                      for (int i = 0; i < productCount; i++)
                         ProductCard(
-                          product: product,
+                          product: productList[i],
                         )
+
+                      // for (var product in productList)
+                      //   ProductCard(
+                      //     product: product,
+                      //   )
                     ],
                   ),
 

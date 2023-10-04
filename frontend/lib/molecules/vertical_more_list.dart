@@ -6,8 +6,6 @@ import 'package:go_router/go_router.dart';
 
 import '../atom/product_card.dart';
 import '../models/product_simple.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../util/product_api.dart';
 import 'dart:math';
 
@@ -29,7 +27,7 @@ class _VerticalMoreListState extends State<VerticalMoreList> {
   @override
   void initState() {
     super.initState();
-    productList = ProductApi.fetchProductListOnPromotion();
+    productList = ProductApi.getProductListOnPromotion();
   }
 
 

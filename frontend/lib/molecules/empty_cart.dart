@@ -12,8 +12,8 @@ class EmptyCart extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
 
         children: [
-          Text(
-            '조합이 비여있습니다.',
+          const Text(
+            '조합이 비어있습니다',
             textAlign: TextAlign.center,
           ),
           Padding(

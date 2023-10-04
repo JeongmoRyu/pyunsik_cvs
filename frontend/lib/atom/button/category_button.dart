@@ -31,8 +31,9 @@ class CategoryButton extends StatelessWidget {
       minWidth: containerWidth,
       child: Column(
         children: [
+          if (!showName)
+            SizedBox(height: 3,),
           SizedBox(height: 8,),
-
           Container(
             height: containerWidth,
             width: containerWidth,

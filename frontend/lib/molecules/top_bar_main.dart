@@ -65,9 +65,9 @@ class TopBarMain extends StatelessWidget implements PreferredSizeWidget {
             },
             icon: Icon(Icons.person_outline)
         ),
-        Visibility(
-          visible: user.accessToken != '',
-            child: AlarmButton()),
+        // Visibility(
+        //   visible: user.accessToken != '',
+        //     child: AlarmButton()),
 
         SizedBox(width: 10,),
       ],

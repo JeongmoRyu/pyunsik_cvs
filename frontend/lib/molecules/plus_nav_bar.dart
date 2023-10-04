@@ -33,6 +33,9 @@ class _PlusNavBarState extends State<PlusNavBar> {
   void initState() {
     super.initState();
     itemCount = widget.count;
+    if (widget.productDetail.isFavorite != null) {
+      isBookmarked = widget.productDetail.isFavorite!;
+    }
   }
 
   @override
@@ -68,16 +71,23 @@ class _PlusNavBarState extends State<PlusNavBar> {
                         if (user.accessToken.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('로그인이 필요한 기능입니다.'),
+                              content: Text('로그인이 필요한 기능입니다'),
                               duration: Duration(milliseconds: 1500),
                             ),
                           );
                           return;
                         }
+                        user.change();
                         isBookmarked = !isBookmarked;
                         if (isBookmarked) {
                           ProductApi.addFavorite(
                               widget.productDetail.productId, user.accessToken
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('스크랩했습니다'),
+                              duration: Duration(milliseconds: 1500),
+                            ),
                           );
                           itemCount++;
                         } else {

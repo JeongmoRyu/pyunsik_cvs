@@ -6,6 +6,7 @@ class User extends ChangeNotifier {
   late String _nickname;
   late String _fcmToken;
   String _accessToken = '';
+  bool _isChanged = false;
 
   String get uuid => _uuid;
 
@@ -14,6 +15,8 @@ class User extends ChangeNotifier {
   String get fcmToken => _fcmToken;
 
   String get accessToken => _accessToken;
+
+  bool get isChanged => _isChanged;
 
   void setFromUserModel(UserModel model) {
     _nickname = model.nickname;
@@ -30,5 +33,14 @@ class User extends ChangeNotifier {
     _accessToken = '';
     _fcmToken = '';
     print('로그아웃 성공');
+  }
+
+  void change() {
+    _isChanged = true;
+    notifyListeners();
+  }
+
+  void resetChange() {
+    _isChanged = false;
   }
 }

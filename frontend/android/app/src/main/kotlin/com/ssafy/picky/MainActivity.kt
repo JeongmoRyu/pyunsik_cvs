@@ -1,4 +1,4 @@
-package com.ssafy.picky
+package com.ssafy.frontend
 
 import io.flutter.embedding.android.FlutterActivity
 

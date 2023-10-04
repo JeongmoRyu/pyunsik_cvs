@@ -12,27 +12,29 @@ class MyPage extends StatelessWidget {
 
     return Scaffold(
       appBar: TopBarSub(appBar: AppBar()),
-      body: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          child: Column(
-            children: [
-              SizedBox(height: 100,),
-              Text('마이페이지', style: TextStyle(
-                  fontSize: 25
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Column(
+              children: [
+                SizedBox(height: 100,),
+                Text('마이페이지', style: TextStyle(
+                    fontSize: 25
+                  ),
                 ),
-              ),
-              SizedBox(height: 50,),
-              Text('아이디: ${user.nickname}'),
-              SizedBox(height: 100,),
-              FilledButton(
-                  onPressed: () {
-                    user.logout();
-                    context.go('/');
-                  },
-                  child: Text('로그아웃')
-              ),
-            ],
+                SizedBox(height: 50,),
+                Text('아이디: ${user.nickname}'),
+                SizedBox(height: 100,),
+                FilledButton(
+                    onPressed: () {
+                      user.logout();
+                      context.go('/');
+                    },
+                    child: Text('로그아웃')
+                ),
+              ],
+            ),
           ),
         ),
       ),

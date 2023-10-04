@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/product_image.dart';
 import 'package:intl/intl.dart';
 
 import '../models/product_simple.dart';
@@ -20,10 +21,7 @@ class ProductCardHorizontalWithoutButton extends StatelessWidget {
             aspectRatio: 1 / 1,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.network(
-                  product.filename,
-                  fit: BoxFit.cover
-              ),
+              child: ProductImage(filename: product.filename,)
             ),
           ),
           SizedBox(width: 10,),

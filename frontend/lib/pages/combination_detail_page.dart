@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/loading.dart';
+import 'package:frontend/molecules/combination_chart.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../util/product_api.dart';
 
-import 'package:frontend/molecules/temp_chart_in_all.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
@@ -16,7 +15,9 @@ import '../models/product_simple.dart';
 import '../util/constants.dart';
 
 class CombinationDetailPage extends StatefulWidget {
-  const CombinationDetailPage({Key? key});
+  final int combinationId;
+
+  const CombinationDetailPage({super.key, required this.combinationId});
 
   @override
   State<CombinationDetailPage> createState() => _CombinationDetailPageState();
@@ -26,37 +27,16 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
   late Future<Map<String, dynamic>> futureCombinationDetail;
 
   @override
-  void initState() {
-    super.initState();
-    futureCombinationDetail = fetchCombinationDetail();
-  }
-
-  Future<Map<String, dynamic>> fetchCombinationDetail() async {
-    final combinationId = 3;
-    final token = 'User-token';
-    final uri = Uri.parse('${ProductApi.apiUrl}combination/$combinationId');
-    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
-
-    if (response.statusCode == 200) {
-      String body = utf8.decode(response.bodyBytes);
-      final Map<String, dynamic> data = json.decode(body);
-      return data;
-    } else {
-      throw Exception('Failed to load data. Status Code: ${response.statusCode}');
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
 
     return Scaffold(
         appBar: TopBarSub(appBar: AppBar()),
         body: FutureBuilder<Map<String, dynamic>>(
-            future: futureCombinationDetail,
+            future: ProductApi.getCombinationDetail(widget.combinationId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Loading();
               } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
               } else {
@@ -65,6 +45,11 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
 
               return ListView(
                 children: [
+                  SizedBox(height: 20,),
+                  Center(child: Text('${combinationDetail['combinationName']}', style: TextStyle(
+                    fontSize: 25
+                  ),)),
+                  SizedBox(height: 10,),
                   ListView.separated(
                     separatorBuilder: (BuildContext context, int index) {
                       return SizedBox(height: 10);
@@ -99,8 +84,12 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                       ),
                     ],
                   ),
-                  TempChartInAll(),
-                  CustomBox(),
+                  CombinationChart(
+                      totalKcal: combinationDetail['totalKcal'],
+                      totalProtein: combinationDetail['totalProtein'],
+                      totalFat: combinationDetail['totalFat'],
+                      totalCarb: combinationDetail['totalCarb'],
+                      totalSodium: combinationDetail['totalSodium']),
                   CustomBox(),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -109,7 +98,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                         for (var i = 0; i < combinationItems.length; i++) {
                           final productMap = combinationItems[i] as Map<String, dynamic>;
                           final productId = productMap['productId'];
-                          final productDetail = await ProductApi.fetchProductDetail('', productId);
+                          final productDetail = await ProductApi.getProductDetail('', productId);
                           if (productDetail != null) {
                             cart.add(productDetail);
                           }

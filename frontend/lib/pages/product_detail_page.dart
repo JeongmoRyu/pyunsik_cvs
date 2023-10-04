@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/models/product_simple.dart';
+import 'package:frontend/molecules/combination_chart.dart';
 import 'package:frontend/molecules/promotion_badge_list.dart';
 import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
@@ -34,7 +35,7 @@ class ProductDetailPage extends StatelessWidget {
     return DefaultTabController(
         length: 2,
         child: FutureBuilder<ProductDetail>(
-          future: ProductApi.fetchProductDetail(user.accessToken, productId),
+          future: ProductApi.getProductDetail(user.accessToken, productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터 로딩 중인 경우 로딩 스피너를 표시
@@ -127,18 +128,23 @@ class ProductDetailPage extends StatelessWidget {
                       child: TabBar(
                         labelColor: Colors.black,
                         tabs: [
-                          Tab(text: '상세정보'),
+                          Tab(text: '영양정보'),
                           Tab(
                               text:
                               '리뷰 (${format.format(productDetail.comments.length)})'),
                         ],
                       ),
                     ),
-                    Container(
-                      height: 480,
+                    SizedBox(
+                      height: 400,
                       child: TabBarView(
                         children: [
-                          TempChart(productDetail: productDetail),
+                          CombinationChart(totalKcal: productDetail.kcal,
+                              totalProtein: productDetail.protein,
+                              totalFat: productDetail.fat,
+                              totalCarb: productDetail.carb,
+                              totalSodium: productDetail.sodium
+                          ),
                           ListView.builder(
                             itemCount: productDetail.comments.length,
                             itemBuilder: (context, index) {
@@ -157,9 +163,7 @@ class ProductDetailPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    CustomBox(),
                     Container(
                       height: 350, // 원하는 높이로 설정
                       child: HorizontalList(

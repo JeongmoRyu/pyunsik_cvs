@@ -125,7 +125,7 @@ final goRouter = GoRouter(
       path: '/combination_detail',
       parentNavigatorKey: _rootNavigatorKey,
       builder: (BuildContext context, GoRouterState state) {
-        return CombinationDetailPage();
+        return CombinationDetailPage(combinationId: state.extra as int,);
       },
     ),
     GoRoute(
@@ -266,7 +266,6 @@ void main() async {
     sound: true,
   );
   // var token = await FirebaseMessaging.instance.getToken();
-  //
   // print("token : ${token ?? 'token NULL!'}");
   runApp(const MyApp());
 }
