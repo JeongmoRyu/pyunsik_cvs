@@ -15,10 +15,10 @@ import javax.persistence.*;
 public class Recommended {
     @Id
     @Column(name = "user_id")
-    private int userId;
+    private Long userId;
 
     @Column(name = "product_id")
-    private int productId;
+    private Long productId;
 
     private float rating;
 }
