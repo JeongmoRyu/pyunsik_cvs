@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/product_image.dart';
+import 'package:frontend/models/combination_simple.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/models/user.dart';
@@ -105,8 +106,8 @@ class _ScrapBookState extends State<ScrapBook> {
             TabBar(
               labelColor: Colors.black,
               tabs: [
-                Tab(text: '즐겨찾기' + '(${favorites.length})'),
-                Tab(text: '저장된 조합' + '(${combinations.length})'),
+                Tab(text: '즐겨찾기(${favorites.length})'),
+                Tab(text: '저장한 조합(${combinations.length})'),
               ],
             ),
             Expanded(
@@ -145,25 +146,41 @@ class _ScrapBookState extends State<ScrapBook> {
                       return Loading();
                     }
                   ),
-
+                  FutureBuilder(
+                      future: ProductApi.getCombinationList(user.accessToken),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List<CombinationSimple> combinationList = snapshot.data!;
+                          if (combinationList.isEmpty) {
+                            return const Center(
+                              child: Text('저장한 조합이 없습니다.'),
+                            );
+                          }
+                          return ListView.builder(
+                            itemCount: combinationList.length,
+                            itemBuilder: (context, index) {
+                              final combination = combinationList[index];
+                              return InkWell(
+                                onTap: () {
+                                  context.push('/combination_detail');
+                                },
+                                child: ListTile(
+                                  title: Text(combination.combinationName),
+                                  subtitle: Text('총 칼로리 : ${combination.totalKcal}kcal'),
+                                  leading: ProductImage(filename: '',),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          print(snapshot.toString());
+                          return Text('${snapshot.error}');
+                        }
+                        return Loading();
+                      }
+                  ),
                   // Combinations 탭의 내용
-                  ListView.builder(
-                    itemCount: combinations.length,
-                    itemBuilder: (context, index) {
-                      final combination = combinations[index];
-
-                      return InkWell(
-                        onTap: () {
-                          context.push('/combination_detail');
-                        },
-                        child: ListTile(
-                          title: Text(combination['name']),
-                          subtitle: Text('총 칼로리 : ' + '${combination['total_kcal']}' + 'kcal'),
-                          leading: Image.asset(combination['CombinationItems'][0]['imagePath']),
-                        ),
-                      );
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -172,7 +189,7 @@ class _ScrapBookState extends State<ScrapBook> {
             ),
 
     );
-    } else
+    } else {
       return Scaffold(
         appBar: TopBarMain(appBar: AppBar(),),// AppBar에 표시할 제목
         body: Column(
@@ -183,7 +200,7 @@ class _ScrapBookState extends State<ScrapBook> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     '스크랩북',
                     style: TextStyle(
                         color: Colors.black,
@@ -194,7 +211,7 @@ class _ScrapBookState extends State<ScrapBook> {
                   SizedBox(height: 10),
                   Text(
                     user.accessToken.isNotEmpty ? '${user.nickname}' : '',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 15,
                     ),
@@ -218,6 +235,6 @@ class _ScrapBookState extends State<ScrapBook> {
         ]
       )
     );
-
+    }
   }
 }

@@ -1,13 +1,19 @@
 import 'dart:convert';
+import 'package:frontend/models/combination_simple.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/product_detail.dart';
 import '../models/product_simple.dart';
-void main() {
 
-  ProductApi.fetchProductList('', {'price': ['100', '1000'],}).then((result) {
-    print(result);
-  });
+void main() {
+  var testToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NzM3MTM0MS1hNDQ1LTQ5MTAtYjFiMS1jZDVhNGI0M2RmZjEiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NjM4MTAwMSwiZXhwIjoxNjk2NDY3NDAxfQ.dGp2yTrHfXCAs4wVLxZawMnz-sQybTvhfwr8_fIFNpQ';
+
+  // ProductApi.fetchProductList('', {'price': ['100', '1000'],}).then((result) {
+  //   print(result);
+  // });
+  ProductApi.getCombinationList(testToken).then((result) {
+      print(result);
+    });
 }
 class ProductApi {
   static Map<String, String> getHeaderWithToken(String token) {
@@ -66,6 +72,23 @@ class ProductApi {
     }
   }
 
+  static Future<List<CombinationSimple>> getCombinationList(String token) async {
+    final uri = Uri.parse('${apiUrl}/combination');
+    print('fetching data from $uri, token: $token');
+    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final List<dynamic> data = json.decode(body);
+      List<CombinationSimple> result = data
+          .map((data) => CombinationSimple.fromJson(data as Map<String, dynamic>))
+          .toList();
+      return result;
+    } else {
+      throw Exception('Failed to load data. Status Code: ${response.statusCode}');
+    }
+  }
+
   static Future<dynamic> addFavorite(int productId, String token) async {
     print('add favorite from product id : $productId, token: $token');
     final response = await http.post(
@@ -118,5 +141,4 @@ class ProductApi {
       throw Exception('Failed to delete favorite: ${jsonDecode(response.body)}');
     }
   }
-
 }
