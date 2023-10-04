@@ -9,6 +9,7 @@ import com.picky.business.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +48,7 @@ public class FavoriteService {
                         .userId(userId)
                         .productId(productId)
                         .isDeleted(false)
+                        .createdAt(LocalDateTime.now())
                         .build()
         );
     }
