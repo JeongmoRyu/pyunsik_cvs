@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/atom/loading.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import '../util/product_api.dart';
 
 import 'package:frontend/molecules/temp_chart_in_all.dart';
@@ -28,37 +27,16 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
   late Future<Map<String, dynamic>> futureCombinationDetail;
 
   @override
-  void initState() {
-    super.initState();
-    futureCombinationDetail = fetchCombinationDetail();
-  }
-
-  Future<Map<String, dynamic>> fetchCombinationDetail() async {
-    final combinationId = 3;
-    final token = 'User-token';
-    final uri = Uri.parse('${ProductApi.apiUrl}combination/$combinationId');
-    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
-
-    if (response.statusCode == 200) {
-      String body = utf8.decode(response.bodyBytes);
-      final Map<String, dynamic> data = json.decode(body);
-      return data;
-    } else {
-      throw Exception('Failed to load data. Status Code: ${response.statusCode}');
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
 
     return Scaffold(
         appBar: TopBarSub(appBar: AppBar()),
         body: FutureBuilder<Map<String, dynamic>>(
-            future: futureCombinationDetail,
+            future: ProductApi.getCombinationDetail(widget.combinationId),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Loading();
               } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
               } else {
@@ -111,7 +89,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                         for (var i = 0; i < combinationItems.length; i++) {
                           final productMap = combinationItems[i] as Map<String, dynamic>;
                           final productId = productMap['productId'];
-                          final productDetail = await ProductApi.fetchProductDetail('', productId);
+                          final productDetail = await ProductApi.getProductDetail('', productId);
                           if (productDetail != null) {
                             cart.add(productDetail);
                           }

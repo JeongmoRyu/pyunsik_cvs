@@ -20,7 +20,7 @@ class FilterList extends StatelessWidget {
       ),
       child: Column(
         children: [
-          FilterChoice(tag: '카테고리', options: ['간편식사', '즉석요리', '과자', '아이스크림', '식품', '음료', '생활용품']),
+          FilterChoice(tag: '카테고리', options: ['간편식사', '즉석요리', '과자', '아이스크림', '식품', '음료']),
           FilterChoice(tag: '편의점', options: ['GS25', 'CU', '7-ELEVEN', 'emart24']),
           FilterChoice(tag: '할인행사', options: ['1+1', '2+1']),
           FilterRange(tag: '가격 (원)'),

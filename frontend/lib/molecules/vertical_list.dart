@@ -34,7 +34,7 @@ class _VerticalListState extends State<VerticalList> {
           vertical: Constants.verticalPadding
       ),
       child: FutureBuilder(
-        future: ProductApi.fetchProductList('', filter.getQueryParams()),
+        future: ProductApi.getProductList('', filter.getQueryParams()),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print('----------data received');

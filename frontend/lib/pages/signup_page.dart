@@ -40,7 +40,7 @@ class _SignupPageState extends State<SignupPage> {
                     controller: _idController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return '아이디를 입력해주세요.';
+                        return '아이디를 입력해주세요';
                       }
                       return null;
                     },
@@ -52,7 +52,7 @@ class _SignupPageState extends State<SignupPage> {
                     controller: _passwordController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return '비밀번호를 입력해주세요.';
+                        return '비밀번호를 입력해주세요';
                       }
                       return null;
                     },
@@ -65,7 +65,7 @@ class _SignupPageState extends State<SignupPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty
                           || value != _passwordController.text) {
-                        return '비밀번호가 일치하지 않습니다.';
+                        return '비밀번호가 일치하지 않습니다';
                       }
                       return null;
                     },
@@ -90,7 +90,7 @@ class _SignupPageState extends State<SignupPage> {
                           ).then((value) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('회원가입이 완료되었습니다.'),
+                                content: Text('회원가입이 완료되었습니다'),
                                 duration: Duration(milliseconds: 1500),
                               ),
                             );
@@ -102,7 +102,7 @@ class _SignupPageState extends State<SignupPage> {
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('사용 중인 아이디입니다.'),
+                                content: Text('사용 중인 아이디입니다'),
                                 duration: Duration(milliseconds: 1500),
                               ),
                             );

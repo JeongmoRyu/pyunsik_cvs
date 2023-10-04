@@ -34,7 +34,7 @@ class ProductDetailPage extends StatelessWidget {
     return DefaultTabController(
         length: 2,
         child: FutureBuilder<ProductDetail>(
-          future: ProductApi.fetchProductDetail(user.accessToken, productId),
+          future: ProductApi.getProductDetail(user.accessToken, productId),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // 데이터 로딩 중인 경우 로딩 스피너를 표시

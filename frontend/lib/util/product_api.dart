@@ -6,14 +6,7 @@ import '../models/product_detail.dart';
 import '../models/product_simple.dart';
 
 void main() {
-  var testToken = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NzM3MTM0MS1hNDQ1LTQ5MTAtYjFiMS1jZDVhNGI0M2RmZjEiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NjM4MTAwMSwiZXhwIjoxNjk2NDY3NDAxfQ.dGp2yTrHfXCAs4wVLxZawMnz-sQybTvhfwr8_fIFNpQ';
 
-  // ProductApi.fetchProductList('', {'price': ['100', '1000'],}).then((result) {
-  //   print(result);
-  // });
-  ProductApi.getCombinationList(testToken).then((result) {
-      print(result);
-    });
 }
 class ProductApi {
   static Map<String, String> getHeaderWithToken(String token) {
@@ -27,7 +20,7 @@ class ProductApi {
 
   static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api";
 
-  static Future<List<ProductSimple>> fetchProductListOnPromotion() async {
+  static Future<List<ProductSimple>> getProductListOnPromotion() async {
     const String url = "${apiUrl}/product/?promotionCodes=1&promotionCodes=2";
 
     final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
@@ -43,7 +36,7 @@ class ProductApi {
     }
   }
 
-  static Future<List<dynamic>> fetchProductList(String token, Map<String, dynamic> queryParams) async {
+  static Future<List<dynamic>> getProductList(String token, Map<String, dynamic> queryParams) async {
     print('network got $queryParams');
     final uri = Uri.parse('${apiUrl}/product').replace(queryParameters: queryParams);
     print('fetching data from $uri');
@@ -58,7 +51,7 @@ class ProductApi {
     }
   }
 
-  static Future<ProductDetail> fetchProductDetail(String token, int productId) async {
+  static Future<ProductDetail> getProductDetail(String token, int productId) async {
     final uri = Uri.parse('${apiUrl}/product/$productId');
     print('fetching data from $uri, token: $token');
     final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
@@ -107,7 +100,7 @@ class ProductApi {
     }
   }
 
-  static Future<dynamic> getFavorites(String token) async {
+  static Future<List<dynamic>> getFavorites(String token) async {
     final response = await http.get(
       Uri.parse('$apiUrl/favorite'),
       headers: getHeaderWithToken(token),
@@ -116,7 +109,9 @@ class ProductApi {
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
-      return response;
+      String body = utf8.decode(response.bodyBytes);
+      final List<dynamic> data = json.decode(body);
+      return data;
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
@@ -139,6 +134,50 @@ class ProductApi {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to delete favorite: ${jsonDecode(response.body)}');
+    }
+  }
+
+  static Future<dynamic> addCombination(List<ProductDetail> products,
+      String combinationName,
+      String token) async {
+    final List<Map<String, dynamic>> combinationList = [];
+    for (final cartProduct in products) {
+      combinationList.add({
+        'productId': cartProduct.productId,
+        'amount': 1,
+      });
+    }
+
+    final Map<String, dynamic> combinationData = {
+      'combinationName': combinationName,
+      'products': combinationList,
+    };
+    print('add combination with combination name: $combinationName, token: $token');
+    final response = await http.post(
+      Uri.parse('$apiUrl/combination'),
+      body: jsonEncode(combinationData),
+      headers: ProductApi.getHeaderWithToken(token),
+    );
+
+    if (response.statusCode == 201) {
+      print('조합 저장 완료');
+      return response;
+    } else {
+      print('Failed to add combination: ${response.statusCode}');
+      throw Exception('Failed to add combination: ${response.statusCode}');
+    }
+  }
+
+  static Future<Map<String, dynamic>> getCombinationDetail(int combinationId) async {
+    final uri = Uri.parse('$apiUrl/combination/$combinationId');
+    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken('test'));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final Map<String, dynamic> data = json.decode(body);
+      return data;
+    } else {
+      throw Exception('Failed to load data. Status Code: ${response.statusCode}');
     }
   }
 }

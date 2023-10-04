@@ -13,8 +13,6 @@ import '../molecules/top_bar_main.dart';
 import '../util/constants.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/models/user.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 
 import 'package:frontend/molecules/temp_cart_chart.dart';
@@ -37,12 +35,12 @@ class _CartPageState extends State<CartPage> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return                   AlertDialog(
-          title: Text('텍스트 입력'),
+        return AlertDialog(
+          title: Text('조합 이름'),
           content: TextField(
             controller: _keyValueController,
             decoration: InputDecoration(
-              labelText: '텍스트를 입력하세요',
+              labelText: '조합 이름을 입력하세요',
               border: OutlineInputBorder(),
             ),
           ),
@@ -73,7 +71,6 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
     var user = context.watch<User>();
-
 
     List<ProductSimple> testList2 = [
     ];
@@ -132,44 +129,13 @@ class _CartPageState extends State<CartPage> {
               padding: const EdgeInsets.all(15.0),
               child: FilledButton(
                 onPressed: () async {
-                  _showMyDialog();
+                  await _showMyDialog();
 
                   if (user.accessToken.isNotEmpty) {
                     // 조합 데이터 생성
-                    final List<Map<String, dynamic>> combinationList = [];
-                    for (final cartProduct in cart.products) {
-                      combinationList.add({
-                        'productId': cartProduct.productId,
-                        'amount': 1,
-                      });
-                    }
-
-                    final String apiUrl = 'http://j9a505.p.ssafy.io:8881/api/combination/';
-
-                    final Map<String, dynamic> combinationData = {
-                      'combinationName': combinationName,
-                      'products': combinationList,
-                    };
-
-                    try {
-                      final response = await http.post(
-                        Uri.parse(apiUrl),
-                        body: jsonEncode(combinationData),
-                        headers: ProductApi.getHeaderWithToken('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZDcyYmZjMC1lZjk3LTQ5MWItYmFlZi1mZWI4NGQ1ZjczZDEiLCJyb2xlcyI6WyJST0xFX0NPTlNVTUVSIl0sImlhdCI6MTY5NTI4NDQ3NCwiZXhwIjoxNjk3ODc2NDc0fQ.oLJqbdk5RplL8TQXK0jU4TwsWADWIjxCoup-Gxh5R-I'),
-                      );
-
-                      if (response.statusCode == 201) {
-
-                        print('조합 저장 완료');
-                        context.go('/scrapbook');
-                      } else {
-                        // HTTP 요청이 실패했을 때의 로직
-                        print('HTTP POST 요청 실패: ${response.statusCode}');
-                        // 여기에서 에러 메시지를 처리하거나 사용자에게 표시할 수 있습니다.
-                      }
-                    } catch (error) {
-                      print('예외 발생: $error');
-                    }
+                    await ProductApi.addCombination(cart.products, combinationName, user.accessToken)
+                      .then((value) => context.go('/scrapbook'));
+                    user.change();
                   } else {
                     context.push('/login');
                   }
