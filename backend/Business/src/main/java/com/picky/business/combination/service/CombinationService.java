@@ -123,10 +123,11 @@ public class CombinationService {
                     combination.setTotalProtein(combination.getTotalProtein() + product.getProtein() * combinationItem.getAmount());
                     combination.setTotalFat(combination.getTotalFat() + product.getFat() * combinationItem.getAmount());
                     combination.setTotalSodium(combination.getTotalSodium() + product.getSodium() * combinationItem.getAmount());
-
+                    log.info("combinationItem 저장 후, combinationId" + combinationItem.getCombinationId());
                     return combinationItem;
                 })
                 .collect(Collectors.toList());
+        log.info("combinationItem Size:" + combinationItems.size());
 
         combination.setItems(combinationItems);
 
