@@ -25,6 +25,8 @@ public class CombinationItem {
 
     @Column(name = "combination_id")
     private Long combinationId;
+    @Column
+    private boolean isDeleted;
 
     @ManyToOne
     @JoinColumn(name = "combination_id", insertable = false, updatable = false)

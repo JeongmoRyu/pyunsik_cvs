@@ -112,7 +112,8 @@ public class CombinationService {
                             .productName(product.getProductName())
                             .filename(product.getFilename())
                             .price(product.getPrice() * createItem.getAmount())
-                            .combination(combination)
+                            .combinationId(combination.getId())
+                            .isDeleted(false)
                             .build();
 
                     // Combination의 값들에 CombinationItem의 값들을 더합니다.
