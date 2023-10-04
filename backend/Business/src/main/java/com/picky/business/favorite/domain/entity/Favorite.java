@@ -39,8 +39,4 @@ public class Favorite {
         this.isDeleted = true;
     }
 
-    public void add() {
-        this.isDeleted = false;
-    }
-
 }

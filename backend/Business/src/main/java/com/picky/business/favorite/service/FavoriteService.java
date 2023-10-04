@@ -54,7 +54,7 @@ public class FavoriteService {
     //품목 즐겨찾기 삭제
     public void deleteFavorite(String accessToken, Long productId) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
-        Favorite favorite = favoriteRepository.findByUserIdAndProductId(userId, productId);
+        Favorite favorite = favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(userId, productId);
         favorite.delete();
         favoriteRepository.save(favorite);
     }
