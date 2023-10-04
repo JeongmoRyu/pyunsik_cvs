@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="log_combination_item")
 public class LogCombinationItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
