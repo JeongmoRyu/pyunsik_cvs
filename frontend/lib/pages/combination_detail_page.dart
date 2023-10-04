@@ -4,7 +4,6 @@ import 'package:frontend/molecules/combination_chart.dart';
 import 'package:intl/intl.dart';
 import '../util/product_api.dart';
 
-import 'package:frontend/molecules/temp_chart_in_all.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
@@ -46,6 +45,11 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
 
               return ListView(
                 children: [
+                  SizedBox(height: 20,),
+                  Center(child: Text('${combinationDetail['combinationName']}', style: TextStyle(
+                    fontSize: 25
+                  ),)),
+                  SizedBox(height: 10,),
                   ListView.separated(
                     separatorBuilder: (BuildContext context, int index) {
                       return SizedBox(height: 10);
@@ -86,7 +90,6 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                       totalFat: combinationDetail['totalFat'],
                       totalCarb: combinationDetail['totalCarb'],
                       totalSodium: combinationDetail['totalSodium']),
-                  CustomBox(),
                   CustomBox(),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
