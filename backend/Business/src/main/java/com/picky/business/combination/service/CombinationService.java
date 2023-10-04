@@ -89,6 +89,8 @@ public class CombinationService {
     public Long addCombination(String accessToken, CombinationInputRequest request) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
         List<Long> logList = new ArrayList<>();
+
+        //Combination 객체 생성 및 저장
         Combination combination = Combination.builder()
                 .userId(userId)
                 .combinationName(request.getCombinationName())
@@ -101,6 +103,12 @@ public class CombinationService {
                 .totalFat(0.0)
                 .totalSodium(0.0)
                 .build();
+        combination = combinationRepository.save(combination);
+
+        Long combinationId = combination.getId();
+
+        //CombinationItem 객체 생성 및 저장
+        Combination finalCombination = combination;
         List<CombinationItem> combinationItems = request.getProducts().stream()
                 .map(createItem -> {
                     Long productId = createItem.getProductId();
@@ -112,29 +120,27 @@ public class CombinationService {
                             .productName(product.getProductName())
                             .filename(product.getFilename())
                             .price(product.getPrice() * createItem.getAmount())
-                            .combinationId(combination.getId())
+                            .combinationId(finalCombination.getId())
                             .isDeleted(false)
                             .build();
 
-                    // Combination의 값들에 CombinationItem의 값들을 더합니다.
-                    combination.setTotalKcal(combination.getTotalKcal() + product.getKcal() * combinationItem.getAmount());
-                    combination.setTotalPrice(combination.getTotalPrice() + product.getPrice() * combinationItem.getAmount());
-                    combination.setTotalCarb(combination.getTotalCarb() + product.getCarb() * combinationItem.getAmount());
-                    combination.setTotalProtein(combination.getTotalProtein() + product.getProtein() * combinationItem.getAmount());
-                    combination.setTotalFat(combination.getTotalFat() + product.getFat() * combinationItem.getAmount());
-                    combination.setTotalSodium(combination.getTotalSodium() + product.getSodium() * combinationItem.getAmount());
-                    log.info("combinationItem 저장 후, combinationId" + combinationItem.getCombinationId());
+                    finalCombination.setTotalKcal(finalCombination.getTotalKcal() + product.getKcal() * createItem.getAmount());
+                    finalCombination.setTotalPrice(finalCombination.getTotalPrice() + product.getPrice() * createItem.getAmount());
+                    finalCombination.setTotalCarb(finalCombination.getTotalCarb() + product.getCarb() * createItem.getAmount());
+                    finalCombination.setTotalProtein(finalCombination.getTotalProtein() + product.getProtein() * createItem.getAmount());
+                    finalCombination.setTotalFat(finalCombination.getTotalFat() + product.getFat() * createItem.getAmount());
+                    finalCombination.setTotalSodium(finalCombination.getTotalSodium() + product.getSodium() * createItem.getAmount());
+
                     return combinationItem;
                 })
                 .collect(Collectors.toList());
-        log.info("combinationItem Size:" + combinationItems.size());
 
         combination.setItems(combinationItems);
+        combinationRepository.save(combination);
 
         logService.saveLogCombination(userId, logList);
-        combinationRepository.save(combination);
-        log.info("저장된 combination Id:" + combination.getId());
-        return combination.getId();
+
+        return combinationId;
     }
 
     public void deleteCombination(String accessToken, Long combinationId) {
