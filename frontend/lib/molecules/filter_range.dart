@@ -45,6 +45,7 @@ class _FilterRangeState extends State<FilterRange> {
                 RangeTextField(textController2),
                 TextButton(
                     onPressed: (){
+                      FocusManager.instance.primaryFocus?.unfocus();
                       int min = int.parse(textController1.text);
                       int max = int.parse(textController2.text);
                       if (min > max) {
