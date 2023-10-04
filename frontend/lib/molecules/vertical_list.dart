@@ -61,7 +61,7 @@ class _VerticalListState extends State<VerticalList> {
                   b.price.compareTo(a.price)
               );
             }
-            int productCount = widget.pageNumber * 6;
+            int productCount = widget.pageNumber * 24;
             if (productCount > productList.length) {
               productCount = productList.length;
             }

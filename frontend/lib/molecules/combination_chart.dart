@@ -3,18 +3,28 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:frontend/models/cart.dart';
 import 'package:provider/provider.dart';
 
-class TempCartChart extends StatefulWidget {
+class CombinationChart extends StatefulWidget {
+  final int totalKcal;
+  final double totalProtein;
+  final double totalFat;
+  final double totalCarb;
+  final double totalSodium;
 
-  const TempCartChart({Key? key}) : super(key: key);
+  const CombinationChart({super.key,
+    required this.totalKcal,
+    required this.totalProtein,
+    required this.totalFat,
+    required this.totalCarb,
+    required this.totalSodium
+  });
 
   @override
-  _TempCartChartState createState() => _TempCartChartState();
+  State<CombinationChart> createState() => _CombinationChartState();
 }
 
-class _TempCartChartState extends State<TempCartChart> {
+class _CombinationChartState extends State<CombinationChart> {
   // 제품 정보 및 기준 정보 정의
   Map<String, dynamic> CartTotal = {};
-
 
   Map<String, dynamic> StandardDetail = {
     'kcal': 2500,
@@ -32,8 +42,6 @@ class _TempCartChartState extends State<TempCartChart> {
   double totalfullRatio = 1.0;
 
   List<ChartData> chartData = [];
-  List<ChartData> kcalData = [];
-
 
   @override
   void initState() {
@@ -42,14 +50,29 @@ class _TempCartChartState extends State<TempCartChart> {
 
   @override
   Widget build(BuildContext context) {
-    var cart = context.watch<Cart>();
+    Color backgroundColor = Colors.white;
+    // Color kcalColor = Color.fromRGBO(238, 123, 46, 1.0);
+    // Color proteinColor = Color.fromRGBO(101, 171, 246, 1.0);
+    // Color fatColor = Color.fromRGBO(138, 120, 203, 1.0);
+    // Color carbColor = Color.fromRGBO(51, 86, 183, 1.0);
+    // Color sodiumColor = Color.fromRGBO(82, 38, 147, 1.0);
+
+    Color kcalColor = Color.fromRGBO(238, 123, 46, 1.0);
+    Color proteinColor = Color.fromRGBO(101, 171, 246, 1.0);
+    Color fatColor = Color.fromRGBO(138, 120, 203, 1.0);
+    Color carbColor = Color.fromRGBO(51, 86, 183, 1.0);
+    Color sodiumColor = Color.fromRGBO(82, 38, 147, 1.0);
+
+    Color barBackgroundColor = Color.fromRGBO(236, 236, 236, 1.0);
+    Color barGoodColor = Theme.of(context).primaryColor;
+    Color barBadColor = Color.fromRGBO(255, 60, 60, 1.0);
 
     CartTotal = {
-      'totalKcal': cart.getTotalKcal(),
-      'totalProtein': cart.getTotalProtein(),
-      'totalFat': cart.getTotalFat(),
-      'totalCarb': cart.getTotalCarb(),
-      'totalSodium': cart.getTotalSodium(),
+      'totalKcal': widget.totalKcal,
+      'totalProtein': widget.totalProtein,
+      'totalFat': widget.totalFat,
+      'totalCarb': widget.totalCarb,
+      'totalSodium': widget.totalSodium,
     };
 
 
@@ -60,18 +83,12 @@ class _TempCartChartState extends State<TempCartChart> {
     totalcarbRatio = CartTotal['totalCarb'] / StandardDetail['carb'];
 
     chartData = [
-      ChartData('kcal', CartTotal['totalKcal'] / StandardDetail['kcal'], Colors.grey),
-      ChartData('carb', CartTotal['totalCarb'] / StandardDetail['carb'], Colors.red),
-      ChartData('protein', CartTotal['totalProtein'] / StandardDetail['protein'], Colors.green),
-      ChartData('fat', CartTotal['totalFat'] / StandardDetail['fat'], Colors.blue),
-      ChartData('sodium', CartTotal['totalSodium'] / StandardDetail['sodium'], Colors.orange),
+      ChartData('kcal', CartTotal['totalKcal'] / StandardDetail['kcal'], kcalColor),
+      ChartData('carb', CartTotal['totalCarb'] / StandardDetail['carb'], carbColor),
+      ChartData('protein', CartTotal['totalProtein'] / StandardDetail['protein'], proteinColor),
+      ChartData('fat', CartTotal['totalFat'] / StandardDetail['fat'], fatColor),
+      ChartData('sodium', CartTotal['totalSodium'] / StandardDetail['sodium'], sodiumColor),
     ];
-
-    kcalData = [
-      ChartData('kcal', CartTotal['totalKcal'] / CartTotal['totalKcal'], Colors.red)
-    ];
-
-
 
     return Container(
       height: 480,
@@ -80,7 +97,6 @@ class _TempCartChartState extends State<TempCartChart> {
           children: [
             // 차트 표시 부분
             Container(
-              color: Colors.grey[200],
               child: Row(
                 children: [
                   // RadialBar 차트
@@ -88,7 +104,6 @@ class _TempCartChartState extends State<TempCartChart> {
                     flex: 4,
                     child: Container(
                       height: 250,
-                      color: Colors.grey[200],
 
                       child: Stack(
                         alignment: Alignment.center, // 텍스트를 중앙에 배치
@@ -114,14 +129,12 @@ class _TempCartChartState extends State<TempCartChart> {
                                   style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black, // 흰색 텍스트 색상
                                   ),
                                 ),
                                 TextSpan(
                                   text: 'kcal',
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: Colors.black, // 검정색 텍스트 색상
                                   ),
                                 ),
                               ],
@@ -136,26 +149,25 @@ class _TempCartChartState extends State<TempCartChart> {
                     flex: 4,
                     child: Container(
                       height: 250,
-                      color: Colors.grey[200],
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.red),
+                              leading: Icon(Icons.circle, color: carbColor),
                               title: Text('순탄수 : ' + '${(totalcarbRatio*100).toStringAsFixed(0)}%'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.green),
+                              leading: Icon(Icons.circle, color: proteinColor),
                               title: Text('단백질 : ' '${(totalproteinRatio*100).toStringAsFixed(0)}%'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.blue),
+                              leading: Icon(Icons.circle, color: fatColor),
                               title: Text('지방 : '+'${(totalfatRatio*100).toStringAsFixed(0)}%'),
                             ),
                             ListTile(
-                              leading: Icon(Icons.circle, color: Colors.orange),
+                              leading: Icon(Icons.circle, color: sodiumColor),
                               title: Text('나트륨 : '+'${(totalsodiumRatio*100).toStringAsFixed(0)}%'),
                             ),
                           ],
@@ -168,7 +180,6 @@ class _TempCartChartState extends State<TempCartChart> {
             ),
             // 기타 정보 표시 부분
             Container(
-              color: Colors.grey[200],
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -185,20 +196,20 @@ class _TempCartChartState extends State<TempCartChart> {
                         Container(
                           height: 10,
                           width: 90,
-                          color: Colors.grey,
+                          color: barBackgroundColor,
                           child: totalcarbRatio > 1
                               ? FractionallySizedBox(
                             widthFactor: totalfullRatio,
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              color: Colors.red,
+                              color: barBadColor,
                             ),
                           )
                               : FractionallySizedBox(
                             widthFactor: totalcarbRatio,
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              color: Colors.green,
+                              color: barGoodColor,
                             ),
                           ),
                         ),
@@ -223,20 +234,20 @@ class _TempCartChartState extends State<TempCartChart> {
                         Container(
                           height: 10,
                           width: 90,
-                          color: Colors.grey,
+                          color: barBackgroundColor,
                           child: totalproteinRatio > 1
                               ? FractionallySizedBox(
                             widthFactor: totalfullRatio,
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              color: Colors.red,
+                              color: barBadColor,
                             ),
                           )
                               : FractionallySizedBox(
                             widthFactor: totalproteinRatio,
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              color: Colors.green,
+                              color: barGoodColor,
                             ),
                           ),
                         ),
@@ -261,20 +272,20 @@ class _TempCartChartState extends State<TempCartChart> {
                         Container(
                           height: 10,
                           width: 90,
-                          color: Colors.grey,
+                          color: barBackgroundColor,
                           child: totalfatRatio > 1
                               ? FractionallySizedBox(
                             widthFactor: totalfullRatio,
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              color: Colors.red,
+                              color: barBadColor,
                             ),
                           )
                               : FractionallySizedBox(
                             widthFactor: totalfatRatio,
                             alignment: Alignment.centerLeft,
                             child: Container(
-                              color: Colors.green,
+                              color: barGoodColor,
                             ),
                           ),
                         ),
@@ -292,7 +303,6 @@ class _TempCartChartState extends State<TempCartChart> {
             // 칼로리 정보 표시 부분
             Container(
               height: 155,
-              color: Colors.grey[200],
               child: Center(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -302,7 +312,7 @@ class _TempCartChartState extends State<TempCartChart> {
                       height: 100,
                       width: MediaQuery.of(context).size.width * 0.8,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Color.fromRGBO(88, 113, 215, 1.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       child: Container(

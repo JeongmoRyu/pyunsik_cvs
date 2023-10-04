@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend/models/user.dart';
 
 
-import 'package:frontend/molecules/temp_cart_chart.dart';
+import 'package:frontend/molecules/combination_chart.dart';
 
 
 class CartPage extends StatefulWidget {
@@ -118,7 +118,14 @@ class _CartPageState extends State<CartPage> {
             CustomBox(),
             PriceSum(),
             // TempChartInAll(),
-            TempCartChart(),
+            CustomBox(),
+            CombinationChart(
+              totalKcal: cart.getTotalKcal(),
+              totalCarb: cart.getTotalCarb(),
+              totalFat: cart.getTotalFat(),
+              totalProtein: cart.getTotalProtein(),
+              totalSodium: cart.getTotalSodium(),
+            ),
             CustomBox(),
             HorizontalList(
                 title: '다른 고객이 함께 구매한 상품',
@@ -129,16 +136,21 @@ class _CartPageState extends State<CartPage> {
               padding: const EdgeInsets.all(15.0),
               child: FilledButton(
                 onPressed: () async {
-                  await _showMyDialog();
-
-                  if (user.accessToken.isNotEmpty) {
-                    // 조합 데이터 생성
-                    await ProductApi.addCombination(cart.products, combinationName, user.accessToken)
-                      .then((value) => context.go('/scrapbook'));
-                    user.change();
-                  } else {
+                  if (user.accessToken.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('로그인이 필요한 기능입니다'),
+                        duration: Duration(milliseconds: 1500),
+                      ),
+                    );
                     context.push('/login');
+                    return;
                   }
+                  await _showMyDialog();
+                  // 조합 데이터 생성
+                  await ProductApi.addCombination(cart.products, combinationName, user.accessToken)
+                    .then((value) => context.go('/scrapbook'));
+                  user.change();
                 },
                 child: Text('조합 저장'),
               ),

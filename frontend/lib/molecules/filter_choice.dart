@@ -28,7 +28,7 @@ class FilterChoice extends StatelessWidget {
         ),
         Expanded(
           child: SizedBox(
-            height: 50,
+            height: 35,
             child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) {
                 return SizedBox(width: 10);

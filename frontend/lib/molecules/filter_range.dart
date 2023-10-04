@@ -67,21 +67,24 @@ class _FilterRangeState extends State<FilterRange> {
   }
 
   Widget RangeTextField(var controller) {
-    return SizedBox(
-      width: 70,
-      child: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ], // Only numbers can be entered
-        style: TextStyle(
-          fontSize: 13,
-        ),
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          isDense: true,                      // Added this
-          contentPadding: EdgeInsets.all(8),  // Added this
+    return Flexible(
+
+      child: Container(
+        constraints: BoxConstraints(maxWidth: 70),
+        child: TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ], // Only numbers can be entered
+          style: TextStyle(
+            fontSize: 13,
+          ),
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            isDense: true,                      // Added this
+            contentPadding: EdgeInsets.all(8),  // Added this
+          ),
         ),
       ),
     );

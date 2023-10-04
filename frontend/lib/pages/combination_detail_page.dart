@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/loading.dart';
+import 'package:frontend/molecules/combination_chart.dart';
 import 'package:intl/intl.dart';
 import '../util/product_api.dart';
 
@@ -79,7 +80,12 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                       ),
                     ],
                   ),
-                  TempChartInAll(),
+                  CombinationChart(
+                      totalKcal: combinationDetail['totalKcal'],
+                      totalProtein: combinationDetail['totalProtein'],
+                      totalFat: combinationDetail['totalFat'],
+                      totalCarb: combinationDetail['totalCarb'],
+                      totalSodium: combinationDetail['totalSodium']),
                   CustomBox(),
                   CustomBox(),
                   Padding(
