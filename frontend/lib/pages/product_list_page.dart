@@ -5,6 +5,7 @@ import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/ranking.dart';
 import 'package:frontend/molecules/category_list_cvs.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:frontend/molecules/category_list_genre.dart';
 
@@ -23,15 +24,20 @@ class ProductListPage extends StatelessWidget {
 
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),
-      body: ListView(
-        children: [
-          CategoryList(),
-          CategoryGenreList(),
-          CustomBox(),
-          HorizontalList(title: '오늘의 추천 상품', productList: testList),
-          CustomBox(),
-          Ranking(),
-        ],
+      body: DoubleBackToCloseApp(
+        snackBar: const SnackBar(
+          content: Text('정말 종료하신다면 뒤로 가기 버튼을 다시'),
+        ),
+        child: ListView(
+          children: [
+            CategoryList(),
+            CategoryGenreList(),
+            CustomBox(),
+            HorizontalList(title: '오늘의 추천 상품', productList: testList),
+            CustomBox(),
+            Ranking(),
+          ],
+        ),
       ),
     );
   }
