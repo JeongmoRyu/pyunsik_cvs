@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/util/reommendation_api.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/molecules/temp_chart.dart';
 import 'package:frontend/models/product_detail.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
-import 'package:frontend/molecules/plus_nav_bar.dart';
-import '../models/product.dart';
 import '../models/product_simple.dart';
 
 class ApiTemp extends StatefulWidget {
@@ -161,7 +159,7 @@ class _ApiTempState extends State<ApiTemp> {
                   SizedBox(height: 10,),
                   Container(
                     height: 350, // 원하는 높이로 설정
-                    child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
+                    child: HorizontalList(title: '오늘의 추천 상품', apiFunction: RecommendationApi.getRecommendationList()),
                   ),
                   CustomBox(),
                 ],

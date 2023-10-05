@@ -5,7 +5,6 @@ import 'package:frontend/molecules/promotion_badge_list.dart';
 import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
-import 'package:frontend/molecules/temp_chart.dart';
 import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
 import 'package:frontend/molecules/plus_nav_bar.dart';
@@ -18,6 +17,7 @@ import '../atom/product_image.dart';
 import '../models/filter.dart';
 import '../models/product_detail.dart';
 import '../models/user.dart';
+import '../util/reommendation_api.dart';
 
 class ProductDetailPage extends StatelessWidget {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
@@ -31,7 +31,7 @@ class ProductDetailPage extends StatelessWidget {
     const tag = '카테고리';
     var filter = context.watch<Filter>();
     var user = context.watch<User>();
-    List<ProductSimple> testList = [];
+
     return DefaultTabController(
         length: 2,
         child: FutureBuilder<ProductDetail>(
@@ -168,7 +168,7 @@ class ProductDetailPage extends StatelessWidget {
                       height: 350, // 원하는 높이로 설정
                       child: HorizontalList(
                         title: '오늘의 추천 상품',
-                        productList: testList,
+                          apiFunction: RecommendationApi.getRecommendationList()
                       ),
                     ),
                     CustomBox(),

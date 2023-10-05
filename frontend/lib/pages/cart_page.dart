@@ -18,6 +18,8 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:frontend/molecules/combination_chart.dart';
 
+import '../util/reommendation_api.dart';
+
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key});
@@ -73,13 +75,11 @@ class _CartPageState extends State<CartPage> {
     var cart = context.watch<Cart>();
     var user = context.watch<User>();
 
-    List<ProductSimple> testList2 = [
-    ];
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),
       body:  DoubleBackToCloseApp(
         snackBar: const SnackBar(
-          content: Text('정말 종료하신다면 뒤로 가기 버튼을 다시'),
+          content: Text('\'뒤로\'버튼을 한번 더 누르시면  종료됩니다.'),
         ),
         child: cart.isEmpty ?
           EmptyCart() :
@@ -134,7 +134,7 @@ class _CartPageState extends State<CartPage> {
               CustomBox(),
               HorizontalList(
                   title: '다른 고객이 함께 구매한 상품',
-                  productList: testList2
+                  apiFunction: RecommendationApi.getRecommendationList()
               ),
               CustomBox(),
               Padding(

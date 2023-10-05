@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:frontend/util/reommendation_api.dart';
 import 'package:frontend/util/constants.dart';
-import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
+
+import '../atom/loading.dart';
 
 class Ranking extends StatefulWidget {
   @override
@@ -11,26 +11,9 @@ class Ranking extends StatefulWidget {
 }
 
 class _RankingState extends State<Ranking> {
-  late List<Map<String, dynamic>> rankList = [];
-
   @override
   void initState() {
     super.initState();
-    fetchData();
-  }
-
-  Future<void> fetchData() async {
-    // final response = await http.get(Uri.parse('${ProductApi.apiUrl}product/keyword-ranking'));
-    final response = null;
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body) as List;
-      setState(() {
-        rankList = List<Map<String, dynamic>>.from(data.map((item) => item as Map<String, dynamic>));
-        print(rankList);
-      });
-    } else {
-      throw Exception('Failed to load data');
-    }
   }
 
   @override
@@ -51,46 +34,59 @@ class _RankingState extends State<Ranking> {
             ),
           ),
           SizedBox(height: 10),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            childAspectRatio: (1 / .15),
-            children: rankList.map((item) {
-              final int index = rankList.indexOf(item) + 1;
-              final String itemName = item['keyword'] ?? '';
-              return Row(
-                children: [
-                  SizedBox(
-                    width: 22,
-                    child: Text(
-                      '$index',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  InkWell(
-                    onTap: () {
-                      context.push('/detail', extra: 1);
-                    },
-                    child: SizedBox(
-                      width: 120,
-                      child: Text(
-                        itemName,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 15,
+          FutureBuilder(
+            future: RecommendationApi.getRanking(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<dynamic> rankList = snapshot.data!;
+                return GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  childAspectRatio: (1 / .15),
+                  children: rankList.map((item) {
+                    final int index = rankList.indexOf(item) + 1;
+                    final String itemName = item['keyword'] ?? '';
+                    return Row(
+                      children: [
+                        SizedBox(
+                          width: 22,
+                          child: Text(
+                            '$index',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }).toList(),
+                        SizedBox(width: 20),
+                        InkWell(
+                          onTap: () {
+                            context.push('/detail', extra: 1);
+                          },
+                          child: SizedBox(
+                            width: 120,
+                            child: Text(
+                              itemName,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                );
+              }
+              if (snapshot.hasError) {
+                print(snapshot.toString());
+                return Text('${snapshot.error}');
+              }
+              return Loading();
+            },
           ),
         ],
       ),
