@@ -67,9 +67,16 @@ public class RecommendService {
         for (Long productId : productIdList) {
             ResponseEntity<Map> response = restTemplate.getForEntity(FLASK_API_URL + productId, Map.class);
             if (response.getStatusCode() == HttpStatus.OK) {
-                Map<String, List<Long>> recommendedProductIds = response.getBody();
-                if (recommendedProductIds != null) {
-                    finalRecommendProductIds.addAll(recommendedProductIds.get("Recommended Products"));
+                Map<String, List<Object>> recommendedProductIds = (Map<String, List<Object>>) response.getBody();
+                if (recommendedProductIds != null && recommendedProductIds.containsKey("Recommended Products")) {
+                    List<Object> recommendedProductIdObjects = recommendedProductIds.get("Recommended Products");
+                    for (Object obj : recommendedProductIdObjects) {
+                        if (obj instanceof Integer) {
+                            finalRecommendProductIds.add(Long.valueOf((Integer) obj));
+                        } else if (obj instanceof Long) {
+                            finalRecommendProductIds.add((Long) obj);
+                        }
+                    }
                 }
             } else {
                 log.error("외부 API 호출 실패: 상태 코드 {}", response.getStatusCode());
@@ -77,15 +84,13 @@ public class RecommendService {
                 return getRecommendListByCategory(randomCategory);
             }
         }
-        if (finalRecommendProductIds != null) {
+        if (!finalRecommendProductIds.isEmpty()) {
             List<Product> recommendedProducts = getProduct(new ArrayList<>(finalRecommendProductIds));
             return mapToRecommendProductResponse(recommendedProducts);
         } else {
             int randomCategory = random.nextInt(6) + 1;
             return getRecommendListByCategory(randomCategory);
         }
-
-
     }
 
     public List<RecommendProductResponse> getRecommendListByNutrient(List<Long> productIdList) {
