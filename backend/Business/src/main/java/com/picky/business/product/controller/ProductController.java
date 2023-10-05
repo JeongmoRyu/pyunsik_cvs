@@ -39,9 +39,10 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(category, price, carb, protein, fat, sodium,
                 convenienceCodes, promotionCodes, accessToken));
     }
-    @GetMapping(value = "/{keyword}")
-    public ResponseEntity<List<ProductPreviewResponse>> getProductByKeyword(@RequestHeader("Authorization")String accessToken, @PathVariable String keyword){
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByKeyword(keyword,accessToken));
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<ProductPreviewResponse>> getProductByKeyword(@RequestHeader("Authorization") String accessToken, @RequestParam String keyword) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByKeyword(keyword, accessToken));
     }
 
     @GetMapping(value = "/{productId}")
@@ -92,7 +93,6 @@ public class ProductController {
     public ResponseEntity<Map<String, List<Map<String, String>>>> getKeywordRanking() {
         return ResponseEntity.status(HttpStatus.OK).body(redisService.getKeywordRanking());
     }
-
 
 
 }
