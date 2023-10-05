@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
         snackBar: const SnackBar(
-          content: Text('정말 종료하신다면 뒤로 가기 버튼을 다시'),
+          content: Text('\'뒤로\'버튼을 한번 더 누르시면  종료됩니다.'),
         ),
       ),
     );
