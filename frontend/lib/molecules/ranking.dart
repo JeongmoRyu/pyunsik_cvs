@@ -26,6 +26,7 @@ class _RankingState extends State<Ranking> {
       final data = json.decode(response.body) as List;
       setState(() {
         rankList = List<Map<String, dynamic>>.from(data.map((item) => item as Map<String, dynamic>));
+        print(rankList);
       });
     } else {
       throw Exception('Failed to load data');

@@ -13,6 +13,7 @@ import '../molecules/top_bar_main.dart';
 import '../util/constants.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/models/user.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 
 import 'package:frontend/molecules/combination_chart.dart';
@@ -76,87 +77,92 @@ class _CartPageState extends State<CartPage> {
     ];
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),
-      body:  cart.isEmpty ?
-        EmptyCart() :
-        ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: Constants.horizontalPadding,
-                  vertical: Constants.verticalPadding
-              ),
-              child: Row( //리펙터링 필요
-                children: [
-                  Checkbox(
-                      value: cart.isSelectedAll,
-                      onChanged: (bool? value) {
-                        cart.toggleAllCheckbox(value!);
-                      }
-                  ),
-                  const Text(
-                    '모두선택'
-                  ),
-                  Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      if (cart.numberOfSelected > 0) {
-                        showDialog<String>(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              CartConfirmRemoveSelectedDialog(),
-                        );
-                      }
-                    },
-                    child: Text(
-                        '선택삭제'
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CombinationList(),
-            CustomBox(),
-            PriceSum(),
-            // TempChartInAll(),
-            CustomBox(),
-            CombinationChart(
-              totalKcal: cart.getTotalKcal(),
-              totalCarb: cart.getTotalCarb(),
-              totalFat: cart.getTotalFat(),
-              totalProtein: cart.getTotalProtein(),
-              totalSodium: cart.getTotalSodium(),
-            ),
-            CustomBox(),
-            HorizontalList(
-                title: '다른 고객이 함께 구매한 상품',
-                productList: testList2
-            ),
-            CustomBox(),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: FilledButton(
-                onPressed: () async {
-                  if (user.accessToken.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('로그인이 필요한 기능입니다'),
-                        duration: Duration(milliseconds: 1500),
-                      ),
-                    );
-                    context.push('/login');
-                    return;
-                  }
-                  await _showMyDialog();
-                  // 조합 데이터 생성
-                  await ProductApi.addCombination(cart.products, combinationName, user.accessToken)
-                    .then((value) => context.go('/scrapbook'));
-                  user.change();
-                },
-                child: Text('조합 저장'),
-              ),
-            )
-          ],
+      body:  DoubleBackToCloseApp(
+        snackBar: const SnackBar(
+          content: Text('정말 종료하신다면 뒤로 가기 버튼을 다시'),
         ),
+        child: cart.isEmpty ?
+          EmptyCart() :
+          ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: Constants.horizontalPadding,
+                    vertical: Constants.verticalPadding
+                ),
+                child: Row( //리펙터링 필요
+                  children: [
+                    Checkbox(
+                        value: cart.isSelectedAll,
+                        onChanged: (bool? value) {
+                          cart.toggleAllCheckbox(value!);
+                        }
+                    ),
+                    const Text(
+                      '모두선택'
+                    ),
+                    Spacer(),
+                    TextButton(
+                      onPressed: () {
+                        if (cart.numberOfSelected > 0) {
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CartConfirmRemoveSelectedDialog(),
+                          );
+                        }
+                      },
+                      child: Text(
+                          '선택삭제'
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              CombinationList(),
+              CustomBox(),
+              PriceSum(),
+              // TempChartInAll(),
+              CustomBox(),
+              CombinationChart(
+                totalKcal: cart.getTotalKcal(),
+                totalCarb: cart.getTotalCarb(),
+                totalFat: cart.getTotalFat(),
+                totalProtein: cart.getTotalProtein(),
+                totalSodium: cart.getTotalSodium(),
+              ),
+              CustomBox(),
+              HorizontalList(
+                  title: '다른 고객이 함께 구매한 상품',
+                  productList: testList2
+              ),
+              CustomBox(),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: FilledButton(
+                  onPressed: () async {
+                    if (user.accessToken.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('로그인이 필요한 기능입니다'),
+                          duration: Duration(milliseconds: 1500),
+                        ),
+                      );
+                      context.push('/login');
+                      return;
+                    }
+                    await _showMyDialog();
+                    // 조합 데이터 생성
+                    await ProductApi.addCombination(cart.products, combinationName, user.accessToken)
+                      .then((value) => context.go('/scrapbook'));
+                    user.change();
+                  },
+                  child: Text('조합 저장'),
+                ),
+              )
+            ],
+          ),
+      ),
     );
   }
 }
