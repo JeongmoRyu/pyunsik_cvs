@@ -180,83 +180,81 @@ class _SearchPageState extends State<SearchPage> {
           SizedBox(width: 30),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child:
-            allProduct.isEmpty ?
-              Loading()
-            :
-              ListView(
-                children: [
-                  if (keyValue.isNotEmpty)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: relatedDataList.map((data) {
-                            return ListTile(
-                              leading: Icon(Icons.search),
-                              title: Text(data['productName']),
-                              onTap: () {
-                                setState(() {
-                                  context.push('/detail', extra : data['productId']);
-                                });
-                                searchRelatedData();
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    )
-                  else
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 20),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
-                          child: Row(
-                            children: [
-                              Text(
-                                '최근 검색어',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                ),
+      body: Container(
+        child:
+          allProduct.isEmpty ?
+            Loading()
+          :
+            ListView(
+              children: [
+                if (keyValue.isNotEmpty)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: relatedDataList.map((data) {
+                          return ListTile(
+                            leading: Icon(Icons.search),
+                            title: Text(data['productName']),
+                            onTap: () {
+                              setState(() {
+                                context.push('/detail', extra : data['productId']);
+                              });
+                              searchRelatedData();
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  )
+                else
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: Constants.horizontalPadding),
+                        child: Row(
+                          children: [
+                            Text(
+                              '최근 검색어',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Spacer(),
-                              TextButton(
-                                onPressed: () {
-                                  removeSearchData();
-                                },
-                                child: Text('모두 지우기'),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Column(
-                          children: searchDataList.map((data) {
-                            return ListTile(
-                              leading: Icon(Icons.watch_later_outlined),
-                              title: Text(data),
-                              onTap: () {
-                                setState(() {
-                                  keyValue = data;
-                                  textFieldController.text = keyValue;
-                                });
-                                searchRelatedData();
+                            ),
+                            Spacer(),
+                            TextButton(
+                              onPressed: () {
+                                removeSearchData();
                               },
-                            );
-                          }).toList(),
+                              child: Text('모두 지우기'),
+                            )
+                          ],
                         ),
-                        CustomBox(),
-                        Ranking(),
-                      ],
-                    ),
-                ],
-              )
-        ),
+                      ),
+                      SizedBox(height: 10),
+                      Column(
+                        children: searchDataList.map((data) {
+                          return ListTile(
+                            leading: Icon(Icons.watch_later_outlined),
+                            title: Text(data),
+                            onTap: () {
+                              setState(() {
+                                keyValue = data;
+                                textFieldController.text = keyValue;
+                              });
+                              searchRelatedData();
+                            },
+                          );
+                        }).toList(),
+                      ),
+                      CustomBox(),
+                      Ranking(),
+                    ],
+                  ),
+              ],
+            )
       )
     );
   }

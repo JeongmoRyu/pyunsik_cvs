@@ -91,7 +91,7 @@ class _CombinationChartState extends State<CombinationChart> {
     ];
 
     return Container(
-      height: 350,
+      height: 400,
       child: Scaffold(
         body: Column(
           children: [
@@ -110,7 +110,8 @@ class _CombinationChartState extends State<CombinationChart> {
                           SfCircularChart(
                             series: <CircularSeries>[
                               RadialBarSeries<ChartData, String>(
-                                trackColor: Color.fromRGBO(253, 253, 253, 1.0),
+                                radius: '100%',
+                                trackColor: Color.fromRGBO(246, 246, 246, 1.0),
                                 dataSource: chartData,
                                 pointColorMapper:(ChartData data, _) => data.color,
                                 xValueMapper: (ChartData data, _) => data.x,
@@ -133,6 +134,7 @@ class _CombinationChartState extends State<CombinationChart> {
                                   text: 'kcal',
                                   style: TextStyle(
                                     fontSize: 10,
+                                    color: Colors.black,
                                   ),
                                 ),
                               ],
@@ -146,7 +148,7 @@ class _CombinationChartState extends State<CombinationChart> {
                   Expanded(
                     flex: 4,
                     child: SizedBox(
-                      height: 250,
+                      height: 300,
                       child: Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -158,108 +160,14 @@ class _CombinationChartState extends State<CombinationChart> {
                             Text('기준치에 대한 비율', style: TextStyle(
                                 fontSize: 12
                             )),
-                            ListTile(
-                              leading: Icon(Icons.circle, color: carbColor),
-                              title: Row(
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: '탄수화물 ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold, // Make this part bold
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: '${widget.totalCarb}g',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text('${(totalcarbRatio*100).toStringAsFixed(0)}%'),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.circle, color: proteinColor),
-                              title: Row(
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: '단백질 ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold, // Make this part bold
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: '${widget.totalProtein}g',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text('${(totalproteinRatio*100).toStringAsFixed(0)}%')
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.circle, color: fatColor),
-                              title: Row(
-                                children: [
-                                  RichText(
-                                    text: TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: '지방 ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold, // Make this part bold
-                                          ),
-                                        ),
-                                        TextSpan(
-                                          text: '${widget.totalFat}g',
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text('${(totalfatRatio*100).toStringAsFixed(0)}%'),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              leading: Icon(Icons.circle, color: sodiumColor),
-                              title: SingleChildScrollView(
-                                child: Row(
-                                  children: [
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          const TextSpan(
-                                            text: '나트륨 ',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.bold, // Make this part bold
-                                            ),
-                                          ),
-                                          TextSpan(
-                                            text: '${widget.totalSodium}mg',
-                                            style: TextStyle(
-                                              fontSize: 13
-                                            )
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Text('${(totalsodiumRatio*100).toStringAsFixed(0)}%',
-                                      overflow: TextOverflow.ellipsis,),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            buildListTile(carbColor, '탄수화물',
+                                '${widget.totalCarb.toStringAsFixed(2)}g', totalcarbRatio),
+                            buildListTile(proteinColor, '단백질',
+                                '${widget.totalProtein.toStringAsFixed(2)}g', totalproteinRatio),
+                            buildListTile(fatColor, '지방',
+                                '${widget.totalFat.toStringAsFixed(2)}g', totalfatRatio),
+                            buildListTile(sodiumColor, '나트륨',
+                                '${widget.totalSodium.toStringAsFixed(2)}mg', totalsodiumRatio),
                           ],
                         ),
                       ),
@@ -438,4 +346,28 @@ class ChartData {
   final String x;
   final double y;
   final Color color;
+}
+
+Widget buildListTile(Color color, String title, String weight, double ratio) {
+  return ListTile(
+    leading: Icon(Icons.circle, color: color),
+    title: Row(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),),
+            Text(weight, style: TextStyle(
+              fontSize: 13
+            ),)
+          ],
+        ),
+        Spacer(),
+        Text('${(ratio*100).toStringAsFixed(0)}%'),
+      ],
+    ),
+  );
 }
