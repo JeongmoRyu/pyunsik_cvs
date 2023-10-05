@@ -14,6 +14,8 @@ import javax.persistence.*;
 @ToString
 public class Recommended {
     @Id
+    private Long id;
+
     @Column(name = "user_id")
     private Long userId;
 
@@ -22,3 +24,5 @@ public class Recommended {
 
     private float rating;
 }
+
+
