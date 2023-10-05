@@ -21,7 +21,7 @@ class ProductApi {
   static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api";
 
   static Future<List<ProductSimple>> getProductListOnPromotion() async {
-    const String url = "${apiUrl}/product/?promotionCodes=1&promotionCodes=2";
+    const String url = "${apiUrl}/product/?promotionCodes=1&promotionCodes=2&convenienceCode=2&convenienceCode=1&convenienceCode=4&convenienceCode=5";
 
     final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
 
