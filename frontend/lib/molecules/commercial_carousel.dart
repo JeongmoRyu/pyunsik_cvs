@@ -11,6 +11,10 @@ class CommercialCarousel extends StatelessWidget {
 
   static const List<Map<String, String>> imageList = [
     {
+      'image':'assets/images/mainevent.png',
+      'url':''
+    },
+    {
       'image':'assets/images/event1.png',
       'url':'https://cu.bgfretail.com/brand_info/news_view.do?category=brand_info&depth2=5&idx=967'
     },
