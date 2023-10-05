@@ -25,11 +25,11 @@ public class RecommendController {
         return ResponseEntity.status(HttpStatus.OK).body(recommendService.getRecommendListByUser(accessToken));
     }
 
-//    @GetMapping ("/combination")// 조합상품기반 추천
-//    public ResponseEntity<List<RecommendProductResponse>> getRecommendListByCombination(@RequestParam List<Long> productIdList) {
-//        return ResponseEntity.status(HttpStatus.OK).body(recommendService.getRecommendListByCombination(productIdList));
-//    }
-//
+    @GetMapping ("/combination")// 조합상품기반 추천
+    public ResponseEntity<List<RecommendProductResponse>> getRecommendListByCombination(@RequestParam List<Long> productIdList) {
+        return ResponseEntity.status(HttpStatus.OK).body(recommendService.getRecommendListByCombination(productIdList));
+    }
+
 //    @GetMapping ("/nutrient")// 영양정보기반 추천
 //    public ResponseEntity<List<RecommendProductResponse>> getRecommendListByNutrient(@RequestParam List<Long> productIdList) {
 //        return ResponseEntity.status(HttpStatus.OK).body(recommendService.getRecommendListByNutrient(productIdList));

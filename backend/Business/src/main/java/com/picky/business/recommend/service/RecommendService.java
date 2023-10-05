@@ -35,10 +35,13 @@ public class RecommendService {
     //유저 선호도 기반
     public List<RecommendProductResponse> getRecommendListByUser(String accessToken) {
         Long userId = getUserId(accessToken);
+        if(userId == null){
+            Random random = new Random();
+            int randomCategory = random.nextInt(6) + 1;
+            return getRecommendListByCategory(randomCategory);
+        }
         List<Recommended> recommendedList = recommendRepository.findRecommendedByUserId(userId);
-
-        // userId가 null이거나 recommendedList가 비어있는 경우, 카테고리 기반 추천
-        if (userId == null || recommendedList.isEmpty()) {
+        if (recommendedList.isEmpty()) {
             Random random = new Random();
             int randomCategory = random.nextInt(6) + 1;
             return getRecommendListByCategory(randomCategory);
