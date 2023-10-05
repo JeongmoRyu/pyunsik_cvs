@@ -264,8 +264,8 @@ void main() async {
     badge: true,
     sound: true,
   );
-  // var token = await FirebaseMessaging.instance.getToken();
-  // print("token : ${token ?? 'token NULL!'}");
+  var token = await FirebaseMessaging.instance.getToken();
+  print("token : ${token ?? 'token NULL!'}");
   runApp(const MyApp());
 }
 
