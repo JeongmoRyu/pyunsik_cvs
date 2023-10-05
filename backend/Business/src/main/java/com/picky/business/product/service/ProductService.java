@@ -42,7 +42,7 @@ public class ProductService {
         if (keyword != null && !keyword.isEmpty()) {
             logService.saveLogSearch(keyword);
         }
-        Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
+        Long userId = getUserId(accessToken);
         List<Product> products = productRepository.findByProductNameContaining(keyword);
         return getSearchList(products, userId);
     }
