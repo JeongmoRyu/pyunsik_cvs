@@ -1,21 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/product_card.dart';
 import 'package:frontend/util/constants.dart';
+import 'package:frontend/util/reommendation_api.dart';
+import 'package:provider/provider.dart';
 
 import '../atom/loading.dart';
 import '../atom/text_title.dart';
+import '../models/cart.dart';
+import '../models/product_detail.dart';
 import '../models/product_simple.dart';
+import '../models/user.dart';
 
 class HorizontalList extends StatelessWidget {
   final String title;
-  final Future<dynamic> apiFunction;
+  final String type;
   const HorizontalList({
     super.key,
-    required this.title, required this.apiFunction,
+    required this.title, required this.type,
   });
 
+  Future<dynamic> getList(String token, List<ProductDetail> products) {
+    List<int> productIdList = products.map((product) => product.productId).toList();
+    if (type == 'user') {
+      return RecommendationApi.getRecommendationListUser(token);
+    }
+    if (type == 'combination') {
+      return RecommendationApi.getRecommendationListCombination(productIdList);
+    }
+    return RecommendationApi.getRecommendationListNutrient(productIdList);
+  }
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<User>();
+    var cart = context.watch<Cart>();
     int max = 6;
     return Column(
       children: [
@@ -27,12 +44,18 @@ class HorizontalList extends StatelessWidget {
           child: TextTitle(title: title),
         ),
         FutureBuilder(
-          future: apiFunction,
+          future: getList(user.accessToken, cart.products),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<ProductSimple> productList = snapshot.data!;
               if (productList.length < 6) {
                 max = productList.length;
+              }
+              if (productList.isEmpty) {
+                return Container(
+                  height: 200,
+                  child: Center(child: Text('조건에 맞는 상품이 존재하지 않습니다'))
+                );
               }
               return SizedBox(
                 height: 270,

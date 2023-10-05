@@ -17,7 +17,6 @@ import '../atom/product_image.dart';
 import '../models/filter.dart';
 import '../models/product_detail.dart';
 import '../models/user.dart';
-import '../util/reommendation_api.dart';
 
 class ProductDetailPage extends StatelessWidget {
   static NumberFormat format = NumberFormat.decimalPattern('en_us');
@@ -136,7 +135,7 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 450,
+                      height: 350,
                       child: TabBarView(
                         children: [
                           CombinationChart(totalKcal: productDetail.kcal,
@@ -168,7 +167,7 @@ class ProductDetailPage extends StatelessWidget {
                       height: 350, // 원하는 높이로 설정
                       child: HorizontalList(
                         title: '오늘의 추천 상품',
-                          apiFunction: RecommendationApi.getRecommendationList()
+                        type: 'user',
                       ),
                     ),
                     CustomBox(),

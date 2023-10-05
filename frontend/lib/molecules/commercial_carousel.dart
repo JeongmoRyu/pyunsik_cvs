@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -45,7 +43,12 @@ class CommercialCarousel extends StatelessWidget {
             return Builder(
               builder: (BuildContext context) {
                 return InkWell(
-                  onTap: () {_launchUrl(item['url']!);},
+                  onTap: () {
+                    if (item['url'] == '') {
+                      return;
+                    }
+                    _launchUrl(item['url']!
+                    );},
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(

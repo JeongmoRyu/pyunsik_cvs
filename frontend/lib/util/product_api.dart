@@ -180,4 +180,16 @@ class ProductApi {
       throw Exception('Failed to load data. Status Code: ${response.statusCode}');
     }
   }
+
+  static Future<void> addSearch(String token, String topic) async {
+    final uri = Uri.parse('${apiUrl}/product?keyword=$topic');
+    print('fetching data from $uri, token: $token');
+    final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Failed to load data. Status Code: ${response.statusCode}');
+    }
+  }
 }

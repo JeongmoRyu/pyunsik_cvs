@@ -12,6 +12,10 @@ class PromotionBadgeList extends StatelessWidget {
   Widget build(BuildContext context) {
     double padding = isLarge ? 16 : 8;
     double verticalPadding = isLarge ? 4 : 2;
+
+    if (product.promotionCode == null) {
+      return SizedBox.shrink();
+    }
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Column(

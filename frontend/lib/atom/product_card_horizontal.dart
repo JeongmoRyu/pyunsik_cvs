@@ -19,7 +19,7 @@ class ProductCardHorizontal extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.push('/detail', extra: 1); //prodcuctId 필요
+        context.push('/detail', extra: productDetail.productId); //prodcuctId 필요
         // 특정 상품 디테일 페이지로 넘어가게 수정 필요
       },
       child: SizedBox(

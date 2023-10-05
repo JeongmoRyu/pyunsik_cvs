@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:frontend/models/cart.dart';
-import 'package:provider/provider.dart';
 
 class CombinationChart extends StatefulWidget {
   final int totalKcal;
@@ -50,22 +48,22 @@ class _CombinationChartState extends State<CombinationChart> {
 
   @override
   Widget build(BuildContext context) {
-    Color backgroundColor = Colors.white;
+    // Color backgroundColor = Colors.white;
     // Color kcalColor = Color.fromRGBO(238, 123, 46, 1.0);
     // Color proteinColor = Color.fromRGBO(101, 171, 246, 1.0);
     // Color fatColor = Color.fromRGBO(138, 120, 203, 1.0);
     // Color carbColor = Color.fromRGBO(51, 86, 183, 1.0);
     // Color sodiumColor = Color.fromRGBO(82, 38, 147, 1.0);
 
-    Color kcalColor = Color.fromRGBO(253, 104, 105, 1.0);
+    // Color kcalColor = Color.fromRGBO(253, 104, 105, 1.0);
     Color carbColor = Color.fromRGBO(29, 92, 155, 1.0);
     Color proteinColor = Color.fromRGBO(116, 192, 245, 1.0);
     Color fatColor = Color.fromRGBO(242, 207, 96, 1.0);
     Color sodiumColor = Color.fromRGBO(249, 236, 172, 1.0);
 
-    Color barBackgroundColor = Color.fromRGBO(236, 236, 236, 1.0);
-    Color barGoodColor = Theme.of(context).primaryColor;
-    Color barBadColor = Color.fromRGBO(255, 60, 60, 1.0);
+    // Color barBackgroundColor = Color.fromRGBO(236, 236, 236, 1.0);
+    // Color barGoodColor = Theme.of(context).primaryColor;
+    // Color barBadColor = Color.fromRGBO(255, 60, 60, 1.0);
 
     CartTotal = {
       'totalKcal': widget.totalKcal,
@@ -91,10 +89,11 @@ class _CombinationChartState extends State<CombinationChart> {
     ];
 
     return Container(
-      height: 400,
+      height: 350,
       child: Scaffold(
         body: Column(
           children: [
+            SizedBox(height: 15,),
             // 차트 표시 부분
             Container(
               child: Row(
@@ -299,41 +298,41 @@ class _CombinationChartState extends State<CombinationChart> {
             //   ),
             // ),
             // 칼로리 정보 표시 부분
-            Container(
-              height: 100,
-              child: Center(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 80,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Container(
-                        child: Center(
-                          child: Text(
-                            StandardDetail['kcal'] > CartTotal['totalKcal']
-                                ? ' "${StandardDetail['kcal'] - CartTotal['totalKcal']}kcal를 더 먹을 수 있어요" '
-                                : ' "${StandardDetail['kcal']}kcal 초과했습니다!!" ',
-                            style: TextStyle(
-                              color: StandardDetail['kcal'] > CartTotal['totalKcal']
-                                  ? Colors.white
-                                  : Colors.red,
-                              fontSize: 20,
-                            ),
-                          )
-                          ,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   height: 100,
+            //   child: Center(
+            //     child: Align(
+            //       alignment: Alignment.bottomCenter,
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(8.0),
+            //         child: Container(
+            //           height: 60,
+            //           width: MediaQuery.of(context).size.width * 0.6,
+            //           decoration: BoxDecoration(
+            //             color: Color.fromRGBO(90, 104, 185, 1.0),
+            //             borderRadius: BorderRadius.circular(10.0),
+            //           ),
+            //           child: Container(
+            //             child: Center(
+            //               child: Text(
+            //                 StandardDetail['kcal'] > CartTotal['totalKcal']
+            //                     ? ' "${StandardDetail['kcal'] - CartTotal['totalKcal']}kcal를 더 먹을 수 있어요" '
+            //                     : ' "${StandardDetail['kcal']}kcal 초과했습니다!!" ',
+            //                 style: TextStyle(
+            //                   color: StandardDetail['kcal'] > CartTotal['totalKcal']
+            //                       ? Colors.white
+            //                       : Colors.red,
+            //                   fontSize: 20,
+            //                 ),
+            //               )
+            //               ,
+            //             ),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
