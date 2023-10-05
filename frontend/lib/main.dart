@@ -189,7 +189,6 @@ class ScaffoldWithNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
-    var user = context.watch<User>();
     Color themeColor = Theme.of(context).primaryColor;
     return Scaffold(
       body: body,
@@ -265,8 +264,8 @@ void main() async {
     badge: true,
     sound: true,
   );
-  var token = await FirebaseMessaging.instance.getToken();
-  print("token : ${token ?? 'token NULL!'}");
+  // var token = await FirebaseMessaging.instance.getToken();
+  // print("token : ${token ?? 'token NULL!'}");
   runApp(const MyApp());
 }
 

@@ -136,7 +136,7 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 450,
+                      height: 350,
                       child: TabBarView(
                         children: [
                           CombinationChart(totalKcal: productDetail.kcal,
