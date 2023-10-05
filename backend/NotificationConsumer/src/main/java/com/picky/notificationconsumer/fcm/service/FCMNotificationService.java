@@ -20,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FCMNotificationService {
 
-    private static final String API_URL = "https://fcm.googleapis.com/v1/projects/a505-ca3ca/messages:send";
+    private static final String API_URL = "https://fcm.googleapis.com/v1/projects/a5052-59303/messages:send";
     private final ObjectMapper objectMapper;
 
     public void sendNotificationByFCMToken(List<String> userFCMTokenList) {
