@@ -1,5 +1,6 @@
 package com.picky.business.product.controller;
 
+import com.picky.business.common.service.RedisService;
 import com.picky.business.product.dto.*;
 import com.picky.business.product.service.CommentService;
 import com.picky.business.product.service.ProductService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/product")
@@ -20,6 +22,8 @@ public class ProductController {
 
     private final ProductService productService;
     private final CommentService commentService;
+    private final RedisService redisService;
+
 
     @GetMapping
     public ResponseEntity<List<ProductPreviewResponse>> getProductByQuery(
@@ -79,4 +83,13 @@ public class ProductController {
         commentService.deleteComment(commentId, accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body("댓글 삭제 완료");
     }
+
+    //인기검색어
+    @GetMapping("/keyword-ranking")
+    public ResponseEntity<Map<String, List<Map<String, String>>>> getKeywordRanking() {
+        return ResponseEntity.status(HttpStatus.OK).body(redisService.getKeywordRanking());
+    }
+
+
+
 }
