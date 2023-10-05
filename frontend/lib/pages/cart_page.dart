@@ -17,9 +17,6 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:frontend/molecules/combination_chart.dart';
 
-import '../util/reommendation_api.dart';
-
-
 class CartPage extends StatefulWidget {
   const CartPage({Key? key});
 

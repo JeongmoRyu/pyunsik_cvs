@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/atom/button/category_button.dart';
-import 'package:go_router/go_router.dart';
 
 import '../util/constants.dart';
 

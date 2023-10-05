@@ -5,8 +5,6 @@ import 'package:frontend/molecules/commercial_carousel.dart';
 import 'package:frontend/molecules/vertical_more_list.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
-
-import '../models/product_simple.dart';
 import '../molecules/horizontal_list.dart';
 import '../util/custom_box.dart';
 import '../molecules/top_bar_main.dart';

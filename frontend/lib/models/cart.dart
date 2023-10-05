@@ -3,11 +3,6 @@ import 'package:frontend/models/product_detail.dart';
 
 class Cart extends ChangeNotifier {
   final List<ProductDetail> _products = [];
-  // final List<Product> _products = [
-  //   new Product(1, 'test product short', '', 1800),
-  //   new Product(2, 'test product middle middle', '', 39900),
-  //   new Product(3, 'test product long long long long long long long', '', 1498000),
-  // ];
   final List<bool> _isSelected = [];
 
   bool _isSelectedAll = true;
@@ -32,8 +27,6 @@ class Cart extends ChangeNotifier {
     }
     return totalPrice;
   }
-
-
 
   int getTotalKcal() {
     int totalKcal = 0;
@@ -128,5 +121,4 @@ class Cart extends ChangeNotifier {
     }
     notifyListeners();
   }
-
 }

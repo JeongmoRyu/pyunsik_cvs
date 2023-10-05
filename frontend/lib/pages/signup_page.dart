@@ -3,8 +3,6 @@ import 'package:frontend/util/auth_api.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:go_router/go_router.dart';
 
-
-
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
   @override

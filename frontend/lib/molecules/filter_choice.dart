@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/models/filter.dart';
 import 'package:provider/provider.dart';
 
-import '../util/constants.dart';
-
 class FilterChoice extends StatelessWidget {
   final String tag;
   final List<String> options;
