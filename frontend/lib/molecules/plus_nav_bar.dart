@@ -121,6 +121,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
               child: ElevatedButton(
                 onPressed: () {
                   cart.add(widget.productDetail);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   context.go('/cart');
                 },
                 style: ElevatedButton.styleFrom(

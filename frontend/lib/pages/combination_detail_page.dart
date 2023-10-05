@@ -99,6 +99,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                           final productMap = combinationItems[i] as Map<String, dynamic>;
                           final productId = productMap['productId'];
                           final productDetail = await ProductApi.getProductDetail('', productId);
+                          productDetail.productId = productId;
                           if (productDetail != null) {
                             cart.add(productDetail);
                           }

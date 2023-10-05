@@ -7,6 +7,9 @@ import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:frontend/molecules/category_list_genre.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
 
 class ProductListPage extends StatelessWidget {
   const ProductListPage({Key? key});
@@ -14,6 +17,7 @@ class ProductListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<User>();
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),
       body: DoubleBackToCloseApp(
@@ -25,8 +29,8 @@ class ProductListPage extends StatelessWidget {
             CategoryList(),
             CategoryGenreList(),
             CustomBox(),
-            HorizontalList(title: '오늘의 추천 상품',
-              type: 'user',),
+            HorizontalList(title: user.accessToken.isEmpty ?
+            '인기 상품' : '${user.nickname}님이 좋아할만한 상품', type: 'user',),
             CustomBox(),
             Ranking(),
           ],
