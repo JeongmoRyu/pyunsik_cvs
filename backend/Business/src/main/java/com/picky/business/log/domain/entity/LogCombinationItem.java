@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="log_combination_item")
 public class LogCombinationItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,6 +23,8 @@ public class LogCombinationItem {
 
     @Column(name="combination_id")
     private Long combinationId;
+    @Column(name="log_combination_id")
+    private Long logCombinationId;
 
     @ManyToOne
     @JoinColumn(name = "log_combination_id", insertable = false, updatable = false)
