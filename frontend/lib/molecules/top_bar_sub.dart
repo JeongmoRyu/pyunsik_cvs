@@ -16,14 +16,15 @@ class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         IconButton(
             onPressed: () {
-                context.go('/scrapbook');
-
+              // Navigator.of(context).popUntil((route) => route.isFirst);
+              // context.go('/scrapbook');
             },
             icon: Icon(Icons.bookmark_outline)
         ),
         IconButton(
             onPressed: () {
-              context.go('/cart');
+              // Navigator.of(context).popUntil((route) => route.isFirst);
+              // context.go('/cart');
             },
             icon: Icon(Icons.interests_outlined)
         ),
