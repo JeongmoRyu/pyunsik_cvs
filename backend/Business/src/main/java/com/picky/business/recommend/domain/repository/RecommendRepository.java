@@ -11,16 +11,4 @@ import java.util.List;
 public interface RecommendRepository extends JpaRepository<Recommended, Long> {
     @Query("SELECT r FROM Recommended r WHERE r.userId = :userId")
     List<Recommended> findRecommendedByUserId(Long userId);
-
-//    public List<RecommendProductResponse> findRecommendListByUser(String accessToken) {
-//        return null;
-//    }
-//
-//    public List<RecommendProductResponse> findRecommendListByProductId(List<Long> productIdList) {
-//        return null;
-//    }
-//
-//    public List<RecommendProductResponse> findRecommendListByCategory(String category) {
-//        return null;
-//    }
 }

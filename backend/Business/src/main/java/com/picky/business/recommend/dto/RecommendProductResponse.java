@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 //추천상품 Response
-public class RecommendProductResponse  {
+public class RecommendProductResponse {
     private Long productId;
     private String productName;
     private int price;
