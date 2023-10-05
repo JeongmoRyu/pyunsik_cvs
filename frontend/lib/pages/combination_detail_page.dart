@@ -84,6 +84,7 @@ class _CombinationDetailPageState extends State<CombinationDetailPage> {
                       ),
                     ],
                   ),
+                  CustomBox(),
                   CombinationChart(
                       totalKcal: combinationDetail['totalKcal'],
                       totalProtein: combinationDetail['totalProtein'],

@@ -166,8 +166,7 @@ class ProductDetailPage extends StatelessWidget {
                     Container(
                       height: 350, // 원하는 높이로 설정
                       child: HorizontalList(
-                        title: user.accessToken.isEmpty ?
-                        '인기 상품' : '${user.nickname}님이 좋아할만한 상품',
+                        title: '다른 사용자가 함께 본 상품',
                         type: 'user',
                       ),
                     ),
