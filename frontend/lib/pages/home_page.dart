@@ -7,9 +7,7 @@ import 'package:frontend/molecules/vertical_more_list.dart';
 
 import '../models/product_simple.dart';
 import '../util/custom_box.dart';
-import '../molecules/horizontal_list.dart';
 import '../molecules/top_bar_main.dart';
-import '../models/product.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key});
@@ -32,7 +30,8 @@ class HomePage extends StatelessWidget {
           CustomBox(),
           Ranking(),
           CustomBox(),
-          HorizontalList(title: '오늘의 추천상품', productList: testList,),
+          // HorizontalList(title: '오늘의 추천상품',
+          //     apiFunction: RecommendationApi.getRecommendationList()),
           // 간격 추가
           SizedBox(height: 20),
         ],

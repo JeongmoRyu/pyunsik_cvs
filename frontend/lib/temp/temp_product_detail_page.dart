@@ -3,14 +3,10 @@ import 'package:frontend/molecules/top_bar_sub.dart';
 import 'package:frontend/util/constants.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:frontend/molecules/horizontal_list.dart';
 import 'package:frontend/util/custom_box.dart';
-import 'package:frontend/molecules/plus_nav_bar.dart';
-import 'package:frontend/molecules/temp_chart.dart';
 import 'package:provider/provider.dart';
 
 import '../models/filter.dart';
-import '../models/product.dart';
 import '../models/product_simple.dart';
 
 
@@ -196,7 +192,7 @@ class _TempProductDetailPageState extends State<TempProductDetailPage> {
             SizedBox(height: 10,),
             Container(
               height: 350,
-              child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
+              // child: HorizontalList(title: '오늘의 추천 상품', productList: testList,),
             ),
             CustomBox(),
           ],

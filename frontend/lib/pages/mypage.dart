@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/molecules/top_bar_sub.dart';
@@ -9,7 +10,10 @@ class MyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<User>();
-
+    String? token;
+    FirebaseMessaging.instance.getToken().then((value) {
+      token = value;
+    });
     return Scaffold(
       appBar: TopBarSub(appBar: AppBar()),
       body: SingleChildScrollView(
@@ -25,6 +29,8 @@ class MyPage extends StatelessWidget {
                 ),
                 SizedBox(height: 50,),
                 Text('아이디: ${user.nickname}'),
+
+                TextFormField(initialValue: token),
                 SizedBox(height: 100,),
                 FilledButton(
                     onPressed: () {
