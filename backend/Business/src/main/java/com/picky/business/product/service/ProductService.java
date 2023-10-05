@@ -36,52 +36,36 @@ public class ProductService {
     private static final String NOT_FOUND = "값을 가진 제품이 없습니다";
     private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
 
+
+    public List<ProductPreviewResponse> searchProductByKeyword(String keyword, String accessToken) {
+        keyword = (keyword != null) ? keyword.replace(" ", "") : null;
+        if (keyword != null && !keyword.isEmpty()) {
+            logService.saveLogSearch(keyword);
+        }
+        Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
+        List<Product> products = productRepository.findByProductNameContaining(keyword);
+        return getSearchList(products, userId);
+    }
+
     //Query를 통한 검색
     public List<ProductPreviewResponse> searchProductByQuery(
-            String productName, String category,
+            String category,
             List<Integer> price, List<Integer> carb,
             List<Integer> protein, List<Integer> fat, List<Integer> sodium,
             List<Integer> inputConvenienceCode, List<Integer> inputPromotionCode,
             String accessToken
     ) {
-
-        productName = (productName != null) ? productName.replace(" ", "") : null;
         Specification<Product> specification = Product.filterProducts(
-                productName, category,
+                category,
                 price, carb, protein, fat, sodium,
                 inputConvenienceCode, inputPromotionCode
         );
-        if (productName != null && !productName.isEmpty()) {
-            logService.saveLogSearch(productName);
-        }
 
         // accessToken이 null이면 null, 아니면 userId 반환
         Long userId = getUserId(accessToken);
+        List<Product> products = productRepository.findAll(specification);
+        return getSearchList(products,userId);
 
-        return productRepository.findAll(specification)
-                .stream()
-                .map(product -> {
-                    // accessToken이 null이 아니면 favorite 확인
-                    Boolean isFavorite = Optional.ofNullable(userId)
-                            .map(id -> favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(id, product.getId()) != null)
-                            .orElse(null);
-
-                    List<Integer> convenienceCodes = getConvenienceCodes(product);
-
-                    List<Integer> promotionCodes = getPromotionCodes(product);
-
-                    return ProductPreviewResponse.builder()
-                            .productId(product.getId())
-                            .productName(product.getProductName())
-                            .price(product.getPrice())
-                            .filename(product.getFilename())
-                            .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
-                            .convenienceCode(convenienceCodes)
-                            .promotionCode(promotionCodes)
-                            .isFavorite(isFavorite)
-                            .build();
-                })
-                .collect(Collectors.toList());
     }
 
     public ProductDetailResponse findProductByProductId(Long productId, String accessToken) {
@@ -235,10 +219,37 @@ public class ProductService {
                 .collect(Collectors.toList());
 
     }
-    private Long getUserId(String accessToken){
+
+    private Long getUserId(String accessToken) {
         return Optional.ofNullable(accessToken)
                 .filter(token -> token != null && !token.trim().isEmpty())
                 .map(connectAuthService::getUserIdByAccessToken)
                 .orElse(null);
+    }
+
+    private List<ProductPreviewResponse> getSearchList(List<Product> list, Long userId) {
+        return list.stream()
+                .map(product -> {
+                    // accessToken이 null이 아니면 favorite 확인
+                    Boolean isFavorite = Optional.ofNullable(userId)
+                            .map(id -> favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(id, product.getId()) != null)
+                            .orElse(null);
+
+                    List<Integer> convenienceCodes = getConvenienceCodes(product);
+
+                    List<Integer> promotionCodes = getPromotionCodes(product);
+
+                    return ProductPreviewResponse.builder()
+                            .productId(product.getId())
+                            .productName(product.getProductName())
+                            .price(product.getPrice())
+                            .filename(product.getFilename())
+                            .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
+                            .convenienceCode(convenienceCodes)
+                            .promotionCode(promotionCodes)
+                            .isFavorite(isFavorite)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 }

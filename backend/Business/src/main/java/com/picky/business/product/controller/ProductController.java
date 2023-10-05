@@ -27,7 +27,6 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductPreviewResponse>> getProductByQuery(
-            @RequestParam(required = false) String productName,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) List<Integer> price,
             @RequestParam(required = false) List<Integer> carb,
@@ -37,8 +36,12 @@ public class ProductController {
             @RequestParam(required = false) List<Integer> convenienceCodes,
             @RequestParam(required = false) List<Integer> promotionCodes,
             @RequestHeader("Authorization") String accessToken) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium,
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(category, price, carb, protein, fat, sodium,
                 convenienceCodes, promotionCodes, accessToken));
+    }
+    @GetMapping(value = "/{keyword}")
+    public ResponseEntity<List<ProductPreviewResponse>> getProductByKeyword(@RequestHeader("Authorization")String accessToken, @PathVariable String keyword){
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByKeyword(keyword,accessToken));
     }
 
     @GetMapping(value = "/{productId}")

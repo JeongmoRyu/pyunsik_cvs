@@ -62,7 +62,6 @@ public class Product {
     private List<Favorite> favorites;
 
     public static Specification<Product> filterProducts(
-            String productName,
             String category,
             List<Integer> price, List<Integer> carb,
             List<Integer> protein, List<Integer> fat,
@@ -73,10 +72,6 @@ public class Product {
         return (root, query, criteriaBuilder) -> {
             query.distinct(true);
             List<Predicate> predicates = new ArrayList<>();
-
-            if (productName != null) {
-                predicates.add(criteriaBuilder.like(root.get("productName"), "%" + productName + "%"));
-            }
 
             if (category != null) {
                 predicates.add(criteriaBuilder.equal(root.get("category"), category));
