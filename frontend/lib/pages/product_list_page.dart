@@ -8,9 +8,6 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:frontend/molecules/category_list_genre.dart';
 
-import '../models/product_simple.dart';
-import '../util/reommendation_api.dart';
-
 class ProductListPage extends StatelessWidget {
   const ProductListPage({Key? key});
 
@@ -29,7 +26,7 @@ class ProductListPage extends StatelessWidget {
             CategoryGenreList(),
             CustomBox(),
             HorizontalList(title: '오늘의 추천 상품',
-                apiFunction: RecommendationApi.getRecommendationList()),
+              type: 'user',),
             CustomBox(),
             Ranking(),
           ],

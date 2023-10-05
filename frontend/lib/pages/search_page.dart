@@ -4,11 +4,13 @@ import 'package:frontend/util/constants.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:frontend/util/custom_box.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:frontend/util/product_api.dart';
 import 'package:go_router/go_router.dart';
 
+import '../models/user.dart';
 import '../molecules/ranking.dart';
 
 class SearchPage extends StatefulWidget {
@@ -126,6 +128,8 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.watch<User>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -146,6 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                     keyValue = value;
                     saveSearchData(value);
                   });
+                  ProductApi.addSearch(user.accessToken, value);
                 },
                 onChanged: (value) {
                   setState(() {

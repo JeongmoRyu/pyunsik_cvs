@@ -7,6 +7,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 
 import '../models/product_simple.dart';
+import '../molecules/horizontal_list.dart';
 import '../util/custom_box.dart';
 import '../molecules/top_bar_main.dart';
 
@@ -16,8 +17,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ProductSimple> testList = [
-    ];
     return Scaffold(
 
       appBar: TopBarMain(appBar: AppBar(),),
@@ -32,7 +31,7 @@ class HomePage extends StatelessWidget {
             CustomBox(),
             Ranking(),
             CustomBox(),
-            // HorizontalList(title: '오늘의 추천상품', productList: testList,),
+            HorizontalList(title: '오늘의 추천상품', type: 'user'),
             // 간격 추가
             SizedBox(height: 20),
           ],

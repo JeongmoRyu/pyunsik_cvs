@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/util/reommendation_api.dart';
 import 'package:frontend/util/constants.dart';
-import 'package:go_router/go_router.dart';
 
 import '../atom/loading.dart';
 
@@ -63,7 +62,7 @@ class _RankingState extends State<Ranking> {
                         SizedBox(width: 20),
                         InkWell(
                           onTap: () {
-                            context.push('/detail', extra: 1);
+                            // context.push('/detail', extra: 1);
                           },
                           child: SizedBox(
                             width: 120,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product_simple.dart';
 import 'package:frontend/molecules/cart_confirm_remove_selected_dialog.dart';
 import 'package:frontend/molecules/combination_list.dart';
 import 'package:frontend/molecules/empty_cart.dart';
@@ -133,8 +132,13 @@ class _CartPageState extends State<CartPage> {
               ),
               CustomBox(),
               HorizontalList(
-                  title: '다른 고객이 함께 구매한 상품',
-                  apiFunction: RecommendationApi.getRecommendationList()
+                title: '부족한 영양을 채워줄 상품',
+                type: 'nutrient',
+              ),
+              CustomBox(),
+              HorizontalList(
+                title: '다른 고객이 함께 구매한 상품',
+                type: 'combination',
               ),
               CustomBox(),
               Padding(

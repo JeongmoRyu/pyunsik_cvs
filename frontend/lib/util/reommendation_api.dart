@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:frontend/util/product_api.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/product_simple.dart';
+
 class RecommendationApi {
   static const String apiUrl = "http://j9a505.p.ssafy.io:8881/api";
 
@@ -20,17 +22,52 @@ class RecommendationApi {
     }
   }
 
-  static Future<List<dynamic>> getRecommendationList() async {
-    const String url = "${apiUrl}/product/?promotionCodes=1&promotionCodes=2";
+  static Future<List<ProductSimple>> getRecommendationListUser(String token) async {
+    const String url = "${apiUrl}/recommend/similarity";
+
+    final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(token));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final List<ProductSimple> data = (json.decode(body) as List<dynamic>)
+          .map((item) => ProductSimple.fromJson(item))
+          .toList();
+      return data;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  static Future<List<ProductSimple>> getRecommendationListCombination(List<int> productIdList) async {
+    final String productIdQuery = productIdList.map((productId) => 'productIdList=$productId').join('&');
+
+    final String url = "${apiUrl}/recommend/combination?$productIdQuery";
 
     final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {
       String body = utf8.decode(response.bodyBytes);
-      final List<dynamic> data = [];
-      // final List<dynamic> data = (json.decode(body) as List<dynamic>)
-      //     .map((item) => ProductSimple.fromJson(item))
-      //     .toList();
+      final List<ProductSimple> data = (json.decode(body) as List<dynamic>)
+          .map((item) => ProductSimple.fromJson(item))
+          .toList();
+      return data;
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  static Future<List<ProductSimple>> getRecommendationListNutrient(List<int> productIdList) async {
+    final String productIdQuery = productIdList.map((productId) => 'productIdList=$productId').join('&');
+
+    final String url = "${apiUrl}/recommend/nutrient?$productIdQuery";
+
+    final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
+
+    if (response.statusCode == 200) {
+      String body = utf8.decode(response.bodyBytes);
+      final List<ProductSimple> data = (json.decode(body) as List<dynamic>)
+          .map((item) => ProductSimple.fromJson(item))
+          .toList();
       return data;
     } else {
       throw Exception('Failed to load data');
