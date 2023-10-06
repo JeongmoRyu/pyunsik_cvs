@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1076853604243",
+    "project_id": "a5052-59303",
+    "storage_bucket": "a5052-59303.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076853604243:android:76a85f323ea614160e3266",
+        "android_client_info": {
+          "package_name": "com.ssafy.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWUolE3oMp5hshCHWv_fob15zrnLmMuUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
