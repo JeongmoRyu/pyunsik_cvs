@@ -26,7 +26,7 @@ df = spark.read.jdbc(jdbc_url, query, properties=properties)
 # 현재 선택한 음식의 정보 (예시)
 selected_food = {
     "category": "selected_category",
-    "product_name": "selected_product_name",  # 선택한 음식의 이름을 여기에 입력하세요
+    "product_name": "selected_product_name",
     "kcal": 767,
     "carb": 105,
     "protein": 28,
@@ -57,7 +57,7 @@ recommendation_df = recommendation_df.withColumn("total_difference",
                                                 recommendation_df["fat_diff"] +
                                                 recommendation_df["sodium_diff"])
 
-# 차이의 합계가 가장 작은 음식 10개 찾기
+# 차이의 합계가 가장 작은 음식 500개 찾기
 recommended_foods = recommendation_df.orderBy("total_difference").limit(500)
 
 # 추천된 음식과 각 항목별 차이 출력
