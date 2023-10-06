@@ -176,7 +176,7 @@
 
 
 <h2>홈페이지<h2>
-<img width=25% src="/uploads/4c024760d430453a68037d494e00b39d/homepage.gif">
+<img width=25% src="/uploads/ada84a3d580e42f93369cf4b26826ea9/homepage.gif">
 
 <h2>검색 페이지<h2>
 <img width=25% src="/uploads/4d799a5b9a559a16f120e5cefce813f1/searchpage.gif">
