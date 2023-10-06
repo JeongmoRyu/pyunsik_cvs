@@ -23,8 +23,8 @@ class RecommendationApi {
   }
 
   static Future<List<ProductSimple>> getRecommendationListUser(String token) async {
-    const String url = "${apiUrl}/recommend/similarity";
-
+    const String url = "$apiUrl/recommend/similarity";
+    print('getting data from $url');
     final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(token));
 
     if (response.statusCode == 200) {
@@ -41,8 +41,8 @@ class RecommendationApi {
   static Future<List<ProductSimple>> getRecommendationListCombination(List<int> productIdList) async {
     final String productIdQuery = productIdList.map((productId) => 'productIdList=$productId').join('&');
 
-    final String url = "${apiUrl}/recommend/combination?$productIdQuery";
-
+    final String url = "$apiUrl/recommend/combination?$productIdQuery";
+    print('getting data from $url');
     final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {
@@ -59,8 +59,8 @@ class RecommendationApi {
   static Future<List<ProductSimple>> getRecommendationListNutrient(List<int> productIdList) async {
     final String productIdQuery = productIdList.map((productId) => 'productIdList=$productId').join('&');
 
-    final String url = "${apiUrl}/recommend/nutrient?$productIdQuery";
-
+    final String url = "$apiUrl/recommend/nutrient?$productIdQuery";
+    print('getting data from $url');
     final response = await http.get(Uri.parse(url), headers: ProductApi.getHeaderWithToken(''));
 
     if (response.statusCode == 200) {

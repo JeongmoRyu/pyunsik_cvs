@@ -1,4 +1,3 @@
-
 class CombinationSimple {
   final int combinationId;
   final String combinationName;

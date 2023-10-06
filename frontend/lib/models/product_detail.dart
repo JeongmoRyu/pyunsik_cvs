@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/util/constants.dart';
-
 
 @immutable
 class Comment {

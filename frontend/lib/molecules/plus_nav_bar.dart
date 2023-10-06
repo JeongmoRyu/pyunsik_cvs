@@ -77,7 +77,6 @@ class _PlusNavBarState extends State<PlusNavBar> {
                           );
                           return;
                         }
-                        user.change();
                         isBookmarked = !isBookmarked;
                         if (isBookmarked) {
                           ProductApi.addFavorite(
@@ -96,6 +95,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
                           );
                           itemCount--;
                         }
+                        user.change();
                       });
                     },
                     icon: Icon(
@@ -121,6 +121,7 @@ class _PlusNavBarState extends State<PlusNavBar> {
               child: ElevatedButton(
                 onPressed: () {
                   cart.add(widget.productDetail);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                   context.go('/cart');
                 },
                 style: ElevatedButton.styleFrom(

@@ -37,10 +37,13 @@ class User extends ChangeNotifier {
 
   void change() {
     _isChanged = true;
-    notifyListeners();
   }
 
-  void resetChange() {
-    _isChanged = false;
+  void checkChange() {
+    print('--checked');
+    if (_isChanged) {
+      _isChanged = false;
+      notifyListeners();
+    }
   }
 }

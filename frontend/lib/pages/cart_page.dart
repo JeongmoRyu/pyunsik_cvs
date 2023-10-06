@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:frontend/molecules/cart_confirm_remove_selected_dialog.dart';
 import 'package:frontend/molecules/combination_list.dart';
 import 'package:frontend/molecules/empty_cart.dart';
@@ -17,9 +18,6 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 
 import 'package:frontend/molecules/combination_chart.dart';
 
-import '../util/reommendation_api.dart';
-
-
 class CartPage extends StatefulWidget {
   const CartPage({Key? key});
 
@@ -28,7 +26,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-
   String combinationName = '';
   TextEditingController _keyValueController = TextEditingController();
 
@@ -38,7 +35,7 @@ class _CartPageState extends State<CartPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('조합 이름'),
+          title: Text('조합 저장'),
           content: TextField(
             controller: _keyValueController,
             decoration: InputDecoration(
@@ -49,6 +46,12 @@ class _CartPageState extends State<CartPage> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('취소'),
+            ),
+            TextButton(
+              onPressed: () {
                 setState(() {
                   combinationName = _keyValueController.text;
                 });
@@ -56,33 +59,36 @@ class _CartPageState extends State<CartPage> {
               },
               child: Text('확인'),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('취소'),
-            ),
           ],
         );
       },
     );
   }
 
+  final _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     var cart = context.watch<Cart>();
     var user = context.watch<User>();
 
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _scrollController.jumpTo(0);
+    });
+
     return Scaffold(
       appBar: TopBarMain(appBar: AppBar(),),
       body:  DoubleBackToCloseApp(
         snackBar: const SnackBar(
-          content: Text('\'뒤로\'버튼을 한번 더 누르시면  종료됩니다.'),
+          content: Text('\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.'),
         ),
         child: cart.isEmpty ?
-          EmptyCart() :
+          ListView(controller: _scrollController, children:[
+            SizedBox(height: 200,),
+            EmptyCart()
+          ]) :
           ListView(
+            controller: _scrollController,
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
@@ -137,7 +143,7 @@ class _CartPageState extends State<CartPage> {
               ),
               CustomBox(),
               HorizontalList(
-                title: '다른 고객이 함께 구매한 상품',
+                title: '조합 맞춤 추천 상품',
                 type: 'combination',
               ),
               CustomBox(),

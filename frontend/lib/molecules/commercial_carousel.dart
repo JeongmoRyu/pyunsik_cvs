@@ -9,7 +9,7 @@ class CommercialCarousel extends StatelessWidget {
 
   static const List<Map<String, String>> imageList = [
     {
-      'image':'assets/images/mainevent.png',
+      'image':'assets/images/main_event.png',
       'url':''
     },
     {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/atom/button/alarm_button.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/util/auth_api.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/models/user.dart';
 
@@ -18,14 +16,15 @@ class TopBarSub extends StatelessWidget implements PreferredSizeWidget {
       actions: <Widget>[
         IconButton(
             onPressed: () {
-                context.go('/scrapbook');
-
+              // Navigator.of(context).popUntil((route) => route.isFirst);
+              // context.go('/scrapbook');
             },
             icon: Icon(Icons.bookmark_outline)
         ),
         IconButton(
             onPressed: () {
-              context.go('/cart');
+              // Navigator.of(context).popUntil((route) => route.isFirst);
+              // context.go('/cart');
             },
             icon: Icon(Icons.interests_outlined)
         ),

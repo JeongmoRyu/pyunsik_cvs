@@ -33,7 +33,7 @@ class HorizontalList extends StatelessWidget {
   Widget build(BuildContext context) {
     var user = context.watch<User>();
     var cart = context.watch<Cart>();
-    int max = 6;
+    int max = 10;
     return Column(
       children: [
         Padding(
@@ -48,7 +48,7 @@ class HorizontalList extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               List<ProductSimple> productList = snapshot.data!;
-              if (productList.length < 6) {
+              if (productList.length < 10) {
                 max = productList.length;
               }
               if (productList.isEmpty) {

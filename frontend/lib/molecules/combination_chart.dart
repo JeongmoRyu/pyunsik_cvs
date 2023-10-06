@@ -82,6 +82,7 @@ class _CombinationChartState extends State<CombinationChart> {
 
     chartData = [
       // ChartData('kcal', CartTotal['totalKcal'] / StandardDetail['kcal'], kcalColor),
+      // ChartData('100', 1, Color.fromRGBO(252, 249, 254, 1.0),),
       ChartData('sodium', CartTotal['totalSodium'] / StandardDetail['sodium'], sodiumColor),
       ChartData('fat', CartTotal['totalFat'] / StandardDetail['fat'], fatColor),
       ChartData('protein', CartTotal['totalProtein'] / StandardDetail['protein'], proteinColor),
@@ -110,11 +111,13 @@ class _CombinationChartState extends State<CombinationChart> {
                             series: <CircularSeries>[
                               RadialBarSeries<ChartData, String>(
                                 radius: '100%',
+                                  maximumValue: 1,
                                 trackColor: Color.fromRGBO(246, 246, 246, 1.0),
                                 dataSource: chartData,
                                 pointColorMapper:(ChartData data, _) => data.color,
                                 xValueMapper: (ChartData data, _) => data.x,
                                 yValueMapper: (ChartData data, _) => data.y,
+                                cornerStyle: CornerStyle.bothCurve
                               ),
                             ],
                           ),

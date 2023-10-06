@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/product.dart';
 //선택된 카테고리 표시,
 //선택된 옵션 삭제 버튼
 // 가격 원 기본 최소 ~ 최대 금액
@@ -77,7 +76,7 @@ class Filter extends ChangeNotifier {
 
   void changeRange(String tag, int min, int max) {
     _filterRange[tag] = [min, max];
-    print('change range ${_filterRange}');
+    // print('change range ${_filterRange}');
     notifyListeners();
   }
 

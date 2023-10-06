@@ -74,28 +74,28 @@ class _VerticalListState extends State<VerticalList> {
                     children: [
                       Text('전체 ${productList.length}'),
                       Spacer(),
-                      ToggleButtons(
-                        // ToggleButtons uses a List<bool> to track its selection state.
-                        isSelected: _toggleButtonsSelection,
-                        // This callback return the index of the child that was pressed.
-                        onPressed: (int index) {
-                          setState(() {
-                            _toggleButtonsSelection[index] =
-                            !_toggleButtonsSelection[index];
-                          });
-                        },
-                        // Constraints are used to determine the size of each child widget.
-                        constraints: const BoxConstraints(
-                          minHeight: 32.0,
-                          minWidth: 56.0,
-                        ),
-                        borderColor: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        // ToggleButtons uses a List<Widget> to build its children.
-                        children: [
-                          Text('즐겨찾기'),
-                        ],
-                      ),
+                      // ToggleButtons(
+                      //   // ToggleButtons uses a List<bool> to track its selection state.
+                      //   isSelected: _toggleButtonsSelection,
+                      //   // This callback return the index of the child that was pressed.
+                      //   onPressed: (int index) {
+                      //     setState(() {
+                      //       _toggleButtonsSelection[index] =
+                      //       !_toggleButtonsSelection[index];
+                      //     });
+                      //   },
+                      //   // Constraints are used to determine the size of each child widget.
+                      //   constraints: const BoxConstraints(
+                      //     minHeight: 32.0,
+                      //     minWidth: 56.0,
+                      //   ),
+                      //   borderColor: Colors.white,
+                      //   borderRadius: BorderRadius.all(Radius.circular(5)),
+                      //   // ToggleButtons uses a List<Widget> to build its children.
+                      //   children: [
+                      //     Text('즐겨찾기'),
+                      //   ],
+                      // ),
                       SizedBox(width: 20,),
                       DropdownButton(
                         value: dropdownValue,
