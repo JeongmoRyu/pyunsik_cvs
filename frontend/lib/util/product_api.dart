@@ -182,7 +182,7 @@ class ProductApi {
   }
 
   static Future<void> addSearch(String token, String topic) async {
-    final uri = Uri.parse('${apiUrl}/product?keyword=$topic');
+    final uri = Uri.parse('${apiUrl}/product/search?keyword=$topic');
     print('fetching data from $uri, token: $token');
     final response = await http.get(uri, headers: ProductApi.getHeaderWithToken(token));
 
