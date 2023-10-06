@@ -161,11 +161,12 @@ class _CartPageState extends State<CartPage> {
                       context.push('/login');
                       return;
                     }
+                    user.change();
                     await _showMyDialog();
                     // 조합 데이터 생성
                     await ProductApi.addCombination(cart.products, combinationName, user.accessToken)
                       .then((value) => context.go('/scrapbook'));
-                    user.change();
+                    user.checkChange();
                   },
                   child: Text('조합 저장'),
                 ),

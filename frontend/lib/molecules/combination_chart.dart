@@ -169,7 +169,7 @@ class _CombinationChartState extends State<CombinationChart> {
                             buildListTile(fatColor, '지방',
                                 '${widget.totalFat.toStringAsFixed(2)}g', totalfatRatio),
                             buildListTile(sodiumColor, '나트륨',
-                                '${widget.totalSodium.toStringAsFixed(2)}mg', totalsodiumRatio),
+                                '${widget.totalSodium.toStringAsFixed(0)}mg', totalsodiumRatio),
                           ],
                         ),
                       ),
