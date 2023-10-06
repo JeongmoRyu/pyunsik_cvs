@@ -1,4 +1,3 @@
-
 ## 📌 프로젝트 소개
 
 ### ✔️ 주제
@@ -154,11 +153,12 @@
 
 ### ✔️ 시스템 아키텍처
 
-![편식_아키텍처.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/91c77290-6cef-4804-89c8-0171a02bb6be/15251274-2c35-402f-b53f-d248426d7426/%ED%8E%B8%EC%8B%9D_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png)
+<img width=50% src="/uploads/8968f73393b91769976382e76c548a6c/편식_아키텍처.png">
 
 ### ✔️ ER-Diagram
 
-![erd.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/91c77290-6cef-4804-89c8-0171a02bb6be/39bf2643-f498-44f9-8fe1-c8847bfb73e7/erd.png)
+<img width=50% src="/uploads/e5aa3467013f139a3b8d7e3468a510f5/erd.png">
+
 
 ---
 
@@ -166,14 +166,29 @@
 
 ### ✔️ Figma 목업
 
-[영상]
 
 [편식 화면 설계도 Figma](https://www.figma.com/file/GxTwXO3ZQBauj2lkI0X8t6/%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EB%8F%84?type=design&node-id=0%3A1&mode=design&t=fsk9VuUYjyr0LKOS-1)
 
-### ✔️ 어플리케이션 시연 영상
+<img width=50% src="/uploads/6979f81d0c91e3f7f9e053f0b035a988/moooookup.gif">
 
-[영상]
 
-### ✔️ 어플리케이션 이미지
+### ✔️ 어플리케이션 UI
 
-[이미지]
+
+<h2>홈페이지<h2>
+<img width=50% src="/uploads/4c024760d430453a68037d494e00b39d/homepage.gif">
+
+<h2>검색 페이지<h2>
+<img width=50% src="/uploads/4d799a5b9a559a16f120e5cefce813f1/searchpage.gif">
+
+<h2>상세보기 페이지<h2>
+<img width=50% src="/uploads/9495d3939fd23d4f7aa96d84058049bc/detailpage.gif">
+
+<h2>상품조합 페이지<h2>
+<img width=50% src="/uploads/1deee7a467d573bceb66f5974461dfa7/cartpage.gif">
+
+<h2>로그인 페이지<h2>
+<img width=50% src="/uploads/ed04a2a773393052892bc87b5361fb10/loginpage.gif">
+
+<h2>스크랩 페이지<h2>
+<img width=50% src="/uploads/2916eb1cad15d844be104ef4fbe2cb5c/scrappage.gif">
