@@ -6,14 +6,13 @@ import 'package:provider/provider.dart';
 import 'package:frontend/models/user.dart';
 
 class MyPage extends StatelessWidget {
+  final String? token;
+  const MyPage({super.key, required this.token});
 
   @override
   Widget build(BuildContext context) {
     final user = context.watch<User>();
-    String? token;
-    FirebaseMessaging.instance.getToken().then((value) {
-      token = value;
-    });
+
     return Scaffold(
       appBar: TopBarSub(appBar: AppBar()),
       body: SingleChildScrollView(
