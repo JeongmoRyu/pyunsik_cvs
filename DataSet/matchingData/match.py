@@ -1,8 +1,8 @@
 import pandas as pd
 
 # 가정: 'convAllProduct.csv'과 'DBAllproduct2.csv' 두 개의 CSV 파일이 이미 존재함
-conv_df = pd.read_csv("convAllProduct.csv", encoding="cp949")
-db_df = pd.read_csv("DBAllproduct2.csv", encoding="cp949")
+conv_df = pd.read_csv("숫자다삭제.csv", encoding="cp949")
+db_df = pd.read_csv("DBAllproduct.csv", encoding="cp949")
 
 # 빈 MixProduct 데이터프레임 생성
 columns = ['상품명', '카테고리', '가격', '행사 정보', '중량', '칼로리', '탄수화물', '단백질', '지방', '나트륨', '편의점 코드', '이미지 주소']
@@ -45,4 +45,5 @@ for index, conv_row in conv_df.iterrows():
         mix_df = pd.concat([mix_df, new_row], ignore_index=True)
 
 # 결과를 'MixProduct.csv'에 저장
-mix_df.to_csv("MixProduct.csv", index=False, encoding="cp949")
+print("매칭완료2")
+mix_df.to_csv("MixProduct2.csv", index=False, encoding="cp949")
