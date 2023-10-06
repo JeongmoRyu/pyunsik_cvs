@@ -35,7 +35,10 @@ public class SecurityConfig {
                 .formLogin().disable() // jwt 인증방식 사용하므로 Form기반 로그인 비활성화
                 .csrf(CsrfConfigurer::disable) // REST API는 csrf 보안이 필요 없으므로 비활성화
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션은 사용하지 않기 때문에 STATELESS로 설정
-//                .authorizeHttpRequests(authorize -> authorize.antMatchers("api/member/**").permitAll())
+                .authorizeHttpRequests(authorize -> authorize
+                        .antMatchers("api/user/**").authenticated()
+                        .antMatchers("api/auth/**").authenticated()
+                        .anyRequest().permitAll())
                 .exceptionHandling(exception -> {
                     exception.accessDeniedHandler(new CustomAccessDeniedHandler()); // 권한이 없는 예외(인가 예외)가 발생했을 경우 핸들링
                     exception.authenticationEntryPoint(new CustomAuthenticationEntryPoint()); // 인증 실패 시(인증 예외) 결과 처리

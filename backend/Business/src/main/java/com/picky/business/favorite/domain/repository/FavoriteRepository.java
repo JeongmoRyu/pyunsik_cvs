@@ -10,6 +10,6 @@ import java.util.List;
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     List<Favorite> findByUserIdAndIsDeletedFalse(Long userId);
 
-    Favorite findByUserIdAndProductId(Long userId, Long productId);
+    Favorite findByUserIdAndProductIdAndIsDeletedFalse(Long userId, Long productId);
 
 }

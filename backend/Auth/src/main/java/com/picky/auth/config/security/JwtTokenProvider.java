@@ -11,6 +11,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * [JwtTokenProvider]
@@ -44,6 +46,8 @@ public class JwtTokenProvider {
 
     @Value("${spring.jwt.token.refresh-expire-time}")
     private long refreshExpireTime; // 한 달 토큰 유효
+
+    private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * [init]
@@ -82,10 +86,10 @@ public class JwtTokenProvider {
      * Refresh 토큰 생성
      * Redis 저장
      */
-    public void createRefreshToken(String uuid, List<String> roles) {
+    public void createRefreshToken(User user, String accessToken) {
         log.info("[createRefreshToken] 리프레시 토큰 생성 시작");
-        Claims claims = Jwts.claims().setSubject(uuid);
-        claims.put("roles", roles);
+        Claims claims = Jwts.claims().setSubject(user.getUuid());
+        claims.put("roles", user.getRoles());
 
         Date now = new Date();
         String refreshToken = Jwts.builder()
@@ -95,10 +99,12 @@ public class JwtTokenProvider {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
         try {
-            // [추가] redis 저장
-            log.info("[createToken] 리프레시 토큰 생성 완료");
+            // redis 저장
+            saveTokenInRedis(accessToken, refreshToken);
+            log.info("[createRefreshToken] 리프레시 토큰 생성 완료");
         } catch (Exception e) {
             // error
+            log.info("[createRefreshToken] 리프레시 토큰 생성 실패 error:" + e);
         }
     }
 
@@ -108,21 +114,20 @@ public class JwtTokenProvider {
      * 토큰이나 리프레시 토큰 만료 시 새로 생성
      */
     public String createNewToken(String accessToken) {
-        // redis에서 accessToken : refreshToken 가져오기
-        String refreshToken = "";
         String newAccessToken = "";
-//        if (refreshToken != null) { // accessToken 만료, refreshToken 유효
-//            User user = getUserOfToken(accessToken);
-//            newAccessToken = createAccessToken(user.getUuid(), user.getRoles());
-//
-//            // [추가] redis 저장
-//        } else { // accessToken 만료, refreshToken 만료
-//            User user = getUserOfToken(accessToken);
-//            newAccessToken = createAccessToken(user.getUuid(), user.getRoles());
-//            String newRefreshToken = createAccessToken(user.getUuid(), user.getRoles());
-//
-//            // [추가] redis 저장
-//        }
+
+        // redis에서 accessToken : refreshToken 가져오기
+        String refreshToken = redisTemplate.opsForValue().get("accessToken:" + accessToken);
+
+        if (refreshToken != null) { // accessToken 만료, refreshToken 유효
+            User user = getUserOfToken(accessToken);
+            newAccessToken = createAccessToken(user.getUuid(), user.getRoles());
+
+            // redis 저장
+            saveTokenInRedis(accessToken, refreshToken);
+        } else { // accessToken 만료, refreshToken 만료
+            throw new CustomException(ExceptionCode.INVALID_EXPIRED_REFRESHTOKEN);
+        }
         return newAccessToken;
     }
 
@@ -175,5 +180,12 @@ public class JwtTokenProvider {
         String uuid = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
         log.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, uuid : {}", uuid);
         return userRepository.findByUuid(uuid).orElseThrow(() -> new CustomException(ExceptionCode.INVALID_MEMBER));
+    }
+
+    private void saveTokenInRedis(String accessToken, String refreshToken) {
+        String redisAccessTokenKey = "accessToken:" + accessToken;
+        redisTemplate.opsForValue().set(redisAccessTokenKey, refreshToken);
+        redisTemplate.expire(redisAccessTokenKey, refreshExpireTime, TimeUnit.SECONDS);
+        log.info("[saveTokenInRedis] savedRefreshToken, {} : {}", redisAccessTokenKey, redisTemplate.opsForValue().get(redisAccessTokenKey));
     }
 }

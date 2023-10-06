@@ -1,8 +1,10 @@
+## 지금 사용중인 코드
+
 from pyspark.ml.recommendation import ALS
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col, explode  # explode 함수 추가
-import redis
-import json
+from pyspark.sql.functions import when, col, explode, sum as F_sum
+from pyspark.sql.types import LongType
+from pyspark.sql.functions import monotonically_increasing_id
 import time
 
 # Spark 세션 초기화
@@ -13,77 +15,65 @@ spark = SparkSession \
     .getOrCreate()
 
 # MySQL 설정
-jdbc_url = "jdbc:mysql://j9a505.p.ssafy.io:3308/SparkTest"
+jdbc_url = "jdbc:mysql://j9a505a.p.ssafy.io:3308/business"
 properties = {
     "user": "root",
     "password": "gndhqkd123",
     "driver": "com.mysql.cj.jdbc.Driver",
 }
 
-# Favorite 테이블과 Product 테이블에서 데이터 읽기
+start_time = time.time()
+
+# Favorite 테이블에서 데이터 읽기
 favorite_query = "(SELECT * FROM favorite) as favorite"
 favorite_data = spark.read \
     .jdbc(jdbc_url, favorite_query, properties=properties)
-
-product_query = "(SELECT * FROM product2) as product"
-product_data = spark.read \
-    .jdbc(jdbc_url, product_query, properties=properties)
-
-# 평점 매기기: 좋아요 누른 상품은 5점, 그렇지 않은 상품은 0점
 favorite_data = favorite_data.withColumn("rating", when(col("is_deleted") == False, 5).otherwise(0))
+favorite_data = favorite_data.select("user_id", "product_id", "rating")
 
-favorite_data.show()
+# Log_product 테이블에서 데이터 읽기
+log_query = "(SELECT * FROM log_product) as log_product"
+log_data = spark.read \
+    .jdbc(jdbc_url, log_query, properties=properties)
+log_data = log_data.withColumn("rating", when(col("product_id").isNotNull(), 1))
+log_data = log_data.select("user_id", "product_id", "rating")
 
-# ALS 모델 설정
+
+
+# Log 데이터와 Favorite 데이터 합치기
+combined_data = favorite_data.union(log_data)
+
+# 동일한 user_id와 product_id의 경우 평점을 합산
+combined_data = combined_data.groupBy("user_id", "product_id").agg(F_sum("rating").alias("rating"))
+
+
+
+# ALS 모델 설정 및 훈련
 als = ALS(maxIter=5, regParam=0.01, userCol="user_id", itemCol="product_id", ratingCol="rating")
+model = als.fit(combined_data)
 
-# 모델 학습
-model = als.fit(favorite_data)
+end_time = time.time()
+
+
+processing_time = end_time - start_time
+print(f"데이터를 불러와 모델 훈련까지 걸린 시간: {processing_time} 초")
+
 
 # 유저별 상품 추천
 user_recs = model.recommendForAllUsers(10)
 
 user_recs.show()
 
-# recommendations 배열을 풀어서 새로운 컬럼에 저장
-user_recs = user_recs.withColumn("recommendation", explode("recommendations"))
+# 유저별 추천 결과를 풀어서 (user_id, product_id, rating) 형태로 만들기
+exploded_recs = user_recs.withColumn("recommendations", explode("recommendations"))
+refined_recs = exploded_recs.select("user_id", "recommendations.product_id", "recommendations.rating")
+refined_recs_with_id = refined_recs.withColumn("id", monotonically_increasing_id())
 
-user_recs.show()
 
-# 새로운 컬럼에서 product_id만 추출
-user_recs = user_recs.select("user_id", "recommendation.product_id")
+# MySQL 테이블에 데이터를 저장
+refined_recs_with_id.write \
+    .jdbc(jdbc_url, "recommended_product", mode="overwrite", properties=properties)
 
-user_recs.show()
 
-# 추천 결과와 Product 테이블 조인
-recommendations = user_recs.join(product_data, user_recs.product_id == product_data.id)
 
-product_data.show()
-
-recommendations.show()
-
-# 추천 결과를 JSON 형태로 변환
-recommendations_list = []
-for row in recommendations.collect():
-    recommendations_list.append({
-        "userId": row['user_id'],
-        "recommandProducts": {
-            "productId": row['product_id'],
-            "productName": row['product_name'],
-            "price": row['price'],
-            "badge": row['badge'],
-            "filename": row['filename'],
-            "isFavorite": row['rating'] == 5
-        }
-    })
-
-recommendations_json = json.dumps(recommendations_list, ensure_ascii=False)
-
-# recommendations_list 출력
-print(recommendations_list)
-
-# Redis 연결 설정
-r = redis.Redis(host='j9a505.p.ssafy.io', port=6382, db=0)
-
-# JSON을 Redis에 저장
-r.set('recommandProducts', recommendations_json.encode('utf-8'))
+spark.stop()

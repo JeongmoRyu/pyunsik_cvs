@@ -1,8 +1,9 @@
 package com.picky.business.product.service;
 
 import com.picky.business.connect.service.ConnectAuthService;
-import com.picky.business.exception.ProductNotFoundException;
+import com.picky.business.exception.NotFoundException;
 import com.picky.business.favorite.domain.repository.FavoriteRepository;
+import com.picky.business.log.service.LogService;
 import com.picky.business.product.domain.entity.ConvenienceInfo;
 import com.picky.business.product.domain.entity.Product;
 import com.picky.business.product.domain.repository.ConvenienceRepository;
@@ -31,96 +32,52 @@ public class ProductService {
     private final ConnectAuthService connectAuthService;
     private final FavoriteRepository favoriteRepository;
     private final ConvenienceRepository convenienceRepository;
+    private final LogService logService;
     private static final String NOT_FOUND = "값을 가진 제품이 없습니다";
     private static final String DELETED = "값을 가진 제품이 삭제되었습니다";
 
-    private int[] getMinMax(List<Integer> values) {
-        if (values == null || values.size() > 2) return new int[]{0, Integer.MAX_VALUE};
-        int minValue = (values.get(0) != null) ? values.get(0) : 0;
-        int maxValue = (values.get(1) != null) ? values.get(1) : Integer.MAX_VALUE;
-        return new int[]{minValue, maxValue};
-    }
 
-    private int[] getSafeMinMax(List<Integer> values, int[] defaultValues) {
-        return (values != null) ? getMinMax(values) : defaultValues;
+    public List<ProductPreviewResponse> searchProductByKeyword(String keyword, String accessToken) {
+        keyword = (keyword != null) ? keyword.replace(" ", "") : null;
+        if (keyword != null && !keyword.isEmpty()) {
+            logService.saveLogSearch(keyword);
+        }
+        Long userId = getUserId(accessToken);
+        List<Product> products = productRepository.findByProductNameContaining(keyword);
+        return getSearchList(products, userId);
     }
 
     //Query를 통한 검색
     public List<ProductPreviewResponse> searchProductByQuery(
-            String productName, String category,
+            String category,
             List<Integer> price, List<Integer> carb,
             List<Integer> protein, List<Integer> fat, List<Integer> sodium,
-            List<Integer> inputPromotionCode, List<Integer> inputConvenienceCode,
+            List<Integer> inputConvenienceCode, List<Integer> inputPromotionCode,
             String accessToken
     ) {
-        int[] defaultRange = {0, Integer.MAX_VALUE};
-
-        int[] priceRange = getSafeMinMax(price, defaultRange);
-        int[] carbRange = getSafeMinMax(carb, defaultRange);
-        int[] proteinRange = getSafeMinMax(protein, defaultRange);
-        int[] fatRange = getSafeMinMax(fat, defaultRange);
-        int[] sodiumRange = getSafeMinMax(sodium, defaultRange);
-        productName = (productName != null) ? productName.replace(" ", "") : null;
         Specification<Product> specification = Product.filterProducts(
-                productName, category,
-                priceRange[0], priceRange[1],
-                carbRange[0], carbRange[1],
-                proteinRange[0], proteinRange[1],
-                fatRange[0], fatRange[1],
-                sodiumRange[0], sodiumRange[1],
+                category,
+                price, carb, protein, fat, sodium,
                 inputConvenienceCode, inputPromotionCode
         );
 
         // accessToken이 null이면 null, 아니면 userId 반환
-        Long userId = Optional.ofNullable(accessToken)
-                .filter(token -> token != null && !token.trim().isEmpty())
-                .map(connectAuthService::getUserIdByAccessToken)
-                .orElse(null);
+        Long userId = getUserId(accessToken);
+        List<Product> products = productRepository.findAll(specification);
+        return getSearchList(products,userId);
 
-        return productRepository.findAll(specification)
-                .stream()
-                .map(product -> {
-                    // accessToken이 null이 아니면 favorite 확인
-                    Boolean isFavorite = Optional.ofNullable(userId)
-                            .map(id -> favoriteRepository.findByUserIdAndProductId(id, product.getId()) != null)
-                            .orElse(null);
-
-                    List<Integer> convenienceCodes = product.getConvenienceInfos()
-                            .stream()
-                            .map(ConvenienceInfo::getConvenienceCode)
-                            .collect(Collectors.toList());
-
-                    List<Integer> promotionCodes = product.getConvenienceInfos()
-                            .stream()
-                            .map(ConvenienceInfo::getPromotionCode)
-                            .collect(Collectors.toList());
-
-                    return ProductPreviewResponse.builder()
-                            .productId(product.getId())
-                            .productName(product.getProductName())
-                            .price(product.getPrice())
-                            .filename(product.getFilename())
-                            .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
-                            .convenienceCode(convenienceCodes)
-                            .promotionCode(promotionCodes)
-                            .isFavorite(isFavorite)
-                            .build();
-                })
-                .collect(Collectors.toList());
     }
 
     public ProductDetailResponse findProductByProductId(Long productId, String accessToken) {
         Product product = getProduct(productId);
         // accessToken이 null이면 null, 아니면 userId 반환
-        Long userId = Optional.ofNullable(accessToken)
-                .filter(token -> token != null && !token.trim().isEmpty())
-                .map(connectAuthService::getUserIdByAccessToken)
-                .orElse(null);
+        Long userId = getUserId(accessToken);
 
         // accessToken이 null이 아니면 favorite 확인
         Boolean isFavorite = Optional.ofNullable(userId)
-                .map(id -> favoriteRepository.findByUserIdAndProductId(id, productId) != null)
+                .map(id -> favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(id, productId) != null)
                 .orElse(null);
+        logService.saveLogProduct(userId, productId);
 
         // 댓글 불러오기
         List<CommentResponse> commentResponseList = Optional.ofNullable(product.getComments())
@@ -200,7 +157,7 @@ public class ProductService {
         updateProductFields(product, request);
 
         ConvenienceInfo convenienceInfo = convenienceRepository.findByProductId(id)
-                .orElseThrow(() -> new ProductNotFoundException("해당하는 제품에 대한 편의점 코드가 없습니다 "));
+                .orElseThrow(() -> new NotFoundException("해당하는 제품에 대한 편의점 코드가 없습니다 "));
         updateConvenienceCodeFields(convenienceInfo, request);
         productRepository.save(product);
         convenienceRepository.save(convenienceInfo);
@@ -241,11 +198,11 @@ public class ProductService {
         return productRepository.findById(id)
                 .map(product -> {
                     if (product.getIsDeleted() == null || product.getIsDeleted()) {
-                        throw new ProductNotFoundException(id + DELETED);
+                        throw new NotFoundException(id + DELETED);
                     }
                     return product;
                 })
-                .orElseThrow(() -> new ProductNotFoundException(id + NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(id + NOT_FOUND));
     }
 
     private List<Integer> getConvenienceCodes(Product product) {
@@ -261,5 +218,38 @@ public class ProductService {
                 .map(ConvenienceInfo::getPromotionCode)
                 .collect(Collectors.toList());
 
+    }
+
+    private Long getUserId(String accessToken) {
+        return Optional.ofNullable(accessToken)
+                .filter(token -> token != null && !token.trim().isEmpty())
+                .map(connectAuthService::getUserIdByAccessToken)
+                .orElse(null);
+    }
+
+    private List<ProductPreviewResponse> getSearchList(List<Product> list, Long userId) {
+        return list.stream()
+                .map(product -> {
+                    // accessToken이 null이 아니면 favorite 확인
+                    Boolean isFavorite = Optional.ofNullable(userId)
+                            .map(id -> favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(id, product.getId()) != null)
+                            .orElse(null);
+
+                    List<Integer> convenienceCodes = getConvenienceCodes(product);
+
+                    List<Integer> promotionCodes = getPromotionCodes(product);
+
+                    return ProductPreviewResponse.builder()
+                            .productId(product.getId())
+                            .productName(product.getProductName())
+                            .price(product.getPrice())
+                            .filename(product.getFilename())
+                            .favoriteCount(productRepository.countActiveFavoritesByProductId(product.getId()))
+                            .convenienceCode(convenienceCodes)
+                            .promotionCode(promotionCodes)
+                            .isFavorite(isFavorite)
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 }

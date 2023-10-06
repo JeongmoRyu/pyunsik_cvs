@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/auth")
 @Slf4j
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final AuthService authService;
@@ -25,7 +25,7 @@ public class AuthController {
     @PostMapping
     public ResponseEntity<Void> signUp(@RequestBody SignUpRequest request) {
         authService.signUp(request);
-        return ResponseEntity.created(URI.create("/api/member")).build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/login")
@@ -56,6 +56,7 @@ public class AuthController {
         log.info("[signout] 정상적으로 탈퇴 되었습니다.");
         return ResponseEntity.ok().build();
     }
+
 
     // getUuid by JWT
     @GetMapping("/uuid/{accessToken}")

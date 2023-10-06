@@ -1,50 +1,90 @@
 package com.picky.notificationconsumer.fcm.service;
 
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.common.net.HttpHeaders;
+import com.picky.notificationconsumer.fcm.domain.entity.FcmMessage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.*;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FCMNotificationService {
 
-    private final FirebaseMessaging firebaseMessaging;
+    private static final String API_URL = "https://fcm.googleapis.com/v1/projects/a5052-59303/messages:send";
+    private final ObjectMapper objectMapper;
 
-    public FCMNotificationService(FirebaseMessaging firebaseMessaging) {
-        this.firebaseMessaging = firebaseMessaging;
-    }
+    public void sendNotificationByFCMToken(List<String> userFCMTokenList) {
 
-    public void sendNotificationByFCMToken(HashMap<String, HashMap<String, List<String>>> notificationList) {
-        for (HashMap.Entry<String, HashMap<String, List<String>>> userEntry : notificationList.entrySet()) {
-            String userFCMToken = userEntry.getKey();
-            HashMap<String, List<String>> userNotificationList = userEntry.getValue();
-
-            for (HashMap.Entry<String, List<String>> brandEntry : userNotificationList.entrySet()) {
-                Notification notification = Notification.builder()
-                        .setTitle(brandEntry.getKey())
-                        .setBody(brandEntry.getValue().toString())
-                        .build();
-
-                Message message = Message.builder()
-                        .setToken(userFCMToken)
-                        .setNotification(notification)
-                        .build();
-
+        for (String userFCMToken : userFCMTokenList) {
+            if (userFCMToken != null) {
                 try {
-                    firebaseMessaging.send(message);
-                    log.info("[sendNotificationByFCMToken] 알림을 성공적으로 전송했습니다. targetUserFCMToken: " + userFCMToken);
-                } catch (FirebaseMessagingException e) {
-                    e.printStackTrace();
-                    log.info("[sendNotificationByFCMToken] 알림 전송에 실패했습니다. targetUserFCMToken: " + userFCMToken);
+                    String body = String.valueOf(LocalDateTime.now().getMonth().getValue()) + "월의 새로운 할인정보를 확인하세요.";
+                    sendMessageTo(userFCMToken, "편식타임!", body);
+                } catch (Exception e) {
+                    log.info("[sendNotificationByFCMToken] error: " + e.getMessage());
                 }
-
+            } else {
+                log.info("[sendNotificationByFCMToken] 유저의 FCMToken이 없습니다.");
             }
         }
     }
+
+    public void sendMessageTo(String targetToken, String title, String body) throws IOException {
+
+        String message = makeMessage(targetToken, title, body);
+        OkHttpClient client = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(message, MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(API_URL)
+                .post(requestBody)
+                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                .build();
+        Response response = client.newCall(request)
+                .execute();
+
+        // HTTP 응답 코드 확인
+        if (response.isSuccessful()) {
+            log.info("[sendNotificationByFCMToken] 알림을 성공적으로 전송했습니다. targetUserFCMToken: " + targetToken);
+        } else {
+            log.error("[sendNotificationByFCMToken] 알림 전송에 실패했습니다. targetUserFCMToken: " + targetToken);
+        }
+    }
+
+    private String makeMessage(String targetToken, String title, String body) throws JsonProcessingException {
+        FcmMessage fcmMessage = FcmMessage.builder()
+                .message(FcmMessage.Message.builder()
+                        .token(targetToken)
+                        .notification(FcmMessage.Notification.builder()
+                                .title(title)
+                                .body(body)
+                                .image(null)
+                                .build()
+                        )
+                        .build()
+                )
+                .validateOnly(false)
+                .build();
+        return objectMapper.writeValueAsString(fcmMessage);
+    }
+
+    private String getAccessToken() throws IOException {
+        String firebaseConfigPath = "firebase/a505_fcm_sdk.json";
+        GoogleCredentials googleCredentials = GoogleCredentials
+                .fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
+                .createScoped(List.of("https://www.googleapis.com/auth/cloud-platform"));
+        googleCredentials.refreshIfExpired();
+        return googleCredentials.getAccessToken().getTokenValue();
+    }
+
 }

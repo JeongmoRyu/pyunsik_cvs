@@ -9,6 +9,7 @@ import com.picky.business.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class FavoriteService {
 
         return findList.stream()
                 .map(favorite -> {
-                    Product product = productService.getProduct(favorite.getId());
+                    Product product = productService.getProduct(favorite.getProductId());
                     return FavoriteListResponse.builder()
                             .productId(favorite.getProductId())
                             .productName(product.getProductName())
@@ -47,6 +48,7 @@ public class FavoriteService {
                         .userId(userId)
                         .productId(productId)
                         .isDeleted(false)
+                        .createdAt(LocalDateTime.now())
                         .build()
         );
     }
@@ -54,7 +56,7 @@ public class FavoriteService {
     //품목 즐겨찾기 삭제
     public void deleteFavorite(String accessToken, Long productId) {
         Long userId = connectAuthService.getUserIdByAccessToken(accessToken);
-        Favorite favorite = favoriteRepository.findByUserIdAndProductId(userId, productId);
+        Favorite favorite = favoriteRepository.findByUserIdAndProductIdAndIsDeletedFalse(userId, productId);
         favorite.delete();
         favoriteRepository.save(favorite);
     }

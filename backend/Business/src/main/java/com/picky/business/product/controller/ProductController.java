@@ -1,5 +1,6 @@
 package com.picky.business.product.controller;
 
+import com.picky.business.common.service.RedisService;
 import com.picky.business.product.dto.*;
 import com.picky.business.product.service.CommentService;
 import com.picky.business.product.service.ProductService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/product")
@@ -20,21 +22,27 @@ public class ProductController {
 
     private final ProductService productService;
     private final CommentService commentService;
+    private final RedisService redisService;
+
 
     @GetMapping
     public ResponseEntity<List<ProductPreviewResponse>> getProductByQuery(
-            @RequestParam(required = false) String productName,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) List<Integer> price,
             @RequestParam(required = false) List<Integer> carb,
             @RequestParam(required = false) List<Integer> protein,
             @RequestParam(required = false) List<Integer> fat,
             @RequestParam(required = false) List<Integer> sodium,
-            @RequestParam(required = false) List<Integer> promotionCode,
-            @RequestParam(required = false) List<Integer> convenienceCode,
+            @RequestParam(required = false) List<Integer> convenienceCodes,
+            @RequestParam(required = false) List<Integer> promotionCodes,
             @RequestHeader("Authorization") String accessToken) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(productName, category, price, carb, protein, fat, sodium,
-                promotionCode, convenienceCode, accessToken));
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByQuery(category, price, carb, protein, fat, sodium,
+                convenienceCodes, promotionCodes, accessToken));
+    }
+
+    @GetMapping(value = "/search")
+    public ResponseEntity<List<ProductPreviewResponse>> getProductByKeyword(@RequestHeader("Authorization") String accessToken, @RequestParam String keyword) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.searchProductByKeyword(keyword, accessToken));
     }
 
     @GetMapping(value = "/{productId}")
@@ -79,4 +87,12 @@ public class ProductController {
         commentService.deleteComment(commentId, accessToken);
         return ResponseEntity.status(HttpStatus.CREATED).body("댓글 삭제 완료");
     }
+
+    //인기검색어
+    @GetMapping("/keyword-ranking")
+    public ResponseEntity<Map<String, List<Map<String, String>>>> getKeywordRanking() {
+        return ResponseEntity.status(HttpStatus.OK).body(redisService.getKeywordRanking());
+    }
+
+
 }

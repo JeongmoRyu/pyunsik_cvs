@@ -1,9 +1,6 @@
 package com.picky.business.combination.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,9 +8,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 //조합 생성, 수정
 public class CombinationInputRequest {
     private String combinationName;
-    private List<ProductInfo> products;
+    private List<CombinationCreateItem> products;
 
 }

@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Builder
@@ -23,12 +22,4 @@ public class ProductPreviewResponse {
     private List<Integer> promotionCode;
     private Long favoriteCount;
 
-    public static ProductPreviewResponse of(Long productId, String productName, int price, String filename, String badge) {
-        return ProductPreviewResponse.builder()
-                .productId(productId)
-                .productName(productName)
-                .price(price)
-                .filename(filename)
-                .build();
-    }
 }

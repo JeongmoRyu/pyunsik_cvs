@@ -16,9 +16,20 @@ public class CombinationItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int amount;
-    private Boolean isDeleted = false;
+    @Column(name = "product_id")
+    private Long productId;
+    @Column(name = "product_name")
+    private String productName;
+    private int price;
+    private String filename;
+
+    @Column(name = "combination_id")
+    private Long combinationId;
+    @Column
+    private boolean isDeleted;
 
     @ManyToOne
-    @JoinColumn(name = "combination_id")
+    @JoinColumn(name = "combination_id", insertable = false, updatable = false)
     private Combination combination;
+
 }

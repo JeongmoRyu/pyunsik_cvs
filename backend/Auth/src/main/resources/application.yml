@@ -21,6 +21,16 @@ spring:
         format_sql: true
         highlight_sql: true
 
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    database: 1
+    sentinel:
+      master: ${REDIS_MASTER}
+      nodes: ${REDIS_HOST}:26382, ${REDIS_HOST}:26383, ${REDIS_HOST}:26384
+    lettuce:
+      shutdown-timeout: 200ms
+
 
 logging:
   level:

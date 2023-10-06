@@ -12,5 +12,8 @@ import lombok.NoArgsConstructor;
 //조합 생성, 수정에 들어갈 정보
 public class ProductInfo {
     private Long productId;
+    private String productName;
+    private int price;
+    private String filename;
     private int amount;
 }

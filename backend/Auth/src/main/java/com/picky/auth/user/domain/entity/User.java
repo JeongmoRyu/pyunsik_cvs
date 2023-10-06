@@ -45,6 +45,7 @@ public class User {
 
     private int gender;
 
+    @Column(nullable = false)
     private String fcmToken;
 
     @ElementCollection(fetch = FetchType.EAGER) // 엔티티가 검색될 때 해당 엔티티와 연결된 roles 리스트 데이터도 함께 가져옴

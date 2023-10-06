@@ -15,11 +15,12 @@ public class ConvenienceInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "product_id")
     private Long productId;
-    @Column
+    @Column(name = "convenience_code")
     private int convenienceCode;
-    @Column
+    @Column(name = "promotion_code")
     private int promotionCode;
 
     @ManyToOne

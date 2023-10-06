@@ -4,6 +4,7 @@ spring:
     url: ${DB_URL}/business
     username: ${DB_USER}
     password: ${DB_PASSWORD}
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -12,13 +13,24 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         show-sql: true
         format_sql: true
+
   server:
     port: 8080
   redis:
-    host: J9A505.p.ssafy.io
-    port: 6382
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    database: 0
     sentinel:
-      master: mymaster
-      nodes: J9A505.p.ssafy.io:26382,J9A505.p.ssafy.io:26383,J9A505.p.ssafy.io:26384
+      master: ${REDIS_MASTER}
+      nodes: ${REDIS_HOST}:26382, ${REDIS_HOST}:26383, ${REDIS_HOST}:26384
     lettuce:
       shutdown-timeout: 200ms
+
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        SQL: DEBUG
+#        type:
+#          descriptor:
+#            sql: trace

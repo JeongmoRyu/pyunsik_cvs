@@ -16,4 +16,5 @@ public class CombinationListResponse {
     private int totalPrice;
     private int totalKcal;
 
+
 }

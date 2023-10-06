@@ -22,10 +22,12 @@ public class Favorite {
     private Long id;
     @Column(name = "product_id")
     private Long productId;
+    @Column(name = "user_id")
     private Long userId;
+    @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    @Column
+    @Column(name = "created_at")
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -35,10 +37,6 @@ public class Favorite {
 
     public void delete() {
         this.isDeleted = true;
-    }
-
-    public void add() {
-        this.isDeleted = false;
     }
 
 }
