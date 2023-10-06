@@ -169,26 +169,26 @@
 
 [편식 화면 설계도 Figma](https://www.figma.com/file/GxTwXO3ZQBauj2lkI0X8t6/%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EB%8F%84?type=design&node-id=0%3A1&mode=design&t=fsk9VuUYjyr0LKOS-1)
 
-<img width=50% src="/uploads/6979f81d0c91e3f7f9e053f0b035a988/moooookup.gif">
+<img width=25% src="/uploads/6979f81d0c91e3f7f9e053f0b035a988/moooookup.gif">
 
 
 ### ✔️ 어플리케이션 UI
 
 
 <h2>홈페이지<h2>
-<img width=50% src="/uploads/4c024760d430453a68037d494e00b39d/homepage.gif">
+<img width=25% src="/uploads/4c024760d430453a68037d494e00b39d/homepage.gif">
 
 <h2>검색 페이지<h2>
-<img width=50% src="/uploads/4d799a5b9a559a16f120e5cefce813f1/searchpage.gif">
+<img width=25% src="/uploads/4d799a5b9a559a16f120e5cefce813f1/searchpage.gif">
 
 <h2>상세보기 페이지<h2>
-<img width=50% src="/uploads/9495d3939fd23d4f7aa96d84058049bc/detailpage.gif">
+<img width=25% src="/uploads/9495d3939fd23d4f7aa96d84058049bc/detailpage.gif">
 
 <h2>상품조합 페이지<h2>
-<img width=50% src="/uploads/1deee7a467d573bceb66f5974461dfa7/cartpage.gif">
+<img width=25% src="/uploads/1deee7a467d573bceb66f5974461dfa7/cartpage.gif">
 
 <h2>로그인 페이지<h2>
-<img width=50% src="/uploads/ed04a2a773393052892bc87b5361fb10/loginpage.gif">
+<img width=25% src="/uploads/ed04a2a773393052892bc87b5361fb10/loginpage.gif">
 
 <h2>스크랩 페이지<h2>
-<img width=50% src="/uploads/2916eb1cad15d844be104ef4fbe2cb5c/scrappage.gif">
+<img width=25% src="/uploads/2916eb1cad15d844be104ef4fbe2cb5c/scrappage.gif">
