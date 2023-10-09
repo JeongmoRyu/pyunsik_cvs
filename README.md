@@ -104,6 +104,8 @@
 
 </aside>
 
+
+
 <aside>
 <img src="https://25322853.fs1.hubspotusercontent-eu1.net/hub/25322853/hubfs/STAGIL_January2022/Images/jira-software-logo-jira-logo-hd-png.png?width=360&name=jira-software-logo-jira-logo-hd-png.png" alt="https://25322853.fs1.hubspotusercontent-eu1.net/hub/25322853/hubfs/STAGIL_January2022/Images/jira-software-logo-jira-logo-hd-png.png?width=360&name=jira-software-logo-jira-logo-hd-png.png" width="40px" /> 
 
@@ -116,6 +118,14 @@
 
 <aside>
 <img src="https://cdn-icons-png.flaticon.com/512/906/906391.png" alt="https://cdn-icons-png.flaticon.com/512/906/906391.png" width="40px" />
+
+</aside>
+
+### Data Processing / Crawling
+
+<aside>
+<img src="/uploads/01e7725db48b967e32642201e4bdbce0/icons8-pandas-48.png" width="50" height="50"/>
+<img src="/uploads/36c868e419ba5b163a77ae74490b4f98/icons8-selenium-100.png" width="60" height="60"/>
 
 </aside>
 
