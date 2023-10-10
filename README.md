@@ -1,4 +1,7 @@
 ## 📌 프로젝트 소개
+<div align=center>
+<img width=30% src="/assets/icon.png">
+</div>
 
 ### ✔️ 주제
 
@@ -129,7 +132,7 @@
 ### ✔️ 어플리케이션 UI
 
 <h2>시작<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/b21847dd-f228-4c8f-a812-3c7aeb0821dc">
+<img width=10% src="/assets/splash.png">
 
 <h2>홈페이지<h2>
 <img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/b21847dd-f228-4c8f-a812-3c7aeb0821dc">
