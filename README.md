@@ -21,111 +21,55 @@
 
 ### ✔️ 사용 기술 스택
 
-### B/E
+#### 사용 기술 스택
 
-<aside>
-<img src="https://spring.io/img/projects/spring-boot.svg" alt="https://spring.io/img/projects/spring-boot.svg" width="40px" />
+<div align="center">
+<br>
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">
+<img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white">
+</br>
 
-</aside>
+<br>
+<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+<img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">
+<img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
+</br>
+<br>
+<img src="https://img.shields.io/badge/flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white">
+</br>
 
-<aside>
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968282.png" alt="https://cdn-icons-png.flaticon.com/512/5968/5968282.png" width="40px" />
+<br>
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
+<img src="https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
+<img src="https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
+<img src="https://img.shields.io/badge/apachekafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white">
+</br>
 
+<br>
+<img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+<img src="https://img.shields.io/badge/python-0052CC?style=for-the-badge&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/apachespark-E25A1C?style=for-the-badge&logo=apachespark&logoColor=white">
 
-</aside>
+</br>
 
-<aside>
-<img src="https://cdn.icon-icons.com/icons2/2389/PNG/512/gradle_logo_icon_145224.png" alt="https://cdn.icon-icons.com/icons2/2389/PNG/512/gradle_logo_icon_145224.png" width="40px" />
+<br>
+<img src="https://img.shields.io/badge/intellijidea-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
+<img src="https://img.shields.io/badge/androidstudio-3DDC84?style=for-the-badge&logo=androidstudio&logoColor=white">
 
-</aside>
-
-<aside>
-<img src="https://www.svgrepo.com/show/452091/python.svg" alt="https://www.svgrepo.com/show/452091/python.svg" width="40px" />
-
-</aside>
-
-<aside>
-<img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/apache_spark_logo_icon_170560.png" alt="https://cdn.icon-icons.com/icons2/2699/PNG/512/apache_spark_logo_icon_170560.png" width="40px" />
-
-</aside>
-
-### F/E
-
-<aside>
-<img src="https://cdn.iconscout.com/icon/free/png-256/free-flutter-2038877-1720090.png" alt="https://cdn.iconscout.com/icon/free/png-256/free-flutter-2038877-1720090.png" width="40px" />
-
-</aside>
-
-### Storage
-
-<aside>
-<img src="https://cdn.icon-icons.com/icons2/2415/PNG/512/mysql_original_wordmark_logo_icon_146417.png" alt="https://cdn.icon-icons.com/icons2/2415/PNG/512/mysql_original_wordmark_logo_icon_146417.png" width="40px" /> 
-
-</aside>
-
-<aside>
-<img src="https://assets.stickpng.com/images/584830b5cef1014c0b5e4a9c.png" alt="https://assets.stickpng.com/images/584830b5cef1014c0b5e4a9c.png" width="40px" />
-
-</aside>
-
-<aside>
-<img src="https://cdn.icon-icons.com/icons2/2248/PNG/512/apache_kafka_icon_138937.png" alt="https://cdn.icon-icons.com/icons2/2248/PNG/512/apache_kafka_icon_138937.png" width="40px" /> 
-
-</aside>
-
-### Dev-Ops
-
-<aside>
-<img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" alt="https://cdn-icons-png.flaticon.com/512/919/919853.png" width="40px" />
-
-</aside>
-
-### Infra
-
-<aside>
-<img src="https://static-00.iconduck.com/assets.00/aws-ec2-icon-423x512-iaajemnx.png" alt="https://static-00.iconduck.com/assets.00/aws-ec2-icon-423x512-iaajemnx.png" width="40px" />
-
-</aside>
-
-<aside>
-<img src="https://static.invertase.io/assets/social/firebase-logo.png" alt="https://static.invertase.io/assets/social/firebase-logo.png" width="40px" />
-
-</aside>
-
-<aside>
-<img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/apache_zookeeper_logo_icon_169571.png" alt="https://cdn.icon-icons.com/icons2/2699/PNG/512/apache_zookeeper_logo_icon_169571.png" width="40px" /> 
-
-</aside>
-
-### Collaboration
-
-<aside>
-<img src="https://static-00.iconduck.com/assets.00/gitlab-icon-2048x1885-1o0cwkbx.png" alt="https://static-00.iconduck.com/assets.00/gitlab-icon-2048x1885-1o0cwkbx.png" width="40px" />
-
-</aside>
+</br>
+<div>
+<img src="https://img.shields.io/badge/jira-0052CC?style=for-the-badge&logo=jira&logoColor=white">
+<img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+<img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img src="https://img.shields.io/badge/pandas-000000?style=for-the-badge&logo=pandas&logoColor=white">
+<img src="https://img.shields.io/badge/selenium-43B02A?style=for-the-badge&logo=selenium&logoColor=white">
 
 
+</div>
+</div>
 
-<aside>
-<img src="https://25322853.fs1.hubspotusercontent-eu1.net/hub/25322853/hubfs/STAGIL_January2022/Images/jira-software-logo-jira-logo-hd-png.png?width=360&name=jira-software-logo-jira-logo-hd-png.png" alt="https://25322853.fs1.hubspotusercontent-eu1.net/hub/25322853/hubfs/STAGIL_January2022/Images/jira-software-logo-jira-logo-hd-png.png?width=360&name=jira-software-logo-jira-logo-hd-png.png" width="40px" /> 
 
-</aside>
-
-<aside>
-<img src="https://cdn.icon-icons.com/icons2/2389/PNG/512/notion_logo_icon_145025.png" alt="https://cdn.icon-icons.com/icons2/2389/PNG/512/notion_logo_icon_145025.png" width="40px" /> 
-
-</aside>
-
-<aside>
-<img src="https://cdn-icons-png.flaticon.com/512/906/906391.png" alt="https://cdn-icons-png.flaticon.com/512/906/906391.png" width="40px" />
-
-</aside>
-
-### Data Processing / Crawling
-
-<aside>
-<img src="/uploads/01e7725db48b967e32642201e4bdbce0/icons8-pandas-48.png" width="50" height="50"/>
-<img src="/uploads/36c868e419ba5b163a77ae74490b4f98/icons8-selenium-100.png" width="60" height="60"/>
 
 </aside>
 
