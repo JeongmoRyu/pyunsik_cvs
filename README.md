@@ -107,11 +107,11 @@
 
 ### ✔️ 시스템 아키텍처
 
-<img width=50% src="/uploads/8968f73393b91769976382e76c548a6c/편식_아키텍처.png">
+<img width=50% src="/assets/arc.png">
 
 ### ✔️ ER-Diagram
 
-<img width=50% src="/uploads/e5aa3467013f139a3b8d7e3468a510f5/erd.png">
+<img width=50% src="/assets/erd.png">
 
 
 ---
@@ -123,29 +123,31 @@
 
 [편식 화면 설계도 Figma](https://www.figma.com/file/GxTwXO3ZQBauj2lkI0X8t6/%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EB%8F%84?type=design&node-id=0%3A1&mode=design&t=fsk9VuUYjyr0LKOS-1)
 
-<img width=10% src="/uploads/6979f81d0c91e3f7f9e053f0b035a988/moooookup.gif">
+<img width=10% src="/assets/moooookup.gif">
 
 
 ### ✔️ 어플리케이션 UI
 
+<h2>시작<h2>
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/b21847dd-f228-4c8f-a812-3c7aeb0821dc">
 
 <h2>홈페이지<h2>
-<img width=10% src="/uploads/ada84a3d580e42f93369cf4b26826ea9/homepage.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/b21847dd-f228-4c8f-a812-3c7aeb0821dc">
 
 <h2>검색 페이지<h2>
-<img width=10% src="/uploads/d82312ae9ec18a137338db03b0c82708/search.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/2d5a70fb-bf22-4947-88b3-aba664d06a63">
 
 <h2>상품목록 페이지<h2>
-<img width=10% src="/uploads/41bd6c16a5ef4ff45163c2410ab4e05d/filtered_list.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/2e5dd268-18e8-4870-849e-9ab24608445a">
 
 <h2>상세보기 페이지<h2>
-<img width=10% src="/uploads/d9369bf6ddff57eb442d7c5df2a72c2b/product_detail.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/05889f16-0938-4e4b-8a8d-0e16b27a6ad4">
 
 <h2>상품조합 페이지<h2>
-<img width=10% src="/uploads/62ad486612fbe4bbb47b52b8312a5b6a/combination.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/84e5be80-bc31-436c-a9e0-5602cc44465e">
 
 <h2>로그인 페이지<h2>
-<img width=10% src="/uploads/b0342b0dd66d86b130bd0a7d4b29343f/login.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/4a62cb4a-2f76-4ac4-9855-8cc7a4240458">
 
 <h2>스크랩 페이지<h2>
-<img width=10% src="/uploads/f302da74c9f6611f657a9b0387817b10/scrapbook.gif">
+<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/da48f353-fac3-4d49-9a34-d73bc3ddb7c2">
