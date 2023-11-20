@@ -116,7 +116,7 @@
 
 [편식 화면 설계도 Figma](https://www.figma.com/file/GxTwXO3ZQBauj2lkI0X8t6/%ED%99%94%EB%A9%B4-%EC%84%A4%EA%B3%84%EB%8F%84?type=design&node-id=0%3A1&mode=design&t=fsk9VuUYjyr0LKOS-1)
 
-<img width=10% src="/assets/moooookup.gif">
+<img width=40% src="/assets/moooookup.gif">
 
 ```
 - Figma 구현부터 Atomic Design을 이용하여 재사용성을 고려하여 원활하고 빠른 개발이 가능하도록 하였습니다.
@@ -129,10 +129,10 @@
 ### ✔️ 어플리케이션 UI
 
 <h2>시작<h2>
-<img width=10% src="/assets/splash.png">
+<img width=40% src="/assets/splash.png">
 
 <h2>홈페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/b21847dd-f228-4c8f-a812-3c7aeb0821dc">
+<img width=40% src="/assets/homepage.gif">
 
 ```
 - carousel을 통한 편의점별 행사 데이터를 직접 연결토록 하였습니다.
@@ -140,7 +140,7 @@
 ```
 
 <h2>검색 페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/2d5a70fb-bf22-4947-88b3-aba664d06a63">
+<img width=40% src="/assets/search.gif">
     
 ```
 - 전체 리스트의 데이터를 페이지네이션하여 데이터를 조금 더 빠르게 가져올 수 있도록 하여 사용자들이 답답함을 느끼지 않도록 구현
@@ -148,14 +148,14 @@
 ```
 
 <h2>상품목록 페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/2e5dd268-18e8-4870-849e-9ab24608445a">
+<img width=40% src="/assets/filtered_list.gif">
     
 ```
 - 전체 리스트의 데이터를 페이지네이션하여 데이터를 조금 더 빠르게 가져올 수 있도록 하여 사용자들이 답답함을 느끼지 않도록 구현
 ```
 
 <h2>상세보기 페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/05889f16-0938-4e4b-8a8d-0e16b27a6ad4">
+<img width=40% src="/assets/product_detail.gif">
     
 ```
 - Cart에 담긴 혹은 삼품의 정보에 따른 기준영양정보와 비교 가능한 Chart와 수치화된 % 값을 통해 균형잡힌 영양정보를 얻을 수 있게 도왔습니다.
@@ -163,7 +163,7 @@
 ```
 
 <h2>상품조합 페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/84e5be80-bc31-436c-a9e0-5602cc44465e">
+<img width=40% src="/assets/scrappage.gif">
     
 ```
 - Cart에 담긴 혹은 삼품의 정보에 따른 기준영양정보와 비교 가능한 Chart와 수치화된 % 값을 통해 균형잡힌 영양정보를 얻을 수 있게 도왔습니다.
@@ -171,14 +171,14 @@
 ```
 
 <h2>로그인 페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/4a62cb4a-2f76-4ac4-9855-8cc7a4240458">
+<img width=40% src="/assets/loginpage.gif">
     
 ```
 - FCM Token을 통한 Alarm을 구현하였기에 기기별 FCM Token을 가져올 수 있도록 로그인하며 정보를 표시하도록 하였습니다.
 ```
 
 <h2>스크랩 페이지<h2>
-<img width=10% src="https://github.com/JeongmoRyu/pyunsik_cvs/assets/122513909/da48f353-fac3-4d49-9a34-d73bc3ddb7c2">
+<img width=40% src="/assets/scrapbook.gif">
 
 <h2>빅데이터 분산처리</h2>
 
